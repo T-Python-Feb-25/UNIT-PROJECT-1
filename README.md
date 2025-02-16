@@ -1,7 +1,5 @@
 # UNIT-PROJECT-1
 
-# UNIT-1-PROJECT
-
 
 
 ## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
@@ -15,6 +13,7 @@
 
 #### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
 
+### Features & User Stories
 #### As a customer I should be able to do the following :
 - Browse  Products . 
 - View the product info (summary, specs, price, quantity , etc.)
