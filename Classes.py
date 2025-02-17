@@ -1,4 +1,5 @@
 from datetime import datetime,date,time
+from Student import Student
 from files_handelers import FilesHandelers
 
 
@@ -6,14 +7,16 @@ from files_handelers import FilesHandelers
 class Course(FilesHandelers):
 
     #function to initiate the class
-    def __int__(self, course_name: str, crn: str,start_date: date, end_date: date, start_time: time, end_time: time  """section: str,""" ):
+    def __int__(self, course_name: str, crn: str,start_date: date, end_date: date, start_time: time, end_time: time,
+                price_per_class:float, number_of_students: int):
         self.__course_name = course_name
         self.__crn = crn
-        """"self.__section = section""""
         self.__start_date = start_date
         self.__end_date = end_date
         self.__start_time = start_time
         self.__end_time = end_time
+        self.__price_per_class= price_per_class
+        self.__number_of_students=number_of_students
 
     ################### Setters ############################
     #function to set the name of the course
@@ -43,6 +46,13 @@ class Course(FilesHandelers):
     # function to set the end time of the class
     def set_end_time(self, end_time: str):
         self.__end_time = end_time
+
+    def set_price_per_class(self, price_per_class):
+        self.__price_per_class = price_per_class
+
+    def set_number_of_students(self,number_of_students):
+        self.__number_of_students = number_of_students
+
     ########################## Getters ###################
     #function to return the Course name
     def get_name(self):
@@ -68,3 +78,8 @@ class Course(FilesHandelers):
     def get_end_time(self):
         return self.__end_time
 
+    def get_price_per_class(self):
+        return self.__price_per_class
+
+    def get_number_of_students(self):
+        return self.__number_of_students
