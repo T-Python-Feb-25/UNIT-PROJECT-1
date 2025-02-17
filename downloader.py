@@ -17,15 +17,16 @@ def download(video_url:str):
 
   options:dict = {
     'outtmpl': output_path,
-    'quiet' : True
+    'quiet' : True,
     }
 
   with yt_dlp.YoutubeDL(options) as downloader:  
-    info_dict = downloader.extract_info(video_url, download=True)  # Extract details and download the video
+    info_dict = downloader.extract_info(video_url, download=True)  
 
-    video_title = info_dict.get('title', 'Unknown Title')  # Get the title
-    video_url = info_dict.get('url', 'Unknown URL')  # Get the video URL
-    video_format = info_dict.get('ext', 'Unknown Format')  # Get the format (file extension)
+
+    video_title = info_dict.get('title', 'Unknown Title')  
+    video_url = info_dict.get('url', 'Unknown URL')  
+    video_format = info_dict.get('ext', 'Unknown Format')  
 
 
   print(Fore.GREEN + "Download completed successfully" + Fore.RESET)

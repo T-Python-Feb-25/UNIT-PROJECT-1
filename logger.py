@@ -39,6 +39,3 @@ def view_history():
                     print(f"- {video.capitalize() }: {videos[video]}")
     except Exception:
         print("There is no download history")
-
-
-
