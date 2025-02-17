@@ -1,4 +1,5 @@
 import json
+from colorama import Fore
 def save_to_history(dictionary:dict):
     '''
     The save_to_history function takes a dictionary containing video data and stores it 
@@ -37,5 +38,6 @@ def view_history():
             for videos in all_json_data:
                 for video in videos:
                     print(f"- {video.capitalize() }: {videos[video]}")
+                print(Fore.LIGHTBLUE_EX + ("-" * 150) + Fore.RESET)
     except Exception:
-        print("There is no download history")
+        print(Fore.RED + "There is no download history" + Fore.RESET)
