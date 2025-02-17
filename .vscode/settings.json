@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./civil_defence_safety_tracker/modules"
+    ]
+}
