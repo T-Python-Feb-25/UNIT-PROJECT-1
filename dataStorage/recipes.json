@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Cornflakes",
+        "ingredients": [
+            "corn",
+            " milk",
+            "honey"
+        ],
+        "steps": "add the corn to a cup of milk and 1 spoon honey",
+        "calories": "567",
+        "user": "duha1"
+    },
+    {
+        "name": "avocado egg",
+        "ingredients": [
+            "avocado",
+            " eggs",
+            "salt"
+        ],
+        "steps": "put the avocado on the toast and put the eggs with the salt",
+        "calories": "240",
+        "user": "danah1"
+    }
+]
