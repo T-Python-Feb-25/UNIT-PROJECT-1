@@ -4,10 +4,14 @@ import os
 import qrcode
 from datetime import datetime
 from PIL import Image
+import cv2
+
 
 print(text2art("QR ",font="fancy5",decoration="barcode1")) # decoration parameter is added in Version 4.6
 
+
 """ Create a folder for saving QR Codes (if it doesn’t exist)"""
+
 output_folder = "QR_Codes"
 os.makedirs(output_folder, exist_ok=True)
 
@@ -56,7 +60,6 @@ def generate_from_file(file_path):
 
 
 
-import cv2
 
 
 def read_from_QR_img(image_path):
@@ -87,11 +90,11 @@ def read_from_QR_img(image_path):
 while True:
 # User Interface
     print(Fore.RED + "📌 Automatic QR Code Generator")
-    print(Fore.BLUE +"1️⃣ Generate a QR Code from manual input")
-    print(Fore.BLUE +"2️⃣ Generate multiple QR Codes from a text file (one per line)")
-    print(Fore.BLUE +"3️⃣ Generate QR Codes from img ")
+    print(Fore.BLUE +"1️⃣  Generate a QR Code from manual input")
+    print(Fore.BLUE +"2️⃣  Generate multiple QR Codes from a text file (one per line)")
+    print(Fore.BLUE +"3️⃣  Generate QR Codes from img ")
 
-    choice = input("🔸 Select an option (1 or 2): ").strip()
+    choice = input("🔸 Select an option (1 or 2 or 3): ").strip()
 
     if choice == "1":
       generate_from_input()
@@ -106,8 +109,20 @@ while True:
     answer= input("Do you want to continue press 'y' or 'n'  :  ")
     if answer=='y':
       continue
-    else:
+    elif answer=='n':
       break
+
+    else :
+      while True : # while to choose y or n
+        answer2= input("please must enter 'y'to continue or  to exit 'n'  : " )
+        if answer2=='y':
+           break
+        if answer2=='n':
+           exit(print("🚶GOOD BYE 🖐️ "))
+      #else :
+       # continue
+      
+        
 print( "🎉 Execution completed!")
-art_2=art("woman  " ,number=2) # return multiple art as str
+art_2=art("woman  ",number=2) # return multiple art as str
 print(art_2)
