@@ -50,3 +50,38 @@ def remove_book(title):
     else:
         print(Fore.RED + "The book was not found in the library.")
         print(Fore.RESET)
+
+def list_book():
+    """
+    This function returns the list of books in the library.
+
+    returns:
+        list: A list of dictionaries containing book details.
+    """
+    data = load_data()
+    books = data.get('books',[])
+    if not books:
+        print(Fore.RED + "No books available in the library." + Fore.RESET)
+    else:
+        print(Fore.GREEN + "The book avilable in Library :" +Fore.RESET)
+        for book in books:
+            print(f"Book name : {book['title']} - Book author is : {book['author']} - The quantity is {book['quantity']} available")
+    print("")
+
+def search_book(query):
+    """
+    This function searches for books in the library by title, author, or category.
+    
+    args:
+        query(str): The search term entered by the user.
+    
+    returns:
+        list: A list of books matching the search criteria.
+    """
+    data = load_data()
+    result = []
+
+    for book in data['books']:
+        if book['title'].lower().startswith(query.lower()):
+            result.append(book)
+    return result

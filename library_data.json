@@ -7,5 +7,10 @@
             "quantity": 3
         }
     ],
-    "members": []
+    "members": [
+        {
+            "name": "Raed",
+            "borrowed_books": []
+        }
+    ]
 }
