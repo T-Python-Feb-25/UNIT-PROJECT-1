@@ -18,6 +18,7 @@ def download(video_url:str):
   options:dict = {
     'outtmpl': output_path,
     'quiet' : True,
+    'no_warnings' : True,
     }
 
   with yt_dlp.YoutubeDL(options) as downloader:  

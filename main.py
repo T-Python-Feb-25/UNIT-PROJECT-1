@@ -1,5 +1,6 @@
 # Importing Libraries and modules
 from single_video_downloader import download
+from check_url import check_url
 from logger import view_history
 from colorama import Fore
 from audio_downloader import audio_download
@@ -20,17 +21,36 @@ while True:
     print(menu.strip())
     choice:str = input("Enter Your Choice: ").strip()
     if choice == "1":
-        video_url:str = input("Enter the YouTube video URL: ")
-        download(video_url)
+        while True:
+            try:
+                video_url:str = input("Enter the YouTube video URL: ")
+                check_url(video_url)
+                download(video_url)
+                break
+            except ValueError as e:
+                print(e)
+            except Exception:
+                print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
     elif choice == "2":
-        batch_download()
+            try:
+                batch_download()
+            except Exception:
+                print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
     elif choice == "3":
-        video_url:str = input("Enter the YouTube video URL: ")
-        audio_download(video_url)
+        while True:
+            try: 
+                video_url:str = input("Enter the YouTube video URL: ")
+                check_url(video_url)
+                audio_download(video_url)
+                break
+            except ValueError as e:
+                print(e)
+            except Exception:
+                print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
     elif choice == "4":
         view_history()
     elif choice == "5":
-        print("Goodbye See You Soon")
+        print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
         break
     else:
         print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)

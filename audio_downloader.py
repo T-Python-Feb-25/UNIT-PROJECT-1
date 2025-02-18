@@ -11,7 +11,7 @@ def audio_download(video_url:str):
   options:dict = {
     'outtmpl': output_path,
     'quiet' : True,
-    'format': 'bestvideo/best'
+    'no_warnings' : True,
     }
   
   with yt_dlp.YoutubeDL(options) as downloader:
