@@ -1,7 +1,9 @@
+from workout import log_workout, view_workout, search_workout
 
 def main():
+    
     while True:
-        print("\nWorkout Tracker")
+        print("\nWelcome to Workouts Tracker\n")
         print("1- Log a new workout")
         print("2- Search workout")
         print("3- View workout history")
@@ -16,9 +18,8 @@ def main():
         elif choice == "3":
             view_workout()
         elif choice == "4":
-            print("Thank you .. Stay strong and fit")
+            print("\nThank you .. Stay strong and fit!")
             break
         else:
-                print("Invalid choice. Please choose again")
-    
+                print("Invalid choice number. Please choose again")
 main()
