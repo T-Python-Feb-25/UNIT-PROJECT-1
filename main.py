@@ -4,6 +4,7 @@ from colorama import Fore
 from video_downloader import download, batch_download
 from logger import view_history
 from audio_downloader import audio_download, batch_download as batch_download_audio
+from view import view
 
 
 menu:str ='''
@@ -14,7 +15,8 @@ YouTube Downloader Menu:
 3- Download Audio
 4- Download Multiple Audios
 5- View Download History
-6- Exit 
+6- View Audios or Videos Downloaded 
+7- Exit 
 ------------------------------
 ''' 
 while True:
@@ -55,6 +57,8 @@ while True:
 	elif choice == "5":
 			view_history()
 	elif choice == "6":
+		view()
+	elif choice == "7":
 			print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
 			break
 	else:

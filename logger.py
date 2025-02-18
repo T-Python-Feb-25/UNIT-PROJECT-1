@@ -40,3 +40,11 @@ def view_history():
 						print(Fore.LIGHTBLUE_EX + ("-" * 150) + Fore.RESET)
 	except Exception:
 		print(Fore.RED + "There is no download history" + Fore.RESET)
+
+def load_json_data():
+	try:
+		with open("history.json" ,"r", encoding="UTF-8") as log:
+			all_json_data = json.load(log)
+			return all_json_data
+	except Exception:
+		print(Fore.RED + "There is no download history" + Fore.RESET)
