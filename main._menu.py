@@ -1,7 +1,7 @@
 
-from game_store import Store
+from game_store import Store    
 from art import *
-from colorama import Fore, Style
+from colorama import Fore, Style, init
 
 
 menu = '''
