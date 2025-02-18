@@ -1,6 +1,6 @@
-import argparse
 import sys
 import os
+
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "modules")))
 
@@ -9,26 +9,65 @@ from safety_recommendations import get_recommendations
 from report_generator import generate_report
 from graph_generator import plot_risks
 
-parser = argparse.ArgumentParser(description="System for recording and analyzing civil defense risks")
+def main_options():
+    while True:
+        print("\nCivil Defence Safety Tracker - Menu")
+        print("1. Add a new risk")
+        print("2. List all recorded risks")
+        print("3. Search for a risk by location")
+        print("4. Get safety recommendations")
+        print("5. Generate a report")
+        print("6. Plot risks chart")
+        print("0. Exit")
+        
+        choice = input("\n Enter your choice: ").strip()
+        if not choice :
+            print("Error: no input providid . Please enter a vaild option  ")
+            continue
+        
+        try:
+            if choice == "1":
+                risk_type = input("Enter risk type (e.g., fire, flood, earthquake): ")
+                level = input("Enter risk level (high, medium, low): ")
+                location = input("Enter location: ")
+                date = input("Enter date (YYYY-MM-DD): ")
+                add_risk(risk_type, level, location, date)
+                print("Risk added successfully!")
 
-parser.add_argument("--add_risk", nargs=4, metavar=("TYPE", "LEVEL", "LOCATION", "DATE"), help="Add new risks")
-parser.add_argument("--list_risks", action="store_true", help="List recorded risks")
-parser.add_argument("--search_risk", metavar="LOCATION", help="Find risks in a specific location")
-parser.add_argument("--recommend", metavar="TYPE", help="Provide safety recommendations")
-parser.add_argument("--generate_report", action="store_true", help="Generate a report for risks")
-parser.add_argument("--plot_risks", action="store_true", help="Create a bar chart for risks")
+            elif choice == "2":
+                print("\nRecorded Risks:")
+                list_risks()
 
-args = parser.parse_args()
+            elif choice == "3":
+                location = input("Enter location to search for risks: ")
+                search_risk(location)
 
-if args.add_risk:
-    add_risk(*args.add_risk)
-elif args.list_risks:
-    list_risks()
-elif args.search_risk:
-    search_risk(args.search_risk)
-elif args.recommend:
-    print("\n".join(get_recommendations(args.recommend)))
-elif args.generate_report:
-    generate_report()
-elif args.plot_risks:
-    plot_risks()
+            elif choice == "4":
+                risk_type = input("Enter risk type to get recommendations: ")
+                recommendations = get_recommendations(risk_type)
+                print("\nSafety Recommendations:")
+                for rec in recommendations:
+                    print(f"- {rec}")
+
+            elif choice == "5":
+                print("Generating report...")
+                generate_report()
+                print("Report generated successfully!")
+
+            elif choice == "6":
+                print("Generating risk chart...")
+                plot_risks()
+                print("Risk chart displayed successfully!")
+
+            elif choice == "0":
+                print("Exiting program. Have a safe day!")
+                break
+
+            else:
+                print("Invalid choice! Please select a valid option.")
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    main_options()
