@@ -1,10 +1,9 @@
 # Importing Libraries and modules
-from single_video_downloader import download
 from check_url import check_url
-from logger import view_history
 from colorama import Fore
+from video_downloader import download, batch_download
+from logger import view_history
 from audio_downloader import audio_download
-from batch_video_downloader import batch_download
 
 
 menu:str ='''
