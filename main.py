@@ -17,39 +17,39 @@ YouTube Downloader Menu:
 ------------------------------
 ''' 
 while True:
-    print(menu.strip())
-    choice:str = input("Enter Your Choice: ").strip()
-    if choice == "1":
-        while True:
-            try:
-                video_url:str = input("Enter the YouTube video URL: ")
-                check_url(video_url)
-                download(video_url)
-                break
-            except ValueError as e:
-                print(e)
-            except Exception:
-                print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
-    elif choice == "2":
-            try:
-                batch_download()
-            except Exception:
-                print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
-    elif choice == "3":
-        while True:
-            try: 
-                video_url:str = input("Enter the YouTube video URL: ")
-                check_url(video_url)
-                audio_download(video_url)
-                break
-            except ValueError as e:
-                print(e)
-            except Exception:
-                print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
-    elif choice == "4":
-        view_history()
-    elif choice == "5":
-        print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
-        break
-    else:
-        print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)
+	print(menu.strip())
+	choice:str = input("Enter Your Choice: ").strip()
+	if choice == "1":
+			while True:
+					try:
+							video_url:str = input("Enter the YouTube video URL: ")
+							check_url(video_url)
+							download(video_url)
+							break
+					except ValueError as e:
+							print(e)
+					except Exception:
+							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+	elif choice == "2":
+					try:
+							batch_download()
+					except Exception:
+							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+	elif choice == "3":
+			while True:
+					try: 
+							video_url:str = input("Enter the YouTube video URL: ")
+							check_url(video_url)
+							audio_download(video_url)
+							break
+					except ValueError as e:
+							print(e)
+					except Exception:
+							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+	elif choice == "4":
+			view_history()
+	elif choice == "5":
+			print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
+			break
+	else:
+			print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)

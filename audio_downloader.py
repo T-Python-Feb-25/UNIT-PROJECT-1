@@ -3,7 +3,14 @@ from colorama import Fore
 from logger import save_to_history
 
 def audio_download(video_url:str):
+  '''
+  Downloads audio from a YouTube video and saves it as an MP3 file.
   
+    Args:
+        video_url (str): The URL of the YouTube video.
+    Returns:
+        None
+  '''
   video_title:str = '%(title)s'  
   audio_extension:str = 'mp3'  
   output_path:str= f"audio/{video_title}.{audio_extension}"
@@ -28,9 +35,4 @@ def audio_download(video_url:str):
     "format" : "mp3"
   } 
   save_to_history(audio_detailes)
-
   print(Fore.GREEN + "Audio downloaded completed successfully" + Fore.RESET)
-
-
-
-  
