@@ -3,6 +3,7 @@ from colorama import Fore , Back , Style
 import os
 import qrcode
 from datetime import datetime
+from PIL import Image
 
 print(text2art("QR ",font="fancy5",decoration="barcode1")) # decoration parameter is added in Version 4.6
 
@@ -50,11 +51,46 @@ def generate_from_file(file_path):
 
     except FileNotFoundError:
         print("❌ File not found!")
+
+        #Read QR from img
+
+
+
+import cv2
+
+
+def read_from_QR_img(image_path):
+    # Read the QR Code image
+    image = cv2.imread(image_path)
+
+    # Check if the image was loaded successfully
+    if image is None:
+        print(f"❌ Error: Could not load the image. Check the file name and path: {image_path}")
+        return
+
+    # Initialize OpenCV QR Code Detector
+    detector = cv2.QRCodeDetector()
+
+    # Detect and decode the QR Code
+    data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
+
+    # Check if a QR Code was detected
+    if vertices_array is not None:
+        print("✅ QR Code Data:")
+        print(data)
+    else:
+        print("❌ No QR Code detected in the image.")
+
+# Call the function with the user-input file name
+
+#///////////////////////////////////////////////////////////////
 while True:
 # User Interface
     print(Fore.RED + "📌 Automatic QR Code Generator")
     print(Fore.BLUE +"1️⃣ Generate a QR Code from manual input")
     print(Fore.BLUE +"2️⃣ Generate multiple QR Codes from a text file (one per line)")
+    print(Fore.BLUE +"3️⃣ Generate QR Codes from img ")
+
     choice = input("🔸 Select an option (1 or 2): ").strip()
 
     if choice == "1":
@@ -62,6 +98,9 @@ while True:
     elif choice == "2":
       file_path = input("📂 Enter the text file path: ").strip()
       generate_from_file(file_path)
+    elif choice == "3":
+      QR_img = input("Enter the name of the QR image (with extension): ")
+      read_from_QR_img(QR_img)
     else:
       print(Fore.YELLOW +"⚠️ Invalid choice!")
     answer= input("Do you want to continue press 'y' or 'n'  :  ")
