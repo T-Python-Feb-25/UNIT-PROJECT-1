@@ -21,7 +21,7 @@ def save_to_history(dictionary:dict):
 	
 	all_json_data.append(dictionary)
 	with open("history.json" ,"w", encoding="UTF-8") as log:
-		json.dump(all_json_data, log)
+		json.dump(all_json_data, log, indent=4)
 def view_history():
 	'''
 	It iterates over data saved in history.json file and print it to user

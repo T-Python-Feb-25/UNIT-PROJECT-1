@@ -3,7 +3,7 @@ from check_url import check_url
 from colorama import Fore
 from video_downloader import download, batch_download
 from logger import view_history
-from audio_downloader import audio_download
+from audio_downloader import audio_download, batch_download as batch_download_audio
 
 
 menu:str ='''
@@ -12,8 +12,9 @@ YouTube Downloader Menu:
 1- Download a Single Video
 2- Download Multiple Videos
 3- Download Audio
-4- View Download History
-5- Exit 
+4- Download Multiple Audios
+5- View Download History
+6- Exit 
 ------------------------------
 ''' 
 while True:
@@ -47,8 +48,13 @@ while True:
 					except Exception:
 							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "4":
-			view_history()
+					try:
+							batch_download_audio()
+					except Exception:
+							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "5":
+			view_history()
+	elif choice == "6":
 			print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
 			break
 	else:
