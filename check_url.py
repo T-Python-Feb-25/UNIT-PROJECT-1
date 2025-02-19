@@ -10,5 +10,10 @@ def check_url(url:str):
 		Returns
 				None
 	'''
-	if not validators.url(url):
-		raise ValueError(Fore.RED + "Invalid URL" + Fore.RESET)
+	if url.find("youtube") > 0:
+		if not validators.url(url):
+			raise ValueError(Fore.RED + "Invalid URL" + Fore.RESET)
+	else:
+		raise ValueError(Fore.RED + "Invalid URL - It is not a youtube url" + Fore.RESET)
+
+
