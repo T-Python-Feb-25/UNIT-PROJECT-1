@@ -3,14 +3,14 @@ import validators
 
 def check_url(url:str):
 	'''
-	Validates a given URL
+	Check if URL from youtube and Validates a given URL 
 
     Args:
-        url (str): The URL to validate.
-		Returns
-				None
+        	url (str): The URL to validate.
+	Returns
+			None
 	'''
-	if url.find("youtube") > 0:
+	if url.find("youtu") > 0:
 		if not validators.url(url):
 			raise ValueError(Fore.RED + "Invalid URL" + Fore.RESET)
 	else:

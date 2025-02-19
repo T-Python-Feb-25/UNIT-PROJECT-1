@@ -3,9 +3,8 @@ from check_url import check_url
 from colorama import Fore
 from art import text2art
 from video_downloader import download, batch_download
-from logger import view_history
 from audio_downloader import audio_download, batch_download as batch_download_audio
-from view import view
+from view import view , view_history
 from search import search
 
 welcome = text2art("Welcome To Youtube Downloader",font="doom")
@@ -28,38 +27,43 @@ while True:
 	choice:str = input("Enter Your Choice: ").strip()
 	if choice == "1":
 			while True:
-					try:
-							video_url:str = input("Enter the YouTube video URL: ")
-							check_url(video_url)
-							download(video_url)
-							break
-					except ValueError as e:
-							print(e)
-					except Exception:
-							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+				try:
+					video_url:str = input("Enter the YouTube video URL: ")
+					check_url(video_url)
+					download(video_url)
+					input("Enter to continue")
+					break
+				except ValueError as e:
+					print(e)
+				except Exception:
+					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "2":
-					try:
-							batch_download()
-					except Exception:
-							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+			try:
+					batch_download()
+					input("Enter to continue")
+			except Exception:
+					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "3":
-			while True:
-					try: 
-							video_url:str = input("Enter the YouTube video URL: ")
-							check_url(video_url)
-							audio_download(video_url)
-							break
-					except ValueError as e:
-							print(e)
-					except Exception:
-							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+		while True:
+			try: 
+					video_url:str = input("Enter the YouTube video URL: ")
+					check_url(video_url)
+					audio_download(video_url)
+					input("Enter to continue")
+					break
+			except ValueError as e:
+					print(e)
+			except Exception:
+					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "4":
-					try:
-							batch_download_audio()
-					except Exception:
-							print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+			try:
+					batch_download_audio()
+					input("Enter to continue")
+			except Exception:
+					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "5":
 			view_history()
+			input("Enter to continue")
 	elif choice == "6":
 		view()
 		input("Enter to continue")
