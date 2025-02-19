@@ -21,7 +21,7 @@ def main():
 
 
     while True:
-        print("\n1. Browse Games\n2. View Cart\n3. Remove from Cart\n4. Checkout\n5. View Purchase History\n6. Play Game\n7. more option \n8. Exit")
+        print("\n1. Browse Games\n2. View Cart\n3. Remove from Cart\n4. Checkout\n5. View Purchase History\n6. Play Game\n7. Exit")
         choice = input("Select an option: ")
        
         try:
@@ -33,7 +33,7 @@ def main():
                      
                     store.add_to_cart(game_index)  
                     print("Game added successfully.")
-                    print(input(""))
+                    print(input("")) 
                 elif cart_choice == "n":
                     input("Press any key to return to the main menu...")  
 
@@ -61,9 +61,6 @@ def main():
                     print("Invalid game selection.")
 
             elif choice == "7":
-                pass
-
-            elif choice == "8":
                 print("Thank you! Please come again!")
                 break
             else:
