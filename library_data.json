@@ -4,12 +4,12 @@
             "title": "Python Workbook",
             "author": "jamie chan",
             "category": "coding",
-            "quantity": 3
+            "quantity": 5
         }
     ],
     "members": [
         {
-            "name": "Raed",
+            "name": "raed",
             "borrowed_books": []
         }
     ]

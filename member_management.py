@@ -28,14 +28,14 @@ def find_book(title:str):
     """
     data = load_data()
     
-    for books in data['books']:
-        if books['title'].lower() == title.lower():
-            return books
+    for book in data['books']:
+        if book['title'].lower() == title.lower():
+            return book
     return None
 
 
 
-def add_member(name):
+def add_member(name:str):
     """
     This function is used to add new member.
     
@@ -59,7 +59,7 @@ def add_member(name):
     save_data(data)
     print(Fore.GREEN + f"Member '{name}' added successfully!" + Fore.RESET)
 
-def remove_member(name):
+def remove_member(name:str):
     """
     This function is used to remove a member.
 
@@ -83,7 +83,7 @@ def list_member():
     This function returns the list of members.
 
     returns:
-        list: A list of dictionaries containing members details.
+        None. Prints the member names to the console.
     """
     data = load_data()
     members = data.get('members',[])
@@ -95,3 +95,101 @@ def list_member():
             print(f"{member['name']}")
     print("")
 
+def borrow_book(member_name: str, title: str):
+    """
+    This function is used to borrow books.
+
+    Args:
+        member_name: The name of the member.
+        title: The title of the book.
+    returns:
+        none
+    """
+    data = load_data()
+    members = find_member(member_name)
+    books = find_book(title)
+
+    if not members:
+        print(Fore.RED + "Member not found!" + Fore.RESET)
+        return
+    if not books:
+        print(Fore.RED + "Book not found!" + Fore.RESET)
+        return
+    if books['quantity'] <= 0:
+        print(Fore.RED + "The book is currently unavailable!" + Fore.RESET)
+        return
+    if title in members['borrowed_books']:
+        print(Fore.RED + f"You already borrowed the book '{title}'!" + Fore.RESET)
+        return
+
+
+    books['quantity'] -= 1
+
+    members['borrowed_books'].append(title)
+
+    for book in data['books']:
+        if book['title'] == title:
+            book['quantity'] = books['quantity']
+
+    for member in data['members']:
+        if member['name'].lower() == member_name.lower():
+            member['borrowed_books'] = members['borrowed_books']
+
+    save_data(data)
+    print(Fore.GREEN + f"'{title}' has been borrowed by {member_name}." + Fore.RESET)
+
+def return_book(member_name:str ,title:str):
+    """
+    This function is used to return borrowed books.
+
+    Args:
+        member_name: The name of the member.
+        title: The title of the book.
+    Returns:
+        None.
+    """
+    data = load_data()
+    members = find_member(member_name)
+    books =  find_book(title)
+
+    if not members:
+        print(Fore.RED + "Member not found!" + Fore.RESET)
+        return
+    if title not in members['borrowed_books']:
+        print(Fore.RED + f"{member_name} has not borrowed '{title}'!" + Fore.RESET)
+        return
+    
+    books['quantity'] += 1
+    members['borrowed_books'].remove(title)
+    for book in data['books']:
+        if book['title'] == title:
+            book['quantity'] = books['quantity']
+
+    for member in data['members']:
+        if member['name'].lower() == member_name.lower():
+            member['borrowed_books'] = members['borrowed_books']
+    
+    save_data(data)
+    print(Fore.GREEN + f"'{title}' has been returned successfully!" + Fore.RESET)
+
+def view_borrowing(member_name):
+    """
+    This function is used to display the borrowed books of the user.
+    
+    Args:
+        member_name: The name of the member.
+    Returns:
+        None.
+    """
+    member = find_member(member_name)
+
+    if not member:
+        print(Fore.RED + f"Member '{member_name}' not found!" + Fore.RESET)
+        return
+    
+    if member['borrowed_books']:
+        print(Fore.GREEN + f"\n📖 {member_name}'s Borrowing History:" + Fore.RESET)
+        for book in member['borrowed_books']:
+            print(f"- {book}")
+    else:
+        print(Fore.RED + f"No borrowing history found for {member_name}." + Fore.RESET)
