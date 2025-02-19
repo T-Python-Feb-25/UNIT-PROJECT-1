@@ -7,4 +7,3 @@ class Game:
 
     def display(self):
         return f"{self.name}: {self.description}, Price: ${self.price:.2f}"
-    

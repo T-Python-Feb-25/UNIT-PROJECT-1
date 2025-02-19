@@ -2,6 +2,7 @@
 from colorama import *
 from art import *
 from game_store import Store
+from error import ErrorRebot
 
 def main():
     print(Fore.BLUE + Style.BRIGHT)
@@ -11,24 +12,28 @@ def main():
 
     input("PRESS ANY KEY TO CONTINUE... ")
 
-    store = Store()
+    email = input("Enter your email: ")
+    password = input("Enter your password: ")
+    store = Store(email, password)  
+    print(input(""))
+
+ 
 
 
     while True:
-        print("\n1. Browse Games\n2. View Cart\n3. Remove from Cart\n4. Checkout\n5. View Purchase History\n6. Play Game\n7. Exit")
+        print("\n1. Browse Games\n2. View Cart\n3. Remove from Cart\n4. Checkout\n5. View Purchase History\n6. Play Game\n7. more option \n8. Exit")
         choice = input("Select an option: ")
        
         try:
             if choice == "1":
                 store.browse_games()
-                input("")  
                 cart_choice = input("Would you like to add a game to the cart (y or n)? ").lower()
                 if cart_choice == "y":
                     game_index = int(input("Enter the game number to add to cart: ")) - 1
-                    input("Press any key to countenu...")  
+                     
                     store.add_to_cart(game_index)  
                     print("Game added successfully.")
-                    input("Press any key to return to the main menu...")  
+                    print(input(""))
                 elif cart_choice == "n":
                     input("Press any key to return to the main menu...")  
 
@@ -48,9 +53,17 @@ def main():
                 store.view_purchase_history()
                 input("Press any key to return to the main menu...")  
             elif choice == "6":
-                store.play_game()
-                pass
+                store.view_purchase_history()
+                game_index = int(input("Enter the game number to play: ")) - 1
+                if 0 <= game_index < len(store.purchase_history):
+                    store.play_game(store.purchase_history[game_index])  
+                else:
+                    print("Invalid game selection.")
+
             elif choice == "7":
+                pass
+
+            elif choice == "8":
                 print("Thank you! Please come again!")
                 break
             else:
