@@ -1,6 +1,8 @@
 import sys
 import os
+from colorama import Fore, Style, init
 
+init(autoreset=True)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "modules")))
 
@@ -9,65 +11,76 @@ from safety_recommendations import get_recommendations
 from report_generator import generate_report
 from graph_generator import plot_risks
 
-def main_options():
+def display_menu():
+    print(f"\n{Fore.CYAN}{'=' * 45}")
+    print(f"{Fore.BLUE}Civil Defence Safety Tracker - Menu")
+    print(f"{Fore.CYAN}{'=' * 45}")
+    print(f"{Fore.GREEN}1.{Fore.RESET} Add a new risk")
+    print(f"{Fore.GREEN}2.{Fore.RESET} List all recorded risks")
+    print(f"{Fore.GREEN}3.{Fore.RESET} Search for a risk by location")
+    print(f"{Fore.GREEN}4.{Fore.RESET} Get safety recommendations")
+    print(f"{Fore.GREEN}5.{Fore.RESET} Generate a report")
+    print(f"{Fore.GREEN}6.{Fore.RESET} Plot risks chart")
+    print(f"{Fore.RED}0.{Fore.RESET} Exit")
+
+def main():
+    print(f"{Fore.YELLOW}{'=' * 50}")
+
+    print(f"{Fore.MAGENTA}Welcome to the Civil Defence Safety Tracker!")
+    print(f"{Fore.YELLOW}Manage and analyze risks efficiently.")
+    
+    print(f"{Fore.YELLOW}{'=' * 50}")
+
     while True:
-        print("\nCivil Defence Safety Tracker - Menu")
-        print("1. Add a new risk")
-        print("2. List all recorded risks")
-        print("3. Search for a risk by location")
-        print("4. Get safety recommendations")
-        print("5. Generate a report")
-        print("6. Plot risks chart")
-        print("0. Exit")
-        
-        choice = input("\n Enter your choice: ").strip()
-        if not choice :
-            print("Error: no input providid . Please enter a vaild option  ")
-            continue
+        display_menu()
         
         try:
+            choice = input(f"\n{Fore.CYAN}Enter your choice: {Fore.RESET}").strip()
+            
+            if not choice:
+                print(f"{Fore.RED}Error: No input provided. Please enter a valid option.")
+                continue
+
             if choice == "1":
-                risk_type = input("Enter risk type (e.g., fire, flood, earthquake): ")
-                level = input("Enter risk level (high, medium, low): ")
+                print(f"\n{Fore.GREEN}Adding a new risk...{Fore.RESET}")
+                risk_type = input("Enter risk type: ")
+                level = input("Enter risk level (Low/Medium/High): ")
                 location = input("Enter location: ")
                 date = input("Enter date (YYYY-MM-DD): ")
                 add_risk(risk_type, level, location, date)
-                print("Risk added successfully!")
 
             elif choice == "2":
-                print("\nRecorded Risks:")
+                print(f"\n{Fore.GREEN}Listing all recorded risks...{Fore.RESET}")
                 list_risks()
 
             elif choice == "3":
+                print(f"\n{Fore.GREEN}Searching for risks...{Fore.RESET}")
                 location = input("Enter location to search for risks: ")
                 search_risk(location)
 
             elif choice == "4":
-                risk_type = input("Enter risk type to get recommendations: ")
-                recommendations = get_recommendations(risk_type)
-                print("\nSafety Recommendations:")
-                for rec in recommendations:
-                    print(f"- {rec}")
+                print(f"\n{Fore.GREEN}Getting safety recommendations...{Fore.RESET}")
+                risk_type = input("Enter risk type for recommendations: ")
+                print("\n".join(get_recommendations(risk_type)))
 
             elif choice == "5":
-                print("Generating report...")
+                print(f"\n{Fore.GREEN}Generating risk report...{Fore.RESET}")
                 generate_report()
-                print("Report generated successfully!")
 
             elif choice == "6":
-                print("Generating risk chart...")
+                print(f"\n{Fore.GREEN}Generating risk chart...{Fore.RESET}")
                 plot_risks()
-                print("Risk chart displayed successfully!")
 
             elif choice == "0":
-                print("Exiting program. Have a safe day!")
+                print(f"\n{Fore.RED}Exiting program. Stay safe!{Fore.RESET}")
                 break
 
             else:
-                print("Invalid choice! Please select a valid option.")
+                print(f"{Fore.RED}Invalid choice! Please enter a number between 0-6.{Fore.RESET}")
 
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        except KeyboardInterrupt:
+            print(f"\n{Fore.RED}Program interrupted. Exiting safely.{Fore.RESET}")
+            break
 
 if __name__ == "__main__":
-    main_options()
+    main()
