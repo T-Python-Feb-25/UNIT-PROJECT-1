@@ -6,6 +6,9 @@ the new user and login for the user who has used the program before
 from colorama import Fore, Back, Style
 
 print(Fore.MAGENTA)
+usersinfo={{}}
+
+
 #لا يمكن للمستخدم الدخول الى البرنامج بدون ان يكون له حساب فيه
 print("welcome to travelmate")
 userChoice1=input("do you want to \n1:Create a new account  2:Sign in\n")
@@ -29,8 +32,13 @@ elif userChoice1=="2":
     print(Fore.MAGENTA)
     firstName=input("Enter your first name\n")
     email=input("Enter your email\n")
-    password=input("Enter your password\n")
-    print("Welcome back to travelmat {}".format(firstName))
+    while True:
+        password=input("Enter your password\n")
+#في حال كانت كلمةالمرور اقل من 8 كاركترز لا تقبل   
+        if len(password)!=8:
+            print("Password must consist of 8 characters")
+        else:
+            print("Welcome back to travelmat {}".format(firstName))
 else:
     print(Fore.RED)
     print("Wrong choice, please reselect")

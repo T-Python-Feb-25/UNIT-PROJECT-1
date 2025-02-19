@@ -8,9 +8,9 @@ import emoji
 
 while True:
     print(Fore.MAGENTA)
-    print("welcome to travelmate")
-    print("\nWhat would you like to do today\n ")
-    print("1.See my previous Plans   2.Create a new plan\n3.Exit the program")
+    print(emoji.emojize("welcome to travelmate :airplane:"))
+    print("\nWhat would you like to do today :thinking_face: \n ")
+    print("See my previous Plans   2.Create a new plan\n3.Exit the program")
     userChoice=input("\nEnter a number ")
 
     if userChoice=="1":
