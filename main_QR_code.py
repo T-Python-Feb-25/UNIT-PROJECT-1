@@ -16,7 +16,9 @@ output_folder = "QR_Codes"
 os.makedirs(output_folder, exist_ok=True)
 
 def generate_qr(data, filename):
+
     """Generate a QR Code and save it as an image"""
+
     qr = qrcode.QRCode(box_size=10, border=4)
     qr.add_data(data)
     qr.make(fit=True)
@@ -29,6 +31,7 @@ def generate_qr(data, filename):
 
 def generate_from_input():
     """Create a QR Code from user input"""
+
     data = input("🔹 Enter data for the QR Code: ").strip()
     if data:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -39,9 +42,10 @@ def generate_from_input():
 
 def generate_from_file(file_path):
     """Generate multiple QR Codes from a file"""
+
     try:
         with open(file_path, "r", encoding="utf-8") as file:
-            lines = file.readlines()
+            lines = file.readlines() 
         
         if not lines:
             print("⚠️ The file is empty!")
@@ -50,20 +54,15 @@ def generate_from_file(file_path):
         for index, line in enumerate(lines):
             data = line.strip()
             if data:
-                filename = f"qr_{index+1}.png"
-                generate_qr(data, filename)
+               filename = f"qr_{index+1}.png"
+               generate_qr(data,filename)
 
     except FileNotFoundError:
         print("❌ File not found!")
 
-        #Read QR from img
-
-
-
-
-
 def read_from_QR_img(image_path):
-    # Read the QR Code image
+    """Read the QR Code image and display the content on the screen"""
+    
     image = cv2.imread(image_path)
 
     # Check if the image was loaded successfully
@@ -84,17 +83,17 @@ def read_from_QR_img(image_path):
     else:
         print("❌ No QR Code detected in the image.")
 
-# Call the function with the user-input file name
+#//////////////////////////////////////////////////////////////////////
 
-#///////////////////////////////////////////////////////////////
+"""  Call the function with the user-input data ,file name,img  """
 while True:
-# User Interface
+#User Interface 
     print(Fore.RED + "📌 Automatic QR Code Generator")
     print(Fore.BLUE +"1️⃣  Generate a QR Code from manual input")
     print(Fore.BLUE +"2️⃣  Generate multiple QR Codes from a text file (one per line)")
     print(Fore.BLUE +"3️⃣  Generate QR Codes from img ")
 
-    choice = input("🔸 Select an option (1 or 2 or 3): ").strip()
+    choice = input("🔸 Select an option (1 or 2 or 3): ").strip() # strip() to remove the space
 
     if choice == "1":
       generate_from_input()
@@ -113,16 +112,13 @@ while True:
       break
 
     else :
-      while True : # while to choose y or n
+      while True : # while to choose y to return to menue or n to exit from program
         answer2= input("please must enter 'y'to continue or  to exit 'n'  : " )
         if answer2=='y':
            break
         if answer2=='n':
            exit(print("🚶GOOD BYE 🖐️ "))
-      #else :
-       # continue
       
-        
 print( "🎉 Execution completed!")
 art_2=art("woman  ",number=2) # return multiple art as str
 print(art_2)
