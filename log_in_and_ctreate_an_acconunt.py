@@ -1,16 +1,41 @@
 '''
 This file has been created for the account creation process for 
-the new user and login for the user who has used the program before 
+the new user and login for the user who has used the program before
+
+git_users function is to upload and read Json's 
+file and check if the user exists or not  
+
+add_users Created to add new user 
+information to Json's file 
 
 '''
 from colorama import Fore, Back, Style
+import json
+
 
 print(Fore.MAGENTA)
-usersinfo={{}}
-
-
+#دالة لجلب معلومات حسابات المستخدمين من ملف جيسون 
+def get_users():
+    try :
+        with open("users_account_file.json","r") as file:
+            return json.load(file)
+    except FileDoesNotExistEror :
+        return {}
+    
+#دالة لاضافه مستخدمين جدد الى ملف جيسون 
+def add_users(firstName,lastName,email,password):
+    users_accounts=get_users()
+    if email in users_accounts:
+        print ("The email you entered already exists, please try to log in or try another email ")
+        return
+    users_accounts[email]={"firstName":firstName, "lastName":lastName, 
+    "password":password, "Travel Plans":[]}
+#فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
+    with open("users_account_file.json", "+a") as file:
+        json.dump (users_accounts, file, indent=4)
+    
 #لا يمكن للمستخدم الدخول الى البرنامج بدون ان يكون له حساب فيه
-print("welcome to travelmate")
+print("welcome to travelmate :airplane:")
 userChoice1=input("do you want to \n1:Create a new account  2:Sign in\n")
 # بناء على اختيار المستخدم 1 و الذي يمثل انشاء حساب جديد يتم طلب معلوماته لانشاء حساب جديد
 if userChoice1=="1":
@@ -27,6 +52,9 @@ if userChoice1=="1":
         else :
             print(Fore.RED)
             print("The passwords don't match")
+
+        add_users(firstName, lastName, email, password)
+
 #بناءا على اختيار المستخدم 2 يتم تسجيل الدخول في البرنامج 
 elif userChoice1=="2":
     print(Fore.MAGENTA)
