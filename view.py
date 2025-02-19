@@ -19,11 +19,14 @@ def view_audios():
 
 
 def view():
-    choice = input("Do you want to search for 'video or audio' v for video - a for audio: ")
-    if choice == "a":
-        view_audios()
-    elif choice == "v":
-        view_videos()
-    else:
-        print(Fore.RED + "Invalid Choice" + Fore.RESET)
+    while True:
+        choice = input("Do you want to search for 'video or audio' v for video - a for audio: ")
+        if choice == "a":
+            view_audios()
+            break
+        elif choice == "v":
+            view_videos()
+            break
+        else:
+            print(Fore.RED + "Invalid Choice" + Fore.RESET)
 
