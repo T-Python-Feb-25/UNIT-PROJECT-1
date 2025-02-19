@@ -1,3 +1,4 @@
+# Importing Libraries and modules
 from colorama import Fore
 import validators
 
@@ -5,10 +6,10 @@ def check_url(url:str):
 	'''
 	Check if URL from youtube and Validates a given URL 
 
-    Args:
-        	url (str): The URL to validate.
+  Args:
+        url (str): The URL to validate.
 	Returns
-			None
+				None
 	'''
 	if url.find("youtu") > 0:
 		if not validators.url(url):

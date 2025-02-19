@@ -1,3 +1,4 @@
+# Importing Libraries and modules
 import json
 from colorama import Fore
 def save_to_history(dictionary:dict):
@@ -5,8 +6,6 @@ def save_to_history(dictionary:dict):
 	The save_to_history function takes a dictionary containing video data and stores it 
 	in a JSON file called `history.json`. If the file doesn't exist or is empty, 
 	it creates a new file and stores the data as a list.
-	
-
 	Args: 
 			dictionary (dict):A dictionary containes video data 
 			it includes 'title', 'url', 'format'
@@ -15,7 +14,7 @@ def save_to_history(dictionary:dict):
 	'''
 	try:
 			with open("history.json" ,"r", encoding="UTF-8") as log:
-					all_json_data = json.load(log)
+				all_json_data = json.load(log)
 	except Exception:
 			all_json_data = []
 	
@@ -27,7 +26,6 @@ def save_to_history(dictionary:dict):
 def load_json_data():
 	'''
 	Reads and loads data from the 'history.json' file.
-
 	Args:
 		None
     Returns:

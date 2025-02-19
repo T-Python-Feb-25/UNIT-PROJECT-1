@@ -28,7 +28,7 @@ while True:
 	if choice == "1":
 			while True:
 				try:
-					video_url:str = input("Enter the YouTube video URL: ")
+					video_url:str = input("Enter the YouTube video URL: ").strip()
 					check_url(video_url)
 					download(video_url)
 					input("Enter to continue")
@@ -38,41 +38,41 @@ while True:
 				except Exception:
 					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "2":
-			try:
-					batch_download()
-					input("Enter to continue")
-			except Exception:
-					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+		try:
+			batch_download()
+			input("Enter to continue")
+		except Exception:
+				print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "3":
 		while True:
 			try: 
-					video_url:str = input("Enter the YouTube video URL: ")
-					check_url(video_url)
-					audio_download(video_url)
-					input("Enter to continue")
-					break
+				video_url:str = input("Enter the YouTube video URL: ").strip()
+				check_url(video_url)
+				audio_download(video_url)
+				input("Enter to continue")
+				break
 			except ValueError as e:
-					print(e)
+				print(e)
 			except Exception:
-					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+				print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
 	elif choice == "4":
-			try:
-					batch_download_audio()
-					input("Enter to continue")
-			except Exception:
-					print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
-	elif choice == "5":
-			view_history()
+		try:
+			batch_download_audio()
 			input("Enter to continue")
+		except Exception:
+			print(Fore.RED + "Something Wrong Happen" + Fore.RESET)
+	elif choice == "5":
+		view_history()
+		input("Enter to continue")
 	elif choice == "6":
 		view()
 		input("Enter to continue")
 	elif choice == "7":
-			word = input("Enter word or phrase to search for: ")
-			search(word)
-			input("Enter to continue")
+		word = input("Enter word or phrase to search for: ")
+		search(word)
+		input("Enter to continue")
 	elif choice == "8":
-			print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
-			break
+		print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
+		break
 	else:
-			print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)
+		print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)
