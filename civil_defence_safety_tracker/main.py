@@ -31,6 +31,8 @@ def main():
     
     print(f"{Fore.YELLOW}{'=' * 50}")
 
+   # print("\n" *3)
+
     while True:
         display_menu()
         
@@ -47,29 +49,41 @@ def main():
                 level = input("Enter risk level (Low/Medium/High): ")
                 location = input("Enter location: ")
                 date = input("Enter date (YYYY-MM-DD): ")
-                add_risk(risk_type, level, location, date)
+                confirmation = input("Do you want to save? y for yes n for no: ")
+                if confirmation == "y":
+                    add_risk(risk_type, level, location, date)
+                    print("saved")
+                else:
+                    print("Not saved")
+                input("\n Enter continue...")
 
             elif choice == "2":
                 print(f"\n{Fore.GREEN}Listing all recorded risks...{Fore.RESET}")
                 list_risks()
+                input("\npress Enter continue...")
+
 
             elif choice == "3":
                 print(f"\n{Fore.GREEN}Searching for risks...{Fore.RESET}")
                 location = input("Enter location to search for risks: ")
                 search_risk(location)
+                input("\n Enter continue...")
 
             elif choice == "4":
                 print(f"\n{Fore.GREEN}Getting safety recommendations...{Fore.RESET}")
                 risk_type = input("Enter risk type for recommendations: ")
                 print("\n".join(get_recommendations(risk_type)))
+                input("\n Enter continue...")
 
             elif choice == "5":
                 print(f"\n{Fore.GREEN}Generating risk report...{Fore.RESET}")
                 generate_report()
+                input("\n Enter continue...")
 
             elif choice == "6":
                 print(f"\n{Fore.GREEN}Generating risk chart...{Fore.RESET}")
                 plot_risks()
+                input("\n Enter continue...")
 
             elif choice == "0":
                 print(f"\n{Fore.RED}Exiting program. Stay safe!{Fore.RESET}")
