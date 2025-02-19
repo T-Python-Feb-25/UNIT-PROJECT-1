@@ -1,3 +1,8 @@
+'''
+This file has been created for the account creation process for 
+the new user and login for the user who has used the program before 
+
+'''
 from colorama import Fore, Back, Style
 
 print(Fore.MAGENTA)
@@ -20,9 +25,12 @@ if userChoice1=="1":
             print(Fore.RED)
             print("The passwords don't match")
 #بناءا على اختيار المستخدم 2 يتم تسجيل الدخول في البرنامج 
-else: userChoice1=="2"
-print(Fore.MAGENTA)
-firstName=input("Enter your first name\n")
-email=input("Enter your email\n")
-password=input("Enter your password\n")
-print("Welcome back to travelmat {}".format(firstName))
+elif userChoice1=="2":
+    print(Fore.MAGENTA)
+    firstName=input("Enter your first name\n")
+    email=input("Enter your email\n")
+    password=input("Enter your password\n")
+    print("Welcome back to travelmat {}".format(firstName))
+else:
+    print(Fore.RED)
+    print("Wrong choice, please reselect")
