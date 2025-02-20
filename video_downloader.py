@@ -16,7 +16,7 @@ def download(video_url:str):
   '''
   video_title:str = '%(title)s'  
   video_extension:str = '%(ext)s'  
-  output_path:str= f"downloads/{video_title}.{video_extension}"
+  output_path:str= f"videos/{video_title}.{video_extension}"
 
   # Options for downloading 
   options:dict = {
@@ -80,7 +80,7 @@ def batch_download():
   # Options for downloading 
   options = {
       "quiet": True,
-      "outtmpl": "downloads/%(title)s.%(ext)s",
+      "outtmpl": "videos/%(title)s.%(ext)s",
       'no_warnings' : True,
       }
   # Download video and extract video details

@@ -15,7 +15,7 @@ def audio_download(video_url:str):
   '''
   video_title:str = '%(title)s'  
   audio_extension:str = 'mp3'  
-  output_path:str= f"audio/{video_title}.{audio_extension}"
+  output_path:str= f"audios/{video_title}.{audio_extension}"
   # Options for downloading 
   options:dict = {
     'outtmpl': output_path,
@@ -73,7 +73,7 @@ def batch_download():
   # Options for downloading 
   options = {
       "quiet": True,
-      "outtmpl": "audio/%(title)s.mp3",
+      "outtmpl": "audios/%(title)s.mp3",
       'no_warnings' : True,
       }
   # Download video and extract video details
