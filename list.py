@@ -26,12 +26,13 @@ def save_users(users):
 def load_leaderboard():
     """Load the leaderboard data from the JSON file."""
     try:
-        with open(leaderboard_file, "r") as file:
+        with open("users.json", "r") as file:
             data = json.load(file)
-            if isinstance(data, list):
+            if isinstance(data, dict):
                 return data
-            return []
-    except (FileNotFoundError, json.JSONDecodeError):
+            return dict()
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(e)
         return []
 
 # Function to save leaderboard data
@@ -42,11 +43,11 @@ def save_leaderboard(data):
 
 # Default leaderboard data
 Theleaderboard = [
-    {"Rank": 1, "UserName": "Ahmed-707", "Points": 450},
-    {"Rank": 2, "UserName": "Laila20", "Points": 420},
-    {"Rank": 3, "UserName": "Khaledd1222", "Points": 390},
-    {"Rank": 4, "UserName": "NouraXkiller", "Points": 360},
-    {"Rank": 5, "UserName": "Majed00-sniper", "Points": 330}
+    {"Rank 🏆": "1️⃣", "UserName": "Ahmed-707", "Points": 450},
+    {"Rank 🎖": "2️⃣", "UserName": "Laila20", "Points": 420},
+    {"Rank 🏅": "3️⃣", "UserName": "Khaledd1222", "Points": 390},
+    {"Rank 🥈": "4️⃣", "UserName": "NouraXkiller", "Points": 360},
+    {"Rank 🥉": "5️⃣", "UserName": "Majed00-sniper", "Points": 330}
 ]
 
 # Save default leaderboard if the file doesn't exist

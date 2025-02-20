@@ -25,18 +25,18 @@ def save_users(users):
 def register_user():
     users = load_users()
     
-    username = input("Enter a username: ").strip()
+    username = input("🆔 Enter a username: ").strip()
     
     if username in users:
-        print("⚠️ Username already exists! Please choose a different one.")
+        print("⭕️ Username already exists! Please choose a different one ⭕️")
         return None
     
-    name = input("Enter your name: ").strip()
+    name = input("👤 Enter your name: ").strip()
     
-    users[username] = {"name": name}
+    users[username] = {"name": name, "points": 0}
     save_users(users)
     
-    print("✅ Registration successful!")
+    print("✅ Registration successful! ✅")
     return username
 
 # Login an existing user
@@ -46,7 +46,7 @@ def login_user():
     username = input("Enter your username: ").strip()
     
     if username in users:
-        print(f"✅ Welcome back, {users[username]['name']}!")
+        print(f"✅ Welcome back, {users[username]['name']}! ✅")
         return username
     else:
         print("❌ Username not found! Please register first.")
@@ -56,7 +56,7 @@ def login_user():
 def login_menu():
     tprint("-WELCOME QUESTION GAME-", font="cybermedium")
     while True:
-        print("\n1️⃣ Register\n2️⃣ Login\n3️⃣ Exit")
+        print("\n1️⃣  Register\n2️⃣  Login\n3️⃣  Exit")
         choice = input("Choose an option: ")
         
         if choice == "1":
@@ -67,5 +67,5 @@ def login_menu():
             print("👋 Goodbye!")
             exit()
         else:
-            print("⚠️ Invalid choice, try again!")
+            print("⛔️ Invalid choice, try again ⛔️")
 
