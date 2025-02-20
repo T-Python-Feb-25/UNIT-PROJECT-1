@@ -26,7 +26,7 @@ def audio_download(video_url:str):
   with yt_dlp.YoutubeDL(options) as downloader:
     info_dict = downloader.extract_info(video_url, download=True)  
     audio_title = info_dict.get('title', 'Unknown Title')  
-    audio_url = info_dict.get('url', 'Unknown URL')  
+    audio_url = video_url  
 
   audio_detailes = {
     "title" : audio_title,
@@ -81,7 +81,7 @@ def batch_download():
       with yt_dlp.YoutubeDL(options) as downloader:  
         info_dict = downloader.extract_info(video_url, download=True)  
         audio_title = info_dict.get('title', 'Unknown Title')  
-        audio_url = info_dict.get('url', 'Unknown URL')  
+        audio_url = video_url  
 
       audio_detailes = {
         "title" : audio_title,

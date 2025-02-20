@@ -28,7 +28,7 @@ def download(video_url:str):
   with yt_dlp.YoutubeDL(options) as downloader:  
     info_dict = downloader.extract_info(video_url, download=True)  
     video_title = info_dict.get('title', 'Unknown Title')  
-    video_url = info_dict.get('url', 'Unknown URL')  
+    video_url = video_url  
     video_format = info_dict.get('ext', 'Unknown Format')  
 
   print(Fore.GREEN + "Download completed successfully" + Fore.RESET)
@@ -88,7 +88,7 @@ def batch_download():
     with yt_dlp.YoutubeDL(options) as downloader:  
       info_dict = downloader.extract_info(video_url, download=True)  
       video_title = info_dict.get('title', 'Unknown Title')  
-      video_url = info_dict.get('url', 'Unknown URL')  
+      video_url = video_url  
       video_format = info_dict.get('ext', 'Unknown Format') 
 
       video_detailes = {

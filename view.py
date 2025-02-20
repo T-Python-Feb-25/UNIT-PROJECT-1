@@ -40,6 +40,7 @@ def view_audios():
               count+=1
       if count == 1:
         print(Fore.RED + "No Audios Downloaded" + Fore.RESET)
+        
     except Exception:
 	    print(Fore.RED + "There is no download history" + Fore.RESET)
 

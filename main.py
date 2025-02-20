@@ -77,3 +77,8 @@ while True:
 		break
 	else:
 		print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)
+
+
+
+# https://youtu.be/7LxA9qXUY5k?si=898kZs_R7GgWoc4H
+# https://youtu.be/QG5aEmS9Fu0?si=ZYrGNoZeIQC5-kRm
