@@ -1,5 +1,6 @@
 from users import User
 from recipes import Recipe
+from calorie_tracker import log_meal, view_meal
 
 def main():
     user_m = User()
@@ -28,7 +29,9 @@ def main():
                         print("3. display my recipes")
                         print("4. search for a recipe")
                         print("5. edit or delete a recipe")
-                        print("6. exit ")
+                        print("6. log your meals for today to track your calories")
+                        print("7. view your meals")
+                        print("8. exit ")
 
                         action = input("Enter your choice: ")
 
@@ -44,6 +47,10 @@ def main():
                         elif action == '5':
                             recipe_manager.edit_delete_recipe()
                         elif action == '6':
+                            log_meal(current_user)
+                        elif action == '7':
+                            view_meal(current_user)
+                        elif action == '8':
                             print("Goodbye!")
                             break
                         else:
