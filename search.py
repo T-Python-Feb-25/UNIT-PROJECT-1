@@ -18,7 +18,7 @@ def search(word:str):
             if choice.lower() == "e":
                 for item in list_of_data:
                     if word.lower().strip() == item['title'].lower():
-                        print(f"{Fore.CYAN}{count}- {item['title']}{Fore.RESET}")
+                        print(f"{Fore.CYAN}{count}- {item['title']} | {item['format']} {Fore.RESET}")
                         count+=1
                 if count == 1:
                     print(f"{Fore.RED}No Record Found For '{word}'{Fore.RESET}")
@@ -26,7 +26,7 @@ def search(word:str):
             elif choice.lower() == "p":
                 for item in list_of_data:
                     if word.lower() in item['title'].lower():
-                        print(f"{Fore.CYAN}{count}- {item['title']}{Fore.RESET}")
+                        print(f"{Fore.CYAN}{count}- {item['title']} | {item['format']}{Fore.RESET}")
                         count+=1
                 if count == 1:
                     print(f"{Fore.RED}No Record Found For '{word}' {Fore.RESET}")

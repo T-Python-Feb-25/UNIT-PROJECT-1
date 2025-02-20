@@ -12,10 +12,11 @@ print(Fore.RED + welcome + Fore.RESET)
 menu:str ='''
 ------------------------------
 YouTube Downloader Menu:
+
 1- Download a Single Video
 2- Download Multiple Videos
-3- Download Audio
-4- Download Multiple Audios
+3- Download Audio (Form Video)
+4- Download Multiple Audios (From Videos)
 5- View Download History
 6- View Audios or Videos Downloaded 
 7- Search for Downloaded Videos or Audios

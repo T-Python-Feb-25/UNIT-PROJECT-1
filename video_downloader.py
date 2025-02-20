@@ -18,12 +18,13 @@ def download(video_url:str):
   video_extension:str = '%(ext)s'  
   output_path:str= f"downloads/{video_title}.{video_extension}"
 
+  # Options for downloading 
   options:dict = {
     'outtmpl': output_path,
     'quiet' : True,
     'no_warnings' : True,
     }
-
+  # Download video and extract video details
   with yt_dlp.YoutubeDL(options) as downloader:  
     info_dict = downloader.extract_info(video_url, download=True)  
     video_title = info_dict.get('title', 'Unknown Title')  
@@ -49,12 +50,16 @@ def batch_download():
   Returns:
       None
   '''
+  # Ashing user how many urls 
   while True: 
     try:
       number_of_url = int(input("How many Numbers Of URL?: "))
-      break
+      if number_of_url >= 1:
+         break
+      else:
+         raise Exception()
     except Exception:
-      print(Fore.RED +"Invalid Value - Please Enter a Number" + Fore.RESET)
+      print(Fore.RED +"Invalid Value - Please Enter a Number and must be Above 0" + Fore.RESET)
 
 
   video_urls = []
@@ -72,12 +77,13 @@ def batch_download():
               print(e)
 
 
-  
+  # Options for downloading 
   options = {
       "quiet": True,
       "outtmpl": "downloads/%(title)s.%(ext)s",
       'no_warnings' : True,
       }
+  # Download video and extract video details
   for video_url in video_urls:
     with yt_dlp.YoutubeDL(options) as downloader:  
       info_dict = downloader.extract_info(video_url, download=True)  

@@ -20,7 +20,8 @@ def save_to_history(dictionary:dict):
 	
 	all_json_data.append(dictionary)
 	with open("history.json" ,"w", encoding="UTF-8") as log:
-		json.dump(all_json_data, log, indent=4)
+		# Here ensure_ascii to make sure the json file write arabic words 
+		json.dump(all_json_data, log, ensure_ascii=False , indent=4)
 
 
 def load_json_data():

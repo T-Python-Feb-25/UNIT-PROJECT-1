@@ -71,10 +71,10 @@ def view():
     '''
     while True:
       choice = input("Do you want to search for 'video or audio' v for video - a for audio: ")
-      if choice == "a":
+      if choice.lower().strip() == "a":
           view_audios()
           break
-      elif choice == "v":
+      elif choice.lower().strip() == "v":
           view_videos()
           break
       else:

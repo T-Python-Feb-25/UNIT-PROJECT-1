@@ -16,15 +16,14 @@ def audio_download(video_url:str):
   video_title:str = '%(title)s'  
   audio_extension:str = 'mp3'  
   output_path:str= f"audio/{video_title}.{audio_extension}"
-
+  # Options for downloading 
   options:dict = {
     'outtmpl': output_path,
     'quiet' : True,
     'no_warnings' : True,
     }
-  
+  # Download video and extract video details
   with yt_dlp.YoutubeDL(options) as downloader:
-    downloader.download([video_url])
     info_dict = downloader.extract_info(video_url, download=True)  
     audio_title = info_dict.get('title', 'Unknown Title')  
     audio_url = info_dict.get('url', 'Unknown URL')  
@@ -35,9 +34,9 @@ def audio_download(video_url:str):
     "format" : "mp3"
   } 
   save_to_history(audio_detailes)
-  print(Fore.GREEN + "Audio downloaded completed successfully" + Fore.RESET)
-# Function For Downloading A Multiple Audios
+  print(Fore.GREEN + "Audio downloading completed successfully" + Fore.RESET)
 
+# Function For Downloading A Multiple Audios
 def batch_download():
   '''
   Downloads multiple YouTube audios based on user input.
@@ -46,12 +45,16 @@ def batch_download():
   Returns:
       None
   '''
+  # Ashing user how many urls 
   while True: 
     try:
       number_of_url = int(input("How many Numbers Of URL?: "))
-      break
+      if number_of_url >= 1:
+         break
+      else:
+         raise Exception()
     except Exception:
-      print(Fore.RED +"Invalid Value - Please Enter a Number" + Fore.RESET)
+      print(Fore.RED +"Invalid Value - Please Enter a Number and must be Above 0" + Fore.RESET)
 
   video_urls = []
   count = 1
@@ -67,12 +70,13 @@ def batch_download():
     except ValueError as e:
               print(e)
 
-
+  # Options for downloading 
   options = {
       "quiet": True,
       "outtmpl": "audio/%(title)s.mp3",
       'no_warnings' : True,
       }
+  # Download video and extract video details
   for video_url in video_urls:
       with yt_dlp.YoutubeDL(options) as downloader:  
         info_dict = downloader.extract_info(video_url, download=True)  
