@@ -19,7 +19,7 @@ def get_users():
     try :
         with open("users_account_file.json","r") as file:
             return json.load(file)
-    except FileDoesNotExistEror :
+    except FileNotFoundError :
         return {}
     
 #دالة لاضافه مستخدمين جدد الى ملف جيسون 
@@ -30,10 +30,28 @@ def add_users(firstName,lastName,email,password):
         return
     users_accounts[email]={"firstName":firstName, "lastName":lastName, 
     "password":password, "Travel Plans":[]}
+
 #فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
-    with open("users_account_file.json", "+a") as file:
+    with open("users_account_file.json", "w") as file:
         json.dump (users_accounts, file, indent=4)
-    
+
+#دالة لتسجيل الدخول للمستخدمين الذين استخدمو المنصة سابقا 
+def users_login(email,password ):
+
+     users_accounts=get_users()
+
+     if email not in users_accounts:
+        print("This email does not exist. Make sure the email is correct ")
+        return False
+        while True:
+            if users_accounts[email]["password"] ==password:
+                print("Welcome back to travelmat {}".format(firstName))
+                return True
+            else:
+                print("Incorrect password, please check it")
+                password= input("Enter your password again")
+
+
 #لا يمكن للمستخدم الدخول الى البرنامج بدون ان يكون له حساب فيه
 print("welcome to travelmate :airplane:")
 userChoice1=input("do you want to \n1:Create a new account  2:Sign in\n")
@@ -49,11 +67,12 @@ if userChoice1=="1":
 
         if password==passwordConfirmation:
             print("Account created successfully!! Welcome to travelmate {}".format(firstName))
+            add_users(firstName, lastName, email, password)
+            break
         else :
             print(Fore.RED)
             print("The passwords don't match")
 
-        add_users(firstName, lastName, email, password)
 
 #بناءا على اختيار المستخدم 2 يتم تسجيل الدخول في البرنامج 
 elif userChoice1=="2":
@@ -63,10 +82,13 @@ elif userChoice1=="2":
     while True:
         password=input("Enter your password\n")
 #في حال كانت كلمةالمرور اقل من 8 كاركترز لا تقبل   
-        if len(password)!=8:
+        if len(password)<8:
             print("Password must consist of 8 characters")
-        else:
-            print("Welcome back to travelmat {}".format(firstName))
+            password= input("Enter your password again")
+        
+        users_login(email, password)
+
+
 else:
     print(Fore.RED)
     print("Wrong choice, please reselect")
