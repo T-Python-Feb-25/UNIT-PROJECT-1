@@ -11,13 +11,13 @@ def print_maze(maze, player_pos):
 
 def move_player(maze, player_pos, move):
     x, y = player_pos
-    if move == "w" and x > 0:  # up
+    if move == "w" and x > 0:  
         return (x - 1, y)
-    elif move == "s" and x < len(maze) - 1:  # down
+    elif move == "s" and x < len(maze) - 1:  
         return (x + 1, y)
-    elif move == "a" and y > 0:  # left
+    elif move == "a" and y > 0:  
         return (x, y - 1)
-    elif move == "d" and y < len(maze[0]) - 1:  # right
+    elif move == "d" and y < len(maze[0]) - 1:  
         return (x, y + 1)
     return player_pos
 

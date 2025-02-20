@@ -1,27 +1,31 @@
-
-from colorama import *
-from art import *
 from game_store import Store
 from error import ErrorRebot
+from rich.console import Console
+from rich.theme import Theme
+from colorama import *
+from art import *
+
+costom_theme = Theme({"success": "green", "error": "bold red"})
+console = Console (theme=costom_theme)
 
 def main():
     print(Fore.BLUE + Style.BRIGHT)
-    tprint("Welcome to the Game Store!")
+    tprint("Welcome to my Game Store!")
     print(Style.RESET_ALL)
-
 
     input("PRESS ANY KEY TO CONTINUE... ")
 
-    email = input("Enter your email: ")
+#dont forget the set & get
+    email = input("Enter your email to log in : ")
     password = input("Enter your password: ")
     store = Store(email, password)  
     print(input(""))
 
+    error = ErrorRebot("", "")
  
-
-
+# add more try & except
     while True:
-        print("\n1. Browse Games\n2. View Cart\n3. Remove from Cart\n4. Checkout\n5. View Purchase History\n6. Play Game\n7. Exit")
+        print("\n1. Browse Games\n2. View Cart\n3. Remove from Cart\n4. Checkout\n5. View Purchase History\n6. Play Game\n7. rebort an issuu\n8. Exit")
         choice = input("Select an option: ")
        
         try:
@@ -32,7 +36,7 @@ def main():
                     game_index = int(input("Enter the game number to add to cart: ")) - 1
                      
                     store.add_to_cart(game_index)  
-                    print("Game added successfully.")
+                    console.print("Game added successfully.", style="success")
                     print(input("")) 
                 elif cart_choice == "n":
                     input("Press any key to return to the main menu...")  
@@ -40,34 +44,46 @@ def main():
             elif choice == "2":
                 
                 store.view_cart()
-                input("Press any key to countenu...")  
+                input("Press any key to back to the main menu..")  
             elif choice == "3":
                 store.view_cart()
                 game_index = int(input("Enter the game number to remove from cart: ")) - 1
                 store.remove_from_cart(game_index)
                 input("Press any key to return to the main menu...")  
+
             elif choice == "4":
                 store.checkout()
-                
+                print(input(""))
+
             elif choice == "5":
-                store.view_purchase_history()
-                input("Press any key to return to the main menu...")  
+                store.view_purchase_history() 
+                print(input(""))
+
             elif choice == "6":
                 store.view_purchase_history()
                 game_index = int(input("Enter the game number to play: ")) - 1
                 if 0 <= game_index < len(store.purchase_history):
-                    store.play_game(store.purchase_history[game_index])  
-                else:
-                    print("Invalid game selection.")
-
+                    store.play_game(store.purchase_history[game_index])
+                    
             elif choice == "7":
-                print("Thank you! Please come again!")
+                error.report()
+                print(error.display_error())
+                continue_reporting = input("Do you want to report another issue? (y/n): ").lower()
+                if continue_reporting == 'y':
+                    error.report()
+                    
+                if continue_reporting != 'y':
+                      continue
+                else:
+                    print(error.display_error())
+                    input("Press any key to return to the main menu...") 
+
+            elif choice == "8":
+                console.print("Thank you! Please come again 🤍")
                 break
             else:
-                print("Invalid option. Please try again.")
+                console.print("Invalid option. Please try again.", style="error")
         except ValueError:
-            print("Invalid input. Please enter a number.")
-
-
+            console.print("Invalid input. Please enter a number.", style="error")
 
 main()
