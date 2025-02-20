@@ -1,7 +1,5 @@
 # UNIT-PROJECT-1
 
-
-
 ## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
 
 - Must be interactive on CLI.
@@ -9,37 +7,43 @@
 - Organize Your Code into modules & (or packages)
 - Use git & Github to track changes in your code.
 
-## Example Project :  An online Grocery Store :
+## Project : Virtual Assistant for Admin and Web Developer
 
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
+#### Overview : A command-line interface (CLI) virtual assistant designed to cater to two distinct user types: Admin (for personal use) and Web Developer (for technical use). The assistant can help admins with daily tasks and assist web developers with technical tasks, making it a versatile tool for different needs.
 
 ### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
 
+#### As an Admin I should be able to do the following:
 
+- Set reminders and tasks for personal management.
+- Event Management: Track personal events such as birthdays, anniversaries, or meetings.
+
+### As a Web Developer I should be able to do the following:
+
+Check the server status and health of my website.
+Fetch logs for debugging and monitoring.
+View and run code snippets.
+Automate deployment tasks for web applications.
+Check the status of virtual environments or Docker containers.
+Interact with version control (e.g., Git) for commits, push, pull, and branch management.
+View API documentation and code references.
+Automate documenting functions ...
 
 #### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
 
+For Admin:
+Register/Login: Enter your username and password to access the assistant.
 
-### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
+For Web Developer:
+Register/Login: Enter your username and password to access the assistant.
+Check Server Status: Type server status to check if your server is up and running.
+View Logs: Type logs to view the latest server/application logs.
+Run Tests: Type test run [test_name] to execute a predefined test.
+Deploy Project: Type deploy project to deploy your latest project version.
+Git Commands: Type git commit [message] to commit your changes, or git push to push changes to the repository.
+
+### For your project. Edit this README.md file to include your own project name, overview, user stories, and usage.
 
 ### NOTE: before submitting the final project, please do the following command:
+
 `pip freeze > requirements.txt` to enable use to know & use the packages used in your project.

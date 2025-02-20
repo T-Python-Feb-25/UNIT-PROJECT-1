@@ -1,5 +1,6 @@
 import msvcrt
 import hashlib
+from admin.events import manage_events, display_calendar
 
 class User:
     def __init__(self, username, password, user_type, is_hashed=False):
@@ -42,10 +43,10 @@ def register(users):
         user_type = "Web developer"
     elif user_type == 'a':
         user_type = "Admin"
+        manage_events(logged_in_user)  # Call manage_events function from admin.services module
     else:
         print("Invalid user type. Please enter 'w' for Web developer or 'a' for Admin.")
         return users  # Return users without changes
-    
 
     # Create a new User instance with the password hashed
     users[username] = User(username, password, user_type, is_hashed=False)
@@ -67,13 +68,13 @@ def login(users):
     # Check if username exists and the password matches the hashed password
     if username in users and users[username].password == hashlib.sha256(password.encode()).hexdigest():
         print(f"Login successful! You are logged in as a {users[username].user_type}.")
+        return users, users[username]
     else:
         print("Incorrect username or password.")
         password_reset_choice = input("Do you want to reset your password? (yes/no): ").strip().lower()
         if password_reset_choice == 'yes':
             password_reset(users, username)
-        else:
-            return login(users)  # Recursively call login if credentials are incorrect
+        return users, None  # Return None for logged_in_user if login fails
 
 def password_reset(users, username):
     if username in users:
@@ -103,11 +104,46 @@ def load_users():
         pass  # File does not exist yet, return empty dictionary
     return users
 
-if __name__ == "__main__":
+def main():
     users = load_users()
+    print("Welcome! I am your Virtual Assistant, designed to assist you with your daily tasks. Please register or log in to proceed.")
     while True:
-        choice = input("Do you want to register or login? (r/l): ").strip().lower()
-        if choice == 'r':
+        choice = input("Type 'r' to register, 'l' to login, 'e' to exit: ").strip().lower()
+        if choice == 'r' or choice == 'register':
             users = register(users)  # Call register function to add a new user
-        elif choice == 'l':
-            login(users)  # Call lo
+        elif choice == 'l' or choice == 'login':
+            users, logged_in_user = login(users)
+            if logged_in_user:
+                print(f"Welcome {logged_in_user.user_type}! Let's get started.")
+                if logged_in_user.user_type.lower() == 'admin' or logged_in_user.user_type.lower() == 'a':
+                    print("Welcome Admin! Ready to manage your events.")
+                    while True:
+                        print("\nChoose an action:")
+                        print("1. Manage Events")
+                        print("2. View Calendar with Events")
+                        print("3. Logout")
+                        
+                        action_choice = input("Enter your choice: ").strip()
+                        if action_choice == '1':
+                            manage_events(logged_in_user)  # Call manage_events function from admin.services module
+                        elif action_choice == '2':
+                            display_calendar(logged_in_user)  # Display the calendar with events
+                        elif action_choice == '3':
+                            print("Logging out...")
+                            break  # Exit the loop to log out
+                        else:
+                            print("Invalid choice. Please try again.")
+                elif logged_in_user.user_type.lower() == 'web developer' or logged_in_user.user_type.lower() == 'w':
+                    print("Welcome Web Developer! Ready to manage your meetings.")
+                else:
+                    print("You do not have admin privileges to manage events.")
+            else:
+                print("Login failed. Please try again.")
+        elif choice == 'e':
+            print("Exiting the program...")
+            break
+        else:
+            print("Invalid choice. Please enter 'r' to register or 'l' to login.")
+
+if __name__ == "__main__":
+    main()
