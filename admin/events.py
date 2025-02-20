@@ -28,13 +28,14 @@ def manage_events(logged_in_user):
             print("Invalid choice. Please try again")
 
 def add_event(logged_in_user):
-    date_str = input("Enter the date (YYYY-MM-DD): ")
-    try:
-        # Validate the date format
-        date = datetime.strptime(date_str, "%Y-%m-%d")
-    except ValueError:
-        print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
-        return
+    while True: 
+        date_str = input("Enter the date (YYYY-MM-DD): ")
+        try:
+            # Validate the date format
+            date = datetime.strptime(date_str, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
 
     event = input("Enter the event name: ")
     try:
@@ -62,33 +63,34 @@ def view_events(logged_in_user):
         print(f"Error viewing events: {e}")
 
 def update_event(logged_in_user):
-    date = input("Enter the date of the event to update (YYYY-MM-DD): ")
-    try:
-        with open('events.txt', 'r') as file:
-            events = file.readlines()
-        with open('events.txt', 'w') as file:
-            updated = False
-            for event in events:
-                username, event_date, event_name = event.strip().split(',', 2)
-                if username == logged_in_user.username and event_date == date:
-                    new_event = input("Enter the new event name: ")
-                    new_date = input("Enter the new date (YYYY-MM-DD): ")
-                    try:
-                        # Validate the new date format
-                        datetime.strptime(new_date, "%Y-%m-%d")
-                        file.write(f"{username},{new_date},{new_event}\n")
-                        updated = True
-                    except ValueError:
-                        print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
-                        file.write(event)  # Write the original event back if the new date is invalid
+    while True:
+        date = input("Enter the date of the event to update (YYYY-MM-DD): ")
+        try:
+            with open('events.txt', 'r') as file:
+                events = file.readlines()
+            with open('events.txt', 'w') as file:
+                updated = False
+                for event in events:
+                    username, event_date, event_name = event.strip().split(',', 2)
+                    if username == logged_in_user.username and event_date == date:
+                        new_event = input("Enter the new event name: ")
+                        new_date = input("Enter the new date (YYYY-MM-DD): ")
+                        try:
+                            # Validate the new date format
+                            datetime.strptime(new_date, "%Y-%m-%d")
+                            file.write(f"{username},{new_date},{new_event}\n")
+                            updated = True
+                        except ValueError:
+                            print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
+                            file.write(event)  # Write the original event back if the new date is invalid
+                    else:
+                        file.write(event)
+                if updated:
+                    print("Event updated successfully!")
                 else:
-                    file.write(event)
-            if updated:
-                print("Event updated successfully!")
-            else:
-                print("Event not found")
-    except IOError as e:
-        print(f"Error updating event: {e}")
+                    print("Event not found")
+        except IOError as e:
+            print(f"Error updating event: {e}")
 
 def delete_event(logged_in_user):
     date = input("Enter the date of the event to delete (YYYY-MM-DD): ")
@@ -146,7 +148,7 @@ def display_calendar(logged_in_user):
         if username == logged_in_user.username:
             event_date = datetime.strptime(date_str, "%Y-%m-%d")
             if event_date.year == year and event_date.month == month:
-                print(f"{event_date.day}: {event_name}")
+                print(f" Day{event_date.day}: {event_name}")
 
 # Load events from the events.txt file
 def load_events():

@@ -1,6 +1,7 @@
 import calendar
 from datetime import datetime
 from colorama import init, Fore  # Import colorama for colored output
+from admin.events import display_calendar
 
 def manage_meetings():
     while True:
@@ -94,3 +95,53 @@ def delete_meeting():
             print("Meeting not found")
     except IOError as e:
         print(f"Error deleting meeting: {e}")
+        
+def load_meetings():
+    meetings = []
+    try:
+        with open('meetings.txt', 'r') as file:
+            for line in file:
+                parts = line.strip().split(',', 2)  # Split only on the first two commas
+                if len(parts) == 3:
+                    username, date_str, meeting_name = parts
+                    meetings.append((username, date_str, meeting_name))
+    except IOError as e:
+        print(f"Error loading meetingss: {e}")
+    return meetings
+
+def display_calendar(logged_in_user):
+    year = int(input("Enter year: "))
+    month = int(input("Enter month: "))
+    cal = calendar.TextCalendar(calendar.SUNDAY)
+    meetings = load_meetings()
+
+    # Create a set of event days for the given month and year
+    meeting_days = set()
+    for username, date_str, meeting_name in meetings:
+        if username == logged_in_user.username:
+            try:
+                meeting_date = datetime.strptime(date_str, "%Y-%m-%d")
+                if meeting_date.year == year and meeting_date.month == month:
+                    meeting_days.add(meeting_date.day)
+            except ValueError:
+                print(f"Skipping invalid date format: {date_str}")
+
+    # Print the calendar with colored event days
+    for day in cal.itermonthdays(year, month):
+        if day == 0:
+            print("   ", end=" ")  # Print empty days
+        elif day in meeting_days:
+            print(Fore.GREEN + f"{day:2}", end=" ")  # Print event days in green
+        else:
+            print(f"{day:2}", end=" ")  # Print normal days
+        if (day + cal.firstweekday) % 7 == 0:
+            print()  # Newline after each week
+    print()
+
+    # Print the events below the calendar
+    print(f"\nThe events for {calendar.month_name[month]} are:")
+    for username, date_str, meeting_name in meetings:
+        if username == logged_in_user.username:
+            meeting_date = datetime.strptime(date_str, "%Y-%m-%d")
+            if meeting_date.year == year and meeting_date.month == month:
+                print(f"Day {meeting_date.day}: {meeting_name}")

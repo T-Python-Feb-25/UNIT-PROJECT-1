@@ -1,6 +1,8 @@
 import msvcrt
 import hashlib
 from admin.events import manage_events, display_calendar
+from web_developer.meetings import manage_meetings
+from datetime import datetime
 
 class User:
     def __init__(self, username, password, user_type, is_hashed=False):
@@ -38,16 +40,17 @@ def register(users):
         return users  # Return users without changes
     
     password = custom_getpass("Enter password: ")
-    user_type = input("Enter user type (Type 'w' for Web developer, 'a' for Admin): ").strip().lower()
-    if user_type == 'w':
-        user_type = "Web developer"
-    elif user_type == 'a':
-        user_type = "Admin"
-        manage_events(logged_in_user)  # Call manage_events function from admin.services module
-    else:
-        print("Invalid user type. Please enter 'w' for Web developer or 'a' for Admin.")
-        return users  # Return users without changes
-
+    while True:
+        user_type = input("Enter user type (Type 'w' for Web developer, 'a' for Admin): ").strip().lower()
+        if user_type == 'w':
+            user_type = "Web developer"
+            break
+        elif user_type == 'a':
+            user_type = "Admin"
+            break
+        else:
+            print("Invalid user type. Please enter 'w' for Web developer or 'a' for Admin.")
+    
     # Create a new User instance with the password hashed
     users[username] = User(username, password, user_type, is_hashed=False)
 
@@ -76,6 +79,7 @@ def login(users):
             password_reset(users, username)
         return users, None  # Return None for logged_in_user if login fails
 
+
 def password_reset(users, username):
     if username in users:
         new_password = custom_getpass("Enter a new password: ").strip()
@@ -103,18 +107,22 @@ def load_users():
     except FileNotFoundError:
         pass  # File does not exist yet, return empty dictionary
     return users
-
 def main():
     users = load_users()
     print("Welcome! I am your Virtual Assistant, designed to assist you with your daily tasks. Please register or log in to proceed.")
+    
     while True:
         choice = input("Type 'r' to register, 'l' to login, 'e' to exit: ").strip().lower()
+        
         if choice == 'r' or choice == 'register':
             users = register(users)  # Call register function to add a new user
         elif choice == 'l' or choice == 'login':
             users, logged_in_user = login(users)
+            
             if logged_in_user:
-                print(f"Welcome {logged_in_user.user_type}! Let's get started.")
+                print(f"Logged in as {logged_in_user.username} with user type {logged_in_user.user_type}")
+                
+                # Debugging line to check if we are entering the correct block for Web Developer
                 if logged_in_user.user_type.lower() == 'admin' or logged_in_user.user_type.lower() == 'a':
                     print("Welcome Admin! Ready to manage your events.")
                     while True:
@@ -133,12 +141,28 @@ def main():
                             break  # Exit the loop to log out
                         else:
                             print("Invalid choice. Please try again.")
+                
                 elif logged_in_user.user_type.lower() == 'web developer' or logged_in_user.user_type.lower() == 'w':
                     print("Welcome Web Developer! Ready to manage your meetings.")
-                else:
-                    print("You do not have admin privileges to manage events.")
+                    while True:
+                        print("\nChoose an action:")
+                        print("1. Manage Meetings")
+                        print("2. View Calendar with Meetings")
+                        print("3. Logout")
+                        
+                        action_choice = input("Enter your choice: ").strip()
+                        if action_choice == '1':
+                            manage_meetings()
+                        elif action_choice == '2':
+                            display_calendar(logged_in_user)
+                        elif action_choice == '3':
+                            print("Logging out...")
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
             else:
                 print("Login failed. Please try again.")
+        
         elif choice == 'e':
             print("Exiting the program...")
             break
