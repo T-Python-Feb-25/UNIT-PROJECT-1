@@ -1,5 +1,6 @@
 from data_handler import load_data,save_data
 from colorama import Fore
+from tabulate import tabulate
 
 def find_member(name:str):
     """
@@ -17,7 +18,7 @@ def find_member(name:str):
             return member
     return None
 
-def find_book(title:str):
+def find_book(id:int):
     """
     This function checks if the book exists or not.
 
@@ -29,7 +30,7 @@ def find_book(title:str):
     data = load_data()
     
     for book in data['books']:
-        if book['title'].lower() == title.lower():
+        if book['id'] == id:
             return book
     return None
 
@@ -71,12 +72,21 @@ def remove_member(name:str):
     data = load_data()
     member = find_member(name)
 
-    if member:
-        data['members'].remove(member)
-        save_data(data)
-        print(Fore.GREEN + f"Member '{name}' has been remove successfully!" + Fore.RESET)
-    else:
+    if not member:
         print(Fore.RED + f"Member '{name}' not found!" + Fore.RESET)
+        return
+
+    if member['borrowed_books']:
+        for book_title in member['borrowed_books']:
+            books = find_book(book_title)
+            if books:
+                for book in data['books']:
+                    if book['title'].lower() == book_title.lower():
+                        book['quantity'] += 1
+        
+    data['members'].remove(member)
+    save_data(data)
+    print(Fore.GREEN + f"Member '{name}' has been remove successfully!" + Fore.RESET)
 
 def list_member():
     """
@@ -87,15 +97,19 @@ def list_member():
     """
     data = load_data()
     members = data.get('members',[])
+    table_data = []
     if not members:
         print(Fore.RED + "No members found." + Fore.RESET)
     else:
         print(Fore.GREEN + "Registered Members:" + Fore.RESET)
-        for member in members:
-            print(f"{member['name']}")
+        members_sorted = sorted(members, key=lambda member: member['name'])
+        for member in members_sorted:
+            table_data.append([member['name'] , member['borrowed_books']])
+        headers = ["Member name" , "Borrowed books"]
+        print(tabulate(table_data,headers=headers,tablefmt="double_grid"))
     print("")
 
-def borrow_book(member_name: str, title: str):
+def borrow_book(member_name:str, id:int):
     """
     This function is used to borrow books.
 
@@ -107,7 +121,7 @@ def borrow_book(member_name: str, title: str):
     """
     data = load_data()
     members = find_member(member_name)
-    books = find_book(title)
+    books = find_book(id)
 
     if not members:
         print(Fore.RED + "Member not found!" + Fore.RESET)
@@ -118,27 +132,28 @@ def borrow_book(member_name: str, title: str):
     if books['quantity'] <= 0:
         print(Fore.RED + "The book is currently unavailable!" + Fore.RESET)
         return
-    if title in members['borrowed_books']:
-        print(Fore.RED + f"You already borrowed the book '{title}'!" + Fore.RESET)
-        return
+    
+    for borrowed_books in members['borrowed_books']:
+        if borrowed_books['id'] == id:
+            print(Fore.RED + f"You already borrowed the book '{books['title']}'!" + Fore.RESET)
+            return
 
 
     books['quantity'] -= 1
 
-    members['borrowed_books'].append(title)
+    members['borrowed_books'].append({'id' : id, 'title': books['title']})
 
     for book in data['books']:
-        if book['title'] == title:
+        if book['id'] == books['id']:
             book['quantity'] = books['quantity']
-
     for member in data['members']:
         if member['name'].lower() == member_name.lower():
             member['borrowed_books'] = members['borrowed_books']
 
     save_data(data)
-    print(Fore.GREEN + f"'{title}' has been borrowed by {member_name}." + Fore.RESET)
+    print(Fore.GREEN + f"'{books['title']}' has been borrowed by {member_name}." + Fore.RESET)
 
-def return_book(member_name:str ,title:str):
+def return_book(member_name:str ,id:int):
     """
     This function is used to return borrowed books.
 
@@ -150,19 +165,27 @@ def return_book(member_name:str ,title:str):
     """
     data = load_data()
     members = find_member(member_name)
-    books =  find_book(title)
+    books =  find_book(id)
 
     if not members:
         print(Fore.RED + "Member not found!" + Fore.RESET)
         return
-    if title not in members['borrowed_books']:
-        print(Fore.RED + f"{member_name} has not borrowed '{title}'!" + Fore.RESET)
+    if not books:
+        print(Fore.RED + "Book not found!" + Fore.RESET)
+        return
+    
+    for borrowed_book in members['borrowed_books']:
+        if borrowed_book['id'] == id:
+            members['borrowed_books'].remove(borrowed_book)
+            break
+    else:
+        print(Fore.RED + f"{member_name} has not borrowed '{books['title']}'!" + Fore.RESET)
         return
     
     books['quantity'] += 1
-    members['borrowed_books'].remove(title)
+
     for book in data['books']:
-        if book['title'] == title:
+        if book['id'] == id:
             book['quantity'] = books['quantity']
 
     for member in data['members']:
@@ -170,9 +193,9 @@ def return_book(member_name:str ,title:str):
             member['borrowed_books'] = members['borrowed_books']
     
     save_data(data)
-    print(Fore.GREEN + f"'{title}' has been returned successfully!" + Fore.RESET)
+    print(Fore.GREEN + f"'{books['title']} has been returned successfully!" + Fore.RESET)
 
-def view_borrowing(member_name):
+def view_borrowing(member_name:str):
     """
     This function is used to display the borrowed books of the user.
     
@@ -182,14 +205,18 @@ def view_borrowing(member_name):
         None.
     """
     member = find_member(member_name)
-
+    table_data = []
     if not member:
         print(Fore.RED + f"Member '{member_name}' not found!" + Fore.RESET)
         return
     
     if member['borrowed_books']:
-        print(Fore.GREEN + f"\n📖 {member_name}'s Borrowing History:" + Fore.RESET)
-        for book in member['borrowed_books']:
-            print(f"- {book}")
+        print(Fore.GREEN + f"{member_name}'s Borrowing History:" + Fore.RESET)
+        headers = ["id","Title", "Author", "Category"]
+        for book_id in member['borrowed_books']:
+            book = find_book(book_id['id'])
+            if book:
+                table_data.append([book['id'],book["title"], book["author"], book["category"]])
+        print(tabulate(table_data,headers=headers,tablefmt="double_grid"))
     else:
         print(Fore.RED + f"No borrowing history found for {member_name}." + Fore.RESET)

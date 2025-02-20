@@ -1,5 +1,6 @@
 from data_handler import load_data,save_data
 from colorama import Fore
+from tabulate import tabulate
 
 def add_book(title:str,author:str,category:str,quantity:int):
     """
@@ -14,22 +15,30 @@ def add_book(title:str,author:str,category:str,quantity:int):
         bool: True if the book was added, False if the book already exists
     """
     data = load_data()
+
+    new_id = 1
+    if data['books']:
+        max_id = 0
+        for book in data['books']:
+            max_id = book['id']
+        new_id = max_id + 1
+
     for book in data['books']:
         if book['title'] == title:
-            print(f"the book {title} is already exists in the library.")
+            print(Fore.RED + f"the book {title} is already exists in the library." + Fore.RESET)
             return
 
     data['books'].append({
+        "id" : new_id,
         "title" : title,
         "author" : author,
         "category" : category,
         "quantity" : quantity
     })
-    print(Fore.GREEN + "Book Added.")
-    print(Fore.RESET)
+    print(Fore.GREEN + "Book Added." + Fore.RESET)
     save_data(data)
 
-def remove_book(title:str):
+def remove_book(id:int):
     """
     This function is used to remove a book in the library.
 
@@ -40,16 +49,22 @@ def remove_book(title:str):
     """
     data = load_data()
     
+    for member in data['members']:
+        for borrowed_book in member['borrowed_books']:
+            if borrowed_book['id'] == id:
+                print(Fore.RED + f"The book '{borrowed_book['title']}' is currently borrowed by a member. Please ask them to return it first." + Fore.RESET)
+                return
     for book in data['books']:
-        if book['title'] == title:
+        if book['id'] == id:
             data['books'].remove(book)
-            save_data(data)
-            print(Fore.GREEN + f"the book {title} is has been removed successfully!")
-            print(Fore.RESET)
             break
     else:
-        print(Fore.RED + "The book was not found in the library.")
-        print(Fore.RESET)
+        print(Fore.RED + "The book was not found in the library." + Fore.RESET)
+    
+    save_data(data)
+    print(Fore.GREEN + f"the book {id} is has been removed successfully!"+ Fore.RESET)
+
+
 
 def list_book():
     """
@@ -65,8 +80,12 @@ def list_book():
         print(Fore.RED + "No books available in the library." + Fore.RESET)
     else:
         print(Fore.GREEN + "The book available in Library :" + Fore.RESET)
-        for book in books:
-            print(f"Book name : {book['title']} - Book author is : {book['author']} - The quantity is {book['quantity']} available")
+        books_sorted = sorted(books, key=lambda book: book['title'].lower())
+        table_data = []
+        for book in books_sorted:
+            table_data.append([book['id'], book['title'],book['author'],book['category'],book['quantity']])
+        headers = ["id","Title","Author","Category","quantity"]
+        print(tabulate(table_data,headers=headers,tablefmt="double_grid"))
     print("")
 
 
@@ -83,11 +102,11 @@ def search_book(query:str):
     result = []
 
     for book in data['books']:
-        if book['title'].lower().startswith(query.lower()):
+        if book['title'].lower().startswith(query.lower()) or book['author'].lower().startswith(query.lower()) or book['category'].lower().startswith(query.lower()) :
             result.append(book)
     return result
 
-def update_quantity (title,new_quantity):
+def update_quantity (id:int,new_quantity:int):
     """
     This function updates the quantity of a specific book in the library.
     
@@ -99,9 +118,8 @@ def update_quantity (title,new_quantity):
     """
     data = load_data()
     for book in data['books']:
-        if book['title'].lower() == title.lower():
+        if book['id'] == id:
             book['quantity'] = new_quantity
             save_data(data)
-            print(Fore.GREEN + f"The quantity of '{title}' has been updated to {new_quantity}." + Fore.RESET)
+            print(Fore.GREEN + f"The quantity of '{book['title']}' has been updated to {new_quantity}." + Fore.RESET)
             return
-    print(Fore.RED + f"Book '{title}' not found in the library." + Fore.RESET)

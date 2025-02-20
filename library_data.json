@@ -1,16 +1,22 @@
 {
     "books": [
         {
-            "title": "Python Workbook",
-            "author": "jamie chan",
-            "category": "coding",
-            "quantity": 5
+            "id": 1,
+            "title": "py",
+            "author": "t",
+            "category": "t",
+            "quantity": 4
         }
     ],
     "members": [
         {
-            "name": "raed",
-            "borrowed_books": []
+            "name": "raed mulla",
+            "borrowed_books": [
+                {
+                    "id": 1,
+                    "title": "py"
+                }
+            ]
         }
     ]
 }
