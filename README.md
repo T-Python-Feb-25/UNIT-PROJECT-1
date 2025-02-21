@@ -1,45 +1,43 @@
 # UNIT-PROJECT-1
 
+## Project: YouTube Downloader
+
+### Overview
+A command-line YouTube Video Downloader that allows users to download videos or audio from YouTube. The program supports multiple download options, maintains a download history, and provides a search feature for previously downloaded files.
+
+## Features
+- **Single Video Download** – Download a single video from YouTube.
+- **Multiple Video Download** – Download multiple videos at once.
+- **Audio Download** – Download only the audio from a video.
+- **Multiple Audio Download** – Download multiple audio files at once.
+- **Download History** – View a history of all downloaded files.
+- **View and Open Downloaded Files** – List downloaded videos or audio files and open their location.
+- **Search and Open Downloaded Files** – Search for previously downloaded videos or audio files using:
+  - **Partial Search** – Search using part of the filename.
+  - **Exact Search** – Search using the full filename.
+  - Open the file's location.
+- **Exit the Program** – Close the application when needed.
+
+## User Stories
+- **As a user, I want to download a single video from YouTube so that I can watch it offline.**
+- **As a user, I want to download multiple videos at the same time so that I don’t have to download them one by one.**
+- **As a user, I want to download just the audio from a YouTube video so that I can listen without watching the video.**
+- **As a user, I want to download multiple audio files at the same time so that I can save time.**
+- **As a user, I want to view my download history so that I can track what I’ve downloaded before.**
+- **As a user, I want to view my downloaded files (either videos or audio) so that I can organize my content easily and open them.**
+- **As a user, I want to search for my previously downloaded videos or audio so that I can find specific files quickly and open them.**
+  - **Partial Search** – Search using part of the filename.
+  - **Exact Search** – Search using the full filename.
+- **As a user, I want to exit the program when needed so that I can close it when I’m done.**
 
 
-## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
+## Usage
+- Type `1` to download a single video.
+- Type `2` to download multiple videos.
+- Type `3` to download only the audio from a video.
+- Type `4` to download multiple audio files.
+- Type `5` to view the download history.
+- Type `6` to list downloaded videos or audio files and open their location.
+- Type `7` to search for a downloaded video or audio file and open its location.
+- Type `8` to exit the program.
 
-- Must be interactive on CLI.
-- Use your coding skills in Python accurately.
-- Organize Your Code into modules & (or packages)
-- Use git & Github to track changes in your code.
-
-## Example Project :  An online Grocery Store :
-
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
-
-### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
-
-
-
-#### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
-
-
-### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
-
-### NOTE: before submitting the final project, please do the following command:
-`pip freeze > requirements.txt` to enable use to know & use the packages used in your project.
