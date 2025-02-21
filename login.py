@@ -1,5 +1,5 @@
-from colorama import Fore, Back, Style
 from art import *
+from colorama import Fore, Back, Style
 import json
 import os
 
@@ -11,7 +11,7 @@ def load_users():
         return {}
     
     try:
-        with open(users_file, "r") as file:
+        with open(users_file, "r", encoding="UTF-8") as file:
             return json.load(file)
     except (json.JSONDecodeError, FileNotFoundError):
         return {}
@@ -33,7 +33,7 @@ def register_user():
     
     name = input("👤 Enter your name: ").strip()
     
-    users[username] = {"name": name, "points": 0}
+    users[username] = {"name": name, "points": 0, "Rank": 0}
     save_users(users)
     
     print("✅ Registration successful! ✅")
@@ -64,8 +64,10 @@ def login_menu():
         elif choice == "2":
             return login_user()
         elif choice == "3":
-            print("👋 Goodbye!")
+            print(Back.CYAN + "THANK YOU LET US SEE YOU AGAIN")
+            tprint("GOOD BYE", font = "rnd-medium")
             exit()
+            return False
         else:
             print("⛔️ Invalid choice, try again ⛔️")
 

@@ -1,11 +1,12 @@
 from colorama import Fore, Back, Style
 from art import *
-from list import load_leaderboard 
-from login import login_menu  
+from login import load_users, save_users, login_menu 
+
 
 
 def questions1():
-    total = 0 
+    users = load_users()
+    total = users[username]["points"]
     print("FIRST QUESTION: \n")
     while True:
         try:
@@ -17,6 +18,8 @@ def questions1():
             if ques1 == "word":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")  
                 next1 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next1 == "ok":
@@ -24,17 +27,16 @@ def questions1():
                    break
             elif  ques1 == "red":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
-                point11 = total
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️")
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
 
 
 def question2():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("SECOND QUESTION: \n")
     
     while True:
@@ -47,6 +49,8 @@ def question2():
             if ques2 == "option":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")  
                 next2 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next2 == "ok":
@@ -54,17 +58,16 @@ def question2():
                     break
             elif  ques2 == "pink":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
-                point11 = total
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️")
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
 
 
 def question3():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("THIRD QUESTION:")
     while True:
         try:
@@ -76,6 +79,8 @@ def question3():
             if ques3 == "number one":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next3 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next3 == "ok":
@@ -83,16 +88,15 @@ def question3():
                     break
             elif ques3 == "number 1":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
-                point11 = total
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
             
             
 def question4():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("FOURTH QUESTION:")
     while True:
         try:
@@ -104,6 +108,8 @@ def question4():
             if ques4 == "right":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next4 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next4 == "ok":
@@ -111,28 +117,27 @@ def question4():
                     break
             elif ques4 == "answer":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
-                point11 = total
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
             
 def question5():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("FIFTH QUESTION:")
     while True:
         try:
             print("Q5 CHOOSE FIRST ANSWER : ❔")
-            answer9 = (Back.LIGHTWHITE_EX + "1️⃣  SECOND")  
-            answer10 = (Back.LIGHTWHITE_EX + "2️⃣  FIRST")
+            answer9 = (Back.MAGENTA + "1️⃣  SECOND")  
+            answer10 = (Back.MAGENTA + "2️⃣  FIRST")
             print(answer9 + Style.RESET_ALL, "               " + answer10 + Style.RESET_ALL)
             ques5 = input("").lower().strip()
             if ques5 == "second":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
-                point11 = total
-                print(point11)
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next5 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next5 == "ok":
@@ -141,27 +146,27 @@ def question5():
             elif ques5 == "first":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
 
 def question6():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("SIXTH QUESTION:")
     while True:
         try:
             print("Q6 WHICH WORD IS SPELLED CORRECTLY : ❔")
-            answer11 = (Back.LIGHTWHITE_EX + "1️⃣  CORRECTLY")  
-            answer12 = (Back.LIGHTWHITE_EX + "2️⃣  WRONG")
+            answer11 = (Back.GREEN + "1️⃣  CORRECTLY")  
+            answer12 = (Back.GREEN + "2️⃣  WRONG")
             print(answer11 + Style.RESET_ALL, "               " + answer12 + Style.RESET_ALL)
             ques6 = input("").lower().strip()
             if ques6 == "correctly":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
-                point11 = total
-                print(point11)
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next6 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next6 == "ok":
@@ -170,26 +175,26 @@ def question6():
             elif ques6 == "wrong":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
     
 def question7():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("SEVENTH QUESTION:")
     while True:
         try:
             print("Q7 WHICH ONE IS THE ODD ONE OUT : ❔")
-            answer13 = (Back.LIGHTWHITE_EX + "1️⃣  THIS ONE")  
-            answer14 = (Back.LIGHTWHITE_EX + "2️⃣  THE OTHER ONE")
+            answer13 = (Back.YELLOW + "1️⃣  THIS ONE")  
+            answer14 = (Back.YELLOW + "2️⃣  THE OTHER ONE")
             print(answer13 + Style.RESET_ALL, "               " + answer14 + Style.RESET_ALL)
             ques7 = input("").lower().strip()
             if ques7 == "this one":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
-                point11 = total
-                print(point11)
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next7 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next7 == "ok":
@@ -198,26 +203,26 @@ def question7():
             elif ques7 == "this other one":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
 def question8():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("EIGHTH QUESTION:")
     while True:
         try:
             print("Q8 WHAT HAPPENS IF YOU PICK THIS OPTION : ❔")
-            answer15 = (Back.LIGHTWHITE_EX + "1️⃣  NOTHING")  
-            answer16 = (Back.LIGHTWHITE_EX + "2️⃣  YOU WIN")
+            answer15 = (Back.BLUE + "1️⃣  NOTHING")  
+            answer16 = (Back.BLUE + "2️⃣  YOU WIN")
             print(answer15 + Style.RESET_ALL, "               " + answer16 + Style.RESET_ALL)
             ques8 = input("").lower().strip()
             if ques8 == "nothing":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
-                point11 = total
-                print(point11)
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next8 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next8 == "ok":
@@ -226,54 +231,54 @@ def question8():
             elif ques8 == "you win":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
 def question9():
-    total = 0
+    users = load_users()
+    total = users[username]["points"]
     print("NINTH QUESTION:")
     while True:
         try:
             print("Q9 WHICH OPTION IS THE CORRECT ONE : ❔")
-            answer17 = (Back.LIGHTWHITE_EX + "1️⃣  THE INCORRECT ONE")  
-            answer18 = (Back.LIGHTWHITE_EX + "2️⃣  THE CORRECT ONE")
+            answer17 = (Back.RED + "1️⃣  THE INCORRECT ONE")  
+            answer18 = (Back.RED + "2️⃣  THE CORRECT ONE")
             print(answer17 + Style.RESET_ALL, "               " + answer18 + Style.RESET_ALL)
             ques9 = input("").lower().strip()
             if ques9 == "the correct one":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
-                point11 = total
-                print(point11)
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next9 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next9 == "ok":
-                    question10()
+                    question10(username)
                     break
             elif ques9 == "the incorrect one":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
-def question10():
-    total = 0
+def question10(username):
+    users = load_users()
+    total = users[username]["points"]
     print("TENTH QUESTION:")
     while True:
         try:
             print("Q10 WHICH NUMBER COMES LAST IN THIS LIST : ❔")
-            answer17 = (Back.LIGHTWHITE_EX + "1️⃣  3")  
-            answer18 = (Back.LIGHTWHITE_EX + "2️⃣  2")
-            print(answer17 + Style.RESET_ALL, "               " + answer18 + Style.RESET_ALL)
-            ques10 = input("").lower().strip()
+            answer19 = (Back.CYAN + "1️⃣  3")  
+            answer20 = (Back.CYAN + "2️⃣  2")
+            print(answer19 + Style.RESET_ALL, "               " + answer20 + Style.RESET_ALL)
+            ques10 = (input("").lower().strip())
             if ques10 == "3":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
-                point11 = total
-                print(point11)
+                users[username]["points"] = total
+                save_users(users)
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next10 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next10 == "ok":
@@ -282,22 +287,28 @@ def question10():
             elif ques10 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
-                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️" + Style.RESET_ALL)
-                print(Style.RESET_ALL)
+                print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
         except Exception as e:
             print(e)
             
             
+
+def load_leaderboard():
+    users = load_users()
+
+    sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
+    return sorted_users
+
+
 def scoreboard():
-    data = load_leaderboard()
-    if not data:
+    leaderboard = load_leaderboard()
+    if not leaderboard:
         print("\n🚀 No leaderboard data available yet.\n")
         return
 
     print("\n🏆 Leaderboard 🏆\n")
-    for player in data:
-       print(f"{player} - {data[player]['points']} points")
-
+    for rank, (username, data) in enumerate(leaderboard, start=1):
+        print(f"{rank}️⃣ {data['name']} ({username}) - {data['points']} points")
 
 
 def exit1():
@@ -317,22 +328,16 @@ def trophy():
 
 def continue1():
     while True:
-        print("-PART 1️⃣\n-PART 2️⃣\n-PART 3️⃣\n-PART 4️⃣\n-EXIT 5️⃣")
+        print("-PART 1️⃣\n-PART 2️⃣\n-EXIT 3️⃣")
         choice2 = input("CHOOSE AN OPTION: ")
         if choice2 == "1":
             questions1()
             continue
         elif choice2 == "2":
-            question2()
-            continue
-        elif choice2 == "3":
-            question3()
-            continue
-        elif choice2 == "4":
             output = question5()
             if output == False:
                 return False
-        elif choice2 == "5":
+        elif choice2 == "3":
             return False        
 
 
