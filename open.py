@@ -2,7 +2,7 @@ import subprocess
 from colorama import Fore
 import os
 
-def open_media():
+def open_media_folder():
     '''
     Opens a media folder based on user input.
 
