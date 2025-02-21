@@ -11,7 +11,7 @@ def search(word:str):
         None
     '''
     try:
-        ist_of_data = load_json_data()
+        list_of_data = load_json_data()
         while True:
             count = 1
             choice = input("Do you want Exact Match or Partial Match - E for Exact - P for Partial: ")
