@@ -6,6 +6,7 @@ from video_downloader import download, batch_download
 from audio_downloader import audio_download, batch_download as batch_download_audio
 from view import view , view_history
 from search import search
+from open import open_media
 
 welcome = text2art("Welcome To Youtube Downloader",font="doom")
 print(Fore.RED + welcome + Fore.RESET)
@@ -67,18 +68,15 @@ while True:
 		input("Enter to continue")
 	elif choice == "6":
 		view()
+		open_media()
 		input("Enter to continue")
 	elif choice == "7":
 		word = input("Enter word or phrase to search for: ")
 		search(word)
+		open_media()
 		input("Enter to continue")
 	elif choice == "8":
 		print(Fore.CYAN + "Goodbye See You Soon" + Fore.RESET)
 		break
 	else:
 		print(Fore.RED + "Invalid Choice - Try Again" + Fore.RESET)
-
-
-
-# https://youtu.be/7LxA9qXUY5k?si=898kZs_R7GgWoc4H
-# https://youtu.be/QG5aEmS9Fu0?si=ZYrGNoZeIQC5-kRm

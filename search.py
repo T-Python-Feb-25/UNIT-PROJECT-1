@@ -11,8 +11,8 @@ def search(word:str):
         None
     '''
     try:
-      list_of_data = load_json_data()
-      while True:
+        ist_of_data = load_json_data()
+        while True:
             count = 1
             choice = input("Do you want Exact Match or Partial Match - E for Exact - P for Partial: ")
             if choice.lower() == "e":
@@ -34,7 +34,8 @@ def search(word:str):
             else:
                 print(Fore.RED + "Invalid Choice" + Fore.RESET)
     except Exception:
-	    print(Fore.RED + "There is no download history" + Fore.RESET)
+            print(Fore.RED + "There is no download history" + Fore.RESET)
+            return 
 
 
 

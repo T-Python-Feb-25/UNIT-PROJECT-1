@@ -1,6 +1,7 @@
 # Importing Libraries and modules
 from logger import load_json_data
 from colorama import Fore
+from tabulate import tabulate
 import json
 
 def view_videos():
@@ -20,6 +21,8 @@ def view_videos():
               count+=1
       if count == 1:
         print(Fore.RED + "No Viedos Downloaded" + Fore.RESET)
+        
+    
     except Exception:
 	    print(Fore.RED + "There is no download history" + Fore.RESET)
 
@@ -46,20 +49,17 @@ def view_audios():
 
 def view_history():
 	'''
-  Displays the download history from the 'history.json' file.
+    Displays the download history from the 'history.json' file.
 	Args:
 			None
 	Returns:
 			None
 	'''
 	try:
-			with open("history.json" ,"r", encoding="UTF-8") as log:
-				all_json_data = json.load(log)
-				for videos in all_json_data:
-					for video in videos:
-						print(f"- {video.capitalize() }: {videos[video]}")
-					print(Fore.LIGHTBLUE_EX + ("-" * 150) + Fore.RESET)
-	except Exception:
+		with open("history.json", "r", encoding="UTF-8") as log:
+			all_json_data = json.load(log)
+			print(Fore.LIGHTBLUE_EX + tabulate(all_json_data, headers="keys", tablefmt="grid") + Fore.RESET)
+	except Exception as e:
 		print(Fore.RED + "There is no download history" + Fore.RESET)
 
 def view():
@@ -74,6 +74,7 @@ def view():
       choice = input("Do you want to search for 'video or audio' v for video - a for audio: ")
       if choice.lower().strip() == "a":
           view_audios()
+         
           break
       elif choice.lower().strip() == "v":
           view_videos()
