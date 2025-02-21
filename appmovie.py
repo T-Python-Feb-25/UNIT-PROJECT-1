@@ -12,10 +12,10 @@ import os
 class AppMovie:    
     def __init__(self):
         load_dotenv()
-        self.api_key = os.getenv('api_key_movie')
-        self.base_url = 'https://api.themoviedb.org/3/'
-        self.movie=Movie(self.api_key)
-        self.tvshow=Tvshow(self.api_key)
+        self.__api_key = os.getenv('api_key_movie')
+        self.__base_url = 'https://api.themoviedb.org/3/'
+        self.movie=Movie(self.__api_key)
+        self.tvshow=Tvshow(self.__api_key)
         self.user=User()
         self.ai=Ai()
     def configure(self):
@@ -81,63 +81,69 @@ class AppMovie:
             print(f"id: {tv_shows["id"]}\nTitle: {tv_shows["title"]}\nRelease Date: {tv_shows["release_date"]}\nGenres: {" ".join([gen for gen in tv_shows["genres"]])}\nnumber of seasons: {tv_shows["number_of_seasons"]}")
     def add_watchlist(self,id,type):
         if type=="movie":
-            self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["movie_watch_list"].append(id)
-            self.user.save_data()
-            print("The movie is added to the watchlist.")
+            if id not in   self.user.get_user_data_login()["movie"]["movie_watch_list"]:
+                self.user.get_user_data_login()["movie"]["movie_watch_list"].append(id)
+                self.user.save_data()
+                print("The movie is added to the watchlist.")
+            else:
+                print("The movie is already added to the watchlist.")
         else:
-            self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["tv_watch_list"].append(id)
-            self.user.save_data()
-            print("The tv show is added to the watchlist.")
+            if id not in self.user.get_user_data_login()["tv"]["tv_watch_list"]:
+                self.user.get_user_data_login()["tv"]["tv_watch_list"].append(id)
+                self.user.save_data()
+                print("The tv show is added to the watchlist.")
+            else:
+                print("The tv show is already added to the watchlist.")
     def add_rating_and_reviews(self,id,type,rating,reviews):
         alrady_rated=False
         if type=="movie":
             
-            for movie_id in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["rating"]:
+            for movie_id in self.user.get_user_data_login()["movie"]["rating"]:
                 if id in movie_id:
                     alrady_rated=True
             if alrady_rated==False:
-                self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["rating"].append({id:{"review":reviews,"rating":rating}})
+                self.user.get_user_data_login()["movie"]["rating"].append({id:{"review":reviews,"rating":rating}})
                 self.user.save_data()
             else:
                 print("you alrady rating the movie")
         else:
-            for tv_show_id in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["rating"]:
+            for tv_show_id in self.user.get_user_data_login()["tv"]["rating"]:
                 if id in tv_show_id:
                     alrady_rated=True
             if alrady_rated==False:
-                self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["rating"].append({id:{"review":reviews,"rating":rating}})
+                self.user.get_user_data_login()["tv"]["rating"].append({id:{"review":reviews,"rating":rating}})
                 self.user.save_data()
             else:
                 print("you alrady rating the movie")
 
     def watch_list(self,type):
         if type=="tvshow":
-            if self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["tv_watch_list"]:
+            if  self.user.get_user_data_login()["tv"]["tv_watch_list"]:
                 print("your tvshow:")
                 print("-"*10)
-                for watchlist in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["tv_watch_list"]:
+                for watchlist in  self.user.get_user_data_login()["tv"]["tv_watch_list"]:
                     self.get_basic_info_by_id(watchlist,"tv")
                     print("-"*10)
                 
         else:
-            if self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["movie_watch_list"]:
+            if  self.user.get_user_data_login()["movie"]["movie_watch_list"]:
                 print("your movie:")
                 print("-"*10)
-                for watchlist in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["movie_watch_list"]:
+                for watchlist in  self.user.get_user_data_login()["movie"]["movie_watch_list"]:
                     self.get_basic_info_by_id(watchlist,"movie")
                     print("-"*10)
     def delate_from_watch_list(self,id,type):
         if type=="movie":
-            if id in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["movie_watch_list"]:
-                self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["movie_watch_list"].remove(id)
+            if id in  self.user.get_user_data_login()["movie"]["movie_watch_list"]:
+                self.user.get_user_data_login()["movie"]["movie_watch_list"].remove(id)
                 self.user.save_data()
                 print("The movie has been removed from your watch list.")
             else:
                 print("Invaild id")
         else:
 
-            if id in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["tv_watch_list"]:
-                self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["tv_watch_list"].remove(id)
+            if id in  self.user.get_user_data_login()["tv"]["tv_watch_list"]:
+                self.user.get_user_data_login()["tv"]["tv_watch_list"].remove(id)
                 self.user.save_data()
                 print("The tvshow has been removed from your watch list.")
 
@@ -145,19 +151,19 @@ class AppMovie:
             else:
                 print("Invaild id")
     def already_watched(self):
-        if self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["rating"]:
+        if  self.user.get_user_data_login()["tv"]["rating"]:
             print("your tvshow:")
             print("-"*10)
-            for id in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["tv"]["rating"]:
+            for id in  self.user.get_user_data_login()["tv"]["rating"]:
                  for i in id:
                     tv_show=self.tvshow.get_basic_info_by_id(i)
                     print(tv_show)
                     print(f"{tv_show["id"]}\ntitle: {tv_show["title"]}\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
                     print("-"*10)
-        if self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["rating"]:
+        if  self.user.get_user_data_login()["movie"]["rating"]:
             print("your movie:")
             print("-"*10)
-            for id in self.user.users_data[self.user.get_user_useername()][self.user.get_user_password()]["movie"]["rating"]:
+            for id in  self.user.get_user_data_login()["movie"]["rating"]:
                 for i in id:
                     movie=self.movie.get_basic_info_by_id(i)
                     print(f"id: {movie["id"]}\ntitle: {movie["title"]}\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")

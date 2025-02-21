@@ -4,27 +4,9 @@
             "movie": {
                 "rating": [
                     {
-                        "278": {
-                            "review": "owq",
+                        "85": {
+                            "review": "woow",
                             "rating": 10
-                        }
-                    },
-                    {
-                        "290": {
-                            "review": "orowqd",
-                            "rating": 9
-                        }
-                    },
-                    {
-                        "1084199": {
-                            "review": "owoef",
-                            "rating": 9
-                        }
-                    },
-                    {
-                        "109": {
-                            "review": "oeow",
-                            "rating": 2
                         }
                     }
                 ],
@@ -33,8 +15,8 @@
             "tv": {
                 "rating": [
                     {
-                        "1399": {
-                            "review": "owocvw",
+                        "1398": {
+                            "review": "woow",
                             "rating": 10
                         }
                     }

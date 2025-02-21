@@ -1,10 +1,10 @@
 import requests
 class Movie:
     def __init__(self,api_key):
-        self.api_key = api_key
-        self.base_url = 'https://api.themoviedb.org/3/'
+        self.__api_key = api_key
+        self.__base_url = 'https://api.themoviedb.org/3/'
     def search_query(self,query):
-        response=requests.get(f"{self.base_url}search/movie?query={query}&api_key={self.api_key}").json()
+        response=requests.get(f"{self.__base_url}search/movie?query={query}&api_key={self.__api_key}").json()
         movies=[]
         for movie in response["results"]:
             movie_info={
@@ -15,7 +15,7 @@ class Movie:
             movies.append(movie_info)
         return movies
     def get_more_info_by_id(self, id):
-        movie = requests.get(f"{self.base_url}movie/{id}?&api_key={self.api_key}")
+        movie = requests.get(f"{self.__base_url}movie/{id}?&api_key={self.__api_key}")
         movie.raise_for_status()
         movie = movie.json()        
         movie_info = {
@@ -33,7 +33,7 @@ class Movie:
         return movie_info
 
     def get_popular_movie(self):
-        response=requests.get(f"{self.base_url}movie/popular?&api_key={self.api_key}").json()
+        response=requests.get(f"{self.__base_url}movie/popular?&api_key={self.__api_key}").json()
         movies=[]
         for movie in response["results"]:
             movie_info={
@@ -46,7 +46,7 @@ class Movie:
             movies.append(movie_info)
         return movies
     def get_top_rated_movie(self):
-        response=requests.get(f"{self.base_url}movie/top_rated?&api_key={self.api_key}").json()
+        response=requests.get(f"{self.__base_url}movie/top_rated?&api_key={self.__api_key}").json()
         movies=[]
         for movie in response["results"]:
             movie_info={
@@ -61,7 +61,7 @@ class Movie:
         return movies
        
     def get_basic_info_by_id(self,id):
-        movie=requests.get(f"{self.base_url}movie/{id}?&api_key={self.api_key}")
+        movie=requests.get(f"{self.__base_url}movie/{id}?&api_key={self.__api_key}")
         movie.raise_for_status()
         movie=movie.json()
         movie_info = {
