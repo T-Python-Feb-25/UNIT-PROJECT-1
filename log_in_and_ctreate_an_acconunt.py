@@ -12,6 +12,8 @@ information to Json's file
 from colorama import Fore, Back, Style
 import json
 import emoji
+#مكتبة ضمنية في البايثون للتحقق من صحة طريقه متابة الايميل المدخل من المستخدم 
+import re 
 
 #دالة لجلب معلومات حسابات المستخدمين من ملف جيسون 
 def get_users():
@@ -50,6 +52,12 @@ def users_login(email,password ):
                 print(Fore.RED+"Incorrect password, please check it")
                 password= input(Fore.MAGENTA+"Enter your password again")
 
+ # دالة للتحقق من صحة صيغة الايميبل المدخل من قبل المستخدم 
+def email_format_check(email):
+    format=r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2, }$'
+    return re.match(format ,email)
+
+
 
 #لا يمكن للمستخدم الدخول الى البرنامج بدون ان يكون له حساب فيه
 print(Fore.MAGENTA+"welcome to travelmate :airplane:")
@@ -58,18 +66,22 @@ userChoice1=input(Fore.MAGENTA+"do you want to \n1:Create a new account  2:Sign 
 if userChoice1=="1":
     firstName=input(Fore.MAGENTA+"Enter your first name\n")
     lastName=input(Fore.MAGENTA+"Enter your last name\n")
-    email=input(Fore.MAGENTA+"Enter your email\n")
-    password=input(Fore.MAGENTA+"Enter your password\n")
-# في حال لم تتطابق كلمة المرور مع تأكيدها لا يتم انشاء الحساب حتى يدخل  المستخدم تأكيد كلمة المرور الصحيح
     while True:
-        passwordConfirmation=input(Fore.RED+"Enter your password again for Confirmation\n")
+        email=input(Fore.MAGENTA+"Enter your email\n")
+        if not email_format_check(email):
+            print (Fore.RED+"the email format is invalid")
+
+        password=input(Fore.MAGENTA+"Enter your password\n")
+# في حال لم تتطابق كلمة المرور مع تأكيدها لا يتم انشاء الحساب حتى يدخل  المستخدم تأكيد كلمة المرور الصحيح
+    
+        passwordConfirmation=input(Fore.RED+"Confirm your password please \n")
 
         if password==passwordConfirmation:
             print(Fore.MAGENTA+"Account created successfully!! Welcome to travelmate {}".format(firstName))
             add_users(firstName, lastName, email, password)
             break
         else :
-            print(Fore.RED+"The passwords don't match")
+            print(Fore.RED+"The passwords don't match ,try again please")
 
 
 #بناءا على اختيار المستخدم 2 يتم تسجيل الدخول في البرنامج 
@@ -86,6 +98,7 @@ elif userChoice1=="2":
             break
                 
             users_login(email, password)
+
 
 #في حال ادخل المستخدم خيار خاطئ سينبؤه البرنامج بذلك
 else:
