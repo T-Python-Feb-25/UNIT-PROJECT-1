@@ -1,7 +1,8 @@
 import json
 import random
+import time
 from DataStorage import load_data, save_data
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 
@@ -47,48 +48,87 @@ def random_workout_challenge():
 
 def workout_categories():
     workouts = {
-        "1": {"name": "Strength Training", "duration": "45-60 min", "calories_burned": "250-400 kcal"},
-        "2": {"name": "Running", "duration": "30-45 min", "calories_burned": "400-800 kcal"},
-        "3": {"name": "Obstacle Course Training", "duration": "45-60 min", "calories_burned": "500-1000 kcal"},
-        "4": {"name": "Resistance Band Training", "duration": "30-45 min", "calories_burned": "200-400 kcal"},
-        "5": {"name": "Calisthenics (Bodyweight Training)", "duration": "30-60 min", "calories_burned": "300-600 kcal"},
-        "6": {"name": "Trampoline Workout", "duration": "20-40 min", "calories_burned": "250-500 kcal"},
-        "7": {"name": "HIIT", "duration": "20-30 min", "calories_burned": "350-600 kcal"},
-        "8": {"name": "Yoga", "duration": "30-60 min", "calories_burned": "150-300 kcal"},
-        "9": {"name": "Cycling", "duration": "40-60 min", "calories_burned": "400-700 kcal"},
-        "10": {"name": "Tennis", "duration": "50-60 min", "calories_burned": "600-900 kcal"},
-        "11": {"name": "Jump Rope", "duration": "10-20 min", "calories_burned": "200-400 kcal"},
-        "12": {"name": "Rowing", "duration": "30-45 min", "calories_burned": "300-600 kcal"},
-        "13": {"name": "Swimming", "duration": "30-60 min", "calories_burned": "350-700 kcal"},
-        "14": {"name": "Pilates", "duration": "30-45 min", "calories_burned": "200-400 kcal"},
-        "15": {"name": "Boxing", "duration": "30-45 min", "calories_burned": "400-700 kcal"},
-        "16": {"name": "Dance Workout", "duration": "30-60 min", "calories_burned": "300-600 kcal"},
-        "17": {"name": "Hiking", "duration": "60-120 min", "calories_burned": "400-900 kcal"},
-        "18": {"name": "Stair Climbing", "duration": "20-40 min", "calories_burned": "400-800 kcal"},
-        "19": {"name": "CrossFit", "duration": "30-60 min", "calories_burned": "500-900 kcal"},
-        "20": {"name": "Back to Main Menu"}
+        "1": {"name": "Strength Training", "calories_burned": (250, 400)},
+        "2": {"name": "Running", "calories_burned": (400, 800)},
+        "3": {"name": "Obstacle Course Training", "calories_burned": (500, 1000)},
+        "4": {"name": "Resistance Band Training", "calories_burned": (200, 400)},
+        "5": {"name": "Calisthenics (Bodyweight Training)", "calories_burned": (300, 600)},
+        "6": {"name": "HIIT", "calories_burned": (350, 600)},
+        "7": {"name": "Yoga", "calories_burned": (150, 300)},
+        "8": {"name": "Cycling", "calories_burned": (400, 700)},
+        "9": {"name": "Jump Rope", "calories_burned": (200, 400)},
+        "10": {"name": "Swimming", "calories_burned": (350, 700)},
+        "11": {"name": "Boxing", "calories_burned": (400, 700)},
+        "12": {"name": "Dance Workout", "calories_burned": (300, 600)},
+        "13": {"name": "Hiking", "calories_burned": (400, 900)},
+        "14": {"name": "CrossFit", "calories_burned": (500, 900)},
+        "15": {"name": "Rowing Machine", "calories_burned": (300, 600)},
+        "16": {"name": "Pilates", "calories_burned": (180, 350)},
+        "17": {"name": "Martial Arts", "calories_burned": (500, 800)},
+        "18": {"name": "Tennis", "calories_burned": (400, 700)},
+        "19": {"name": "Stair Climbing", "calories_burned": (400, 800)},
+        "20": {"name": "Elliptical Trainer", "calories_burned": (300, 600)},
+        "21": {"name": "Powerlifting", "calories_burned": (250, 500)},
+        "22": {"name": "Parkour", "calories_burned": (500, 1000)},
+        "23": {"name": "Skating (Roller/Inline)", "calories_burned": (300, 700)},
+        "24": {"name": "Wall Climbing (Indoor/Outdoor)", "calories_burned": (400, 800)},
+        "25": {"name": "Football (Soccer)", "calories_burned": (450, 900)},
+        "26": {"name": "Basketball", "calories_burned": (500, 800)},
+        "27": {"name": "Badminton", "calories_burned": (350, 600)},
+        "28": {"name": "Table Tennis", "calories_burned": (200, 400)},
+        "29": {"name": "Horseback Riding", "calories_burned": (200, 500)},
+        "30": {"name": "Golf (Walking & Carrying Clubs)", "calories_burned": (250, 500)},
+        "31": {"name": "Surfing", "calories_burned": (250, 600)},
+        "32": {"name": "Skiing/Snowboarding", "calories_burned": (400, 900)},
+        "33": {"name": "Ultimate Frisbee", "calories_burned": (400, 700)},
+        "34": {"name": "Wrestling", "calories_burned": (500, 900)},
+        "35": {"name": "Back to Main Menu"}
     }
+    
+    
     
     while True:
         print("\n📌 Workout Categories:")
         for key, workout in workouts.items():
             print(f"{key}. {workout['name']}")
 
-        choice = input("\nSelect a workout (1-20): ").strip()
+        choice = input("\nSelect a workout (1-35): ").strip()
         
         if choice in workouts:
-            if choice == "20":
+            if choice == "35":
                 print("\nReturning to Main Menu...")
                 break
-            else:
-                selected = workouts[choice]
-                print(f"\n🏋️   Workout: {selected['name']}")
-                print(f"⏳  Duration: {selected['duration']}")
-                print(f"🔥  Estimated Calories Burned: {selected['calories_burned']}")
-                print("💪  Just do it ")
 
+            workout_name = workouts[choice]["name"]
+            calorie_range = workouts[choice]["calories_burned"]
+            start_workout_timer(workout_name, calorie_range)
         else:
             print("\n❌ Invalid choice. Please select a number from the list.")
+
+def start_workout_timer(workout_name, calorie_range):
+    print(f"\n⏳ Starting {workout_name} workout timer... Press Enter to stop when you're done.")
+
+    start_time = time.time()
+    input()  
+    end_time = time.time()
+
+    elapsed_time = end_time - start_time  
+    minutes = round(elapsed_time / 60, 2)
+
+    calories_burned = round(random.uniform(*calorie_range) * (minutes / 60), 2)
+
+    print(f"\n✅ Workout Completed! You spent {minutes} min on {workout_name}, burning 🔥 {calories_burned} kcal.")
+
+    data = load_data()
+    data.append({
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "type": "category",
+        "workout": workout_name,
+        "time_spent": f"{minutes} min",
+        "calories_burned": f"{calories_burned} kcal"
+    })
+    save_data(data)
+
 
 
 def log_workout():
@@ -104,27 +144,21 @@ def log_workout():
     weight = integer_input("\nEnter weight (kg/lbs):\n ", 
                            "\nPlease enter a valid number for weight.\n")
     
-    workout_time = calculate_workout_time(sets, reps)
-    print(f"\n🕒 Estimated Workout Time: {workout_time} minutes")
 
-
-    while True:
-        date_input = input("\nEnter workout date (YYYY-MM-DD):\n ").strip()
-        try:
-            date = datetime.strptime(date_input, "%Y-%m-%d").strftime('%Y-%m-%d')
-            break  
-        except ValueError:
-            print("\nInvalid date format. Please enter a valid date (YYYY-MM-DD).\n")
 
     calories = calculate_calories(exercise, sets, reps, weight)
+    best_weight = update_best_record(exercise, weight)
+
 
     workout_entry = {
-        "date": date,  
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "type": "logged",
         "exercise": exercise,
         "sets": sets,
         "reps": reps,
         "weight": weight,
-        "calories_burned": calories
+        "calories_burned": calories, 
+        "best_weight": best_weight       
     }
 
     data = load_data()
@@ -136,34 +170,48 @@ def log_workout():
 def view_workout():
     data = load_data()
     if not data:
-        print("No workouts logged until now! ")
+        print("\n📂 No workouts logged yet!")
         return
-    else:
-         print("\n📜 Workout History:\n" + "-" * 32)  
+
+    print("\n📜 Workout History:\n" + "-" * 40)
     for workout in data:
         print(f"📅  Date: {workout['date']}")
-        print(f"🏋️   Exercise: {workout['exercise']}")
-        print(f"🔢  Sets: {workout['sets']} | Reps: {workout['reps']} | Weight: {workout['weight']}kg | 🔥 {workout['calories_burned']} cal")
-        print("-" * 32)  
+
+        if "type" in workout and workout["type"] == "logged":
+            print(f"🏋️  Exercise: {workout['exercise']}")
+            print(f"🔢  Sets: {workout['sets']} | Reps: {workout['reps']} | Weight: {workout['weight']} kg/lbs")
+            print(f"🔥  Calories Burned: {workout.get('calories_burned', 'N/A')} kcal")
+            print(f"🏆  Best Weight: {workout.get('best_weight', 'N/A')} kg/lbs")
+        else:
+            print(f"🏋️  Workout: {workout.get('workout', 'N/A')}")
+            print(f"⏳ Time Spent: {workout.get('time_spent', 'N/A')} | 🔥 Calories Burned: {workout.get('calories_burned')}")
+
+        print("-" * 40)
+
+
 
 def search_workout():
-
-    ''' Search for a workout by exercise name '''
-
-    search_term = input("Enter exercise name to search: ").strip().lower()
+    """ Search for a workout by exercise or workout category name """
+    
+    search_term = input("Enter workout/exercise name to search: ").strip().lower()
     data = load_data()
     results = []
 
     for w in data:
-        if w["exercise"].strip().lower() == search_term:  
+        workout_name = w.get("exercise", w.get("workout", "")).strip().lower()  # Check both keys
+        if workout_name == search_term:
             results.append(w)
-        
+
     if results: 
         print("\n🔍 Search Results:\n" + "-" * 32)  
         for workout in results:
             print(f"📅  Date: {workout['date']}")
-            print(f"🏋️   Exercise: {workout['exercise']}")
-            print(f"🔢  Sets: {workout['sets']} | Reps: {workout['reps']} | Weight: {workout['weight']}kg")
+            if "exercise" in workout:  
+                print(f"🏋️  Exercise: {workout['exercise']}")
+                print(f"🔢  Sets: {workout['sets']} | Reps: {workout['reps']} | Weight: {workout['weight']} kg")
+            else:  
+                print(f"🏋️  Workout: {workout.get('workout', 'N/A')}")
+                print(f"⏳ Time Spent: {workout.get('time_spent', 'N/A')} | 🔥 Calories Burned: {workout.get('calories_burned', 'N/A')}")
             print("-" * 32) 
     else:
         print("\n❌ No matching workouts found.\n")
@@ -177,11 +225,14 @@ def delete_workout():
         return
 
     print("\n🗑 Delete a Workout")
-    print("-" * 32)
+    print("-" * 40)
     
-    # Display workouts with an index
     for index, workout in enumerate(data, start=1):
-        print(f"{index}. 📅 {workout['date']} | 🏋️ {workout['exercise']} | 🔢 {workout['sets']} sets x {workout['reps']} reps | ⚖ {workout['weight']} kg/lbs")
+        date = workout.get("date", "N/A")
+        if "exercise" in workout:  # Logged workout
+            print(f"{index}. 📅 {date} | 🏋️ {workout['exercise']} | 🔢 {workout['sets']} sets x {workout['reps']} reps | ⚖ {workout['weight']} kg/lbs")
+        else:  # Workout category
+            print(f"{index}. 📅 {date} | 🏋️ {workout.get('workout', 'N/A')} | ⏳ {workout.get('time_spent', 'N/A')} | 🔥 {workout.get('calories_burned', 'N/A')} kcal")
 
     while True:
         try:
@@ -196,41 +247,81 @@ def delete_workout():
         except ValueError:
             print("\n❌ Please enter a valid number.")
 
-    # Confirm deletion
     confirm = input(f"\n⚠ Are you sure you want to delete workout {choice}? (yes/no): ").strip().lower()
     if confirm == "yes":
         deleted_workout = data.pop(choice - 1)
         save_data(data)
-        print(f"\n✅ Workout '{deleted_workout['exercise']}' on {deleted_workout['date']} deleted successfully.")
+        print(f"\n✅ Workout '{deleted_workout.get('exercise', deleted_workout.get('workout', 'N/A'))}' on {deleted_workout.get('date', 'N/A')} deleted successfully.")
     else:
         print("\n✅ Deletion cancelled.")
 
 
-
 def calculate_calories(exercise, sets, reps, weight):
     
-    MET_VALUES = {
-        "running": 9.8, "cycling": 8.0, "jump rope": 12.0,
-        "push-up": 4.0, "squats": 5.0, "pull-up": 5.0,
-        "lunges": 5.5, "burpees": 8.0, "plank": 3.5
-    }
+    MET_values = {} 
 
-    exercise_lower = exercise.lower()
-
-    # Check if the exercise is bodyweight/cardio (no weight used)
-    if exercise_lower in MET_VALUES:
-        met = MET_VALUES[exercise_lower]
-        duration_min = (sets * reps) / 30  # Estimate: 30 reps = 1 min
-        calories_burned = met * 3.5 * 70 / 200 * duration_min  # 70kg as average body weight
-    else:
-        # Strength training calorie formula (if weight is used)
-        calories_burned = (sets * reps * weight) * 0.1  
+    MET = MET_values.get(exercise.lower(), 5.0)  
+    duration = (sets * reps) / 30  
+    calories_burned = MET * 3.5 * weight / 200 * duration  
 
     return round(calories_burned, 2)
 
     
-def calculate_workout_time(sets:int, time_per_set:int =1, rest_time:int = 30) -> int:
-    """Estimate the total time spent on a workout based on sets and reps."""
-    # Assuming 1 minute per set as a simple estimate
-    total_time = (sets * time_per_set) + ((sets - 1) * rest_time / 60)  # Convert seconds to minutes
-    return round(total_time)
+def update_best_record(exercise, weight):
+    data = load_data()
+    
+    best_records = {w["exercise"]: w["weight"] for w in data if "exercise" in w and "weight" in w}
+    if exercise not in best_records or weight > best_records.get(exercise, 0):
+        print(f"\n🎯 New record for {exercise}! Highest weight lifted: {weight} kg/lbs\n")
+        return weight
+    return best_records[exercise]
+
+def view_best_records():
+    data = load_data()
+    
+    if not data:
+        print("\nNo workouts logged yet! 🏋️‍♂️")
+        return
+
+    best_records = {}  
+
+    for workout in data:
+        exercise = workout.get("exercise")
+        weight = workout.get("weight")
+        if exercise is None or weight is None:
+            continue
+
+        if exercise not in best_records or weight > best_records[exercise]:
+            best_records[exercise] = weight
+
+    print("\n🏆 Best Workout Records 🏆")
+    print("--------------------------------")
+    for exercise, weight in best_records.items():
+        print(f"🏋️ {exercise}: {weight} kg/lbs")
+    print("--------------------------------")
+
+
+def weekly_statistics():
+    data = load_data()
+    
+    if not data:
+        print("\nNo workouts logged yet! 🏋️‍♂️")
+        return
+
+    today = datetime.today()
+    last_week = today - timedelta(days=7)
+    
+    weekly_data = [w for w in data if datetime.strptime(w["date"], "%Y-%m-%d") >= last_week]
+
+    if not weekly_data:
+        print("\nNo workouts recorded in the last 7 days! 📆")
+        return
+
+    total_workouts = len(weekly_data)
+
+    
+
+
+
+
+
