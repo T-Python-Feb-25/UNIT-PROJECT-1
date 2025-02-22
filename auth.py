@@ -12,7 +12,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.errors import HttpError
 
 # Local application imports
-from config import db, GOOGLE_CREDENTIALS, TOKEN
+from config import user_db, GOOGLE_CREDENTIALS, TOKEN
 
 def code_validation(generated_code):
     attempt=3
@@ -42,19 +42,18 @@ def email_verification(email:str)->bool:
 def sign_up(first_name, last_name, email,encoded_pass,phone ,role="Client"):
     current_user=None
 
-    if db.is_user_registered(email):
+    if user_db.is_user_registered(email):
         print("This email already have an account, Try to login")
     elif role =="Client":
         is_verified=email_verification(email)
         if is_verified:
-            db.insert_user((first_name, last_name, email,encoded_pass,phone ,role,))
-            current_user=db.retrive_user(email,encoded_pass)
+            current_user=user_db.insert_user((first_name, last_name, email,encoded_pass,phone ,role,))
     else:
-        db.insert_user((first_name, last_name, email,encoded_pass,phone ,role,))
+        current_user=user_db.insert_user((first_name, last_name, email,encoded_pass,phone ,role,))
     return current_user
 
 def login(email,encoded_pass):   
-    current_user=db.retrive_user(email,encoded_pass)
+    current_user=user_db.retrive_user(email,encoded_pass)
     return current_user
 
 def send_email_notification(subject, body, to):

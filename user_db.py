@@ -1,8 +1,7 @@
 import sqlite3
 
-from user import *
 
-class DatabaseConnector:
+class UserDB:
 
     def __init__(self,db_url):
         self.__db_url=db_url
@@ -41,8 +40,20 @@ class DatabaseConnector:
             self.connect()
             self.__create_user_table()
             self.__cursor.execute("INSERT INTO users (first_name, last_name,email,encoded_pass, phone , role) VALUES(?,?,?,?,?,?)",user_data)
+            user_id= self.__cursor.lastrowid
             self.__connection.commit()
+            first_name ,last_name ,email,encoded_pass, phone ,role=user_data
+            
             self.close_connection()
+            return {
+                'id':user_id,
+                'first_name':  first_name ,
+                'last_name':last_name,
+                'phone':phone,
+                'email':email,
+                'role':role
+            }
+
         except sqlite3.IntegrityError as message:
             if message.sqlite_errorname=='SQLITE_CONSTRAINT_UNIQUE':
                 print("This email already have an account, Try to login")
@@ -63,26 +74,15 @@ class DatabaseConnector:
         cursor.execute("SELECT * FROM users WHERE email = ? ",(email,))
 
         # Convert to list of dictionaries
-        # result = [dict(row) for row in current_user]
         value=cursor.fetchone() 
         conn.close()
-
         current_user = dict(value) if value!=None else {}
-        role = {
-        "Client": Client,
-        "Employee": Employee,
-        "Admin": Admin}
+
         if len(current_user)==0:
             print("This email is not registered try to sign up.")
             return None
         elif current_user['encoded_pass']==encoded_pass:
-            user_class = role.get(current_user['role'], "Client") 
-            user_id = current_user['id']
-            first_name = current_user['first_name']
-            last_name = current_user['last_name']
-            phone = current_user['phone']
-            email = current_user['email']
-            return user_class(user_id, first_name, last_name, phone, email)
+            return current_user
         else:
             print("wrong passward please try again")
     def remove_user(self,email):
@@ -97,11 +97,15 @@ class DatabaseConnector:
                 print("This user does not have an accoount")
 
         except Exception as err:
-            print(err)
             print("Something went wrong while trying to remove the user from the system. Please try again.")
         finally:
             self.close_connection()
 
+
+        
+        
     def close_connection(self):
         self.__connection.close()
+
+         
 

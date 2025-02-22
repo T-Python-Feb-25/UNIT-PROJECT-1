@@ -17,7 +17,7 @@ class User:
         self.functionality = {} 
     
     def user_info(self):
-        return self.first_name, self.last_name, self.email ,self.phone,self.role
+        return self.id ,self.first_name, self.last_name, self.email ,self.phone,self.role
     
     def user_role(self):
         return self.role
@@ -118,16 +118,17 @@ class Admin(User,TruckManagementMixin):
         encoded_pass= password_input_Validation("Password: ")
         phone=phone_input_validation("Phone number (e.g. 05xxxxxxxx):")
         
-        sign_up(first_name,last_name,email,encoded_pass,phone,"Employee")
+        added_user=sign_up(first_name,last_name,email,encoded_pass,phone,"Employee")
+        print(added_user)
         print(f"{first_name} {last_name} has been added to the system successfully.")
 
     def remove_employee(self):
-        from config import db
+        from config import user_db
 
         print("Removing an employee...")
 
         email=email_input_validation("To remove an employee please enter his/her email adress:")
-        db.remove_user(email)
+        user_db.remove_user(email)
         
     def update_locations(self):
         print("Updating locations...")
