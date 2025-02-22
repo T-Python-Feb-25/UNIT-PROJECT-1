@@ -8,4 +8,11 @@ def get_Previous_Plans():
         return {}
     
 def view_Previous_Plans(email):
+    users_accounts=get_Previous_Plans():
     
+    if email in users_accounts:
+        users_accounts= users_accounts[email]
+        if users_accounts["Travel Plans"] is None:
+            print("You don't have any Plans yet")
+        else:
+            print({users_accounts["Travel Plans"]})

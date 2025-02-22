@@ -27,5 +27,4 @@ def get_weather(city, date):
      print("Error getting weather data")
      return 
 
-def restaurant(city): 
 

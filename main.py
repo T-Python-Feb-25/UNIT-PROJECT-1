@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 import emoji
 
 import log_in_and_ctreate_an_acconunt
-
+import Previous_Plans
 
 print(Fore.MAGENTA)
 print(emoji.emojize("welcome to travelmate :airplane:"))
@@ -56,8 +56,7 @@ elif answer=="yes":
         else:
             print(Fore.MAGENTA+"Welcome back to travelmate {}".format(firstName))
             break
-                
-            log_in_and_ctreate_an_acconunt.users_login(email, password)
+    log_in_and_ctreate_an_acconunt.users_login(email, password)
 
 
     
@@ -66,7 +65,7 @@ while True:
     print("1.See my previous Plans   2.Create a new plan\n3.Exit the program")
     userChoice=input("\nEnter a number ")
     if userChoice=="1":
-        print("your choice is num 1")
+       Previous_Plans.view_Previous_Plans(email)
     elif userChoice=="2":
         print("your choice is num 2")
     elif userChoice=="3":
