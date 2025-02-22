@@ -1,6 +1,6 @@
 import sqlite3
+
 from user import *
-from email.mime.text import MIMEText
 
 class DatabaseConnector:
 
@@ -104,3 +104,4 @@ class DatabaseConnector:
 
     def close_connection(self):
         self.__connection.close()
+

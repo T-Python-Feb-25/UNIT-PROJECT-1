@@ -2,7 +2,7 @@ from auth import login,sign_up
 from input_validation import *
 
 current_user=None
-
+Provinces=["Mecca Province","Medina Province","Eastern Province","Riyadh Province"]
 
 menu= '''
 1- login
@@ -40,27 +40,14 @@ while not is_valid:
 print("-----welcome to Fazaa------")
 
 print(current_user.user_role())
-if current_user.user_role()=="Admin":
-    print('''1- Add Truck
-2-Remove Truck
-3-Update Price
-4-Update order status
-5-Add Employee
-6-remove Employeee
-7-update locations
-''')
-elif current_user.user_role()=="Employee":
-    print('''1- Add Truck
-2-Remove Truck
-3-Update Price
-4-Update order status
-''')
-elif current_user.user_role()=="Client":
-    print('''1- Profile
-2-Make an order
-3-Track an order
-4-view history
-''')
+if current_user.user_role()in["Admin","Employee", "Client"]:
+    while True:
+        try:
+            user_selection=input(current_user.display_menu()+"\n Enter your choice: ")
+            current_user.call_functionality(user_selection)
+        except TypeError as error:
+            print(error)
+    
 else:
     print("Thank for for visiting fazaa , hope to see you soon again ")
 
