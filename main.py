@@ -1,8 +1,8 @@
-import  smtplib
 from auth import login,sign_up
 from input_validation import *
 
 current_user=None
+
 
 menu= '''
 1- login
@@ -57,9 +57,9 @@ elif current_user.user_role()=="Employee":
 ''')
 elif current_user.user_role()=="Client":
     print('''1- Profile
-          2-Make an order
-          3-Track an order
-          4-view history
+2-Make an order
+3-Track an order
+4-view history
 ''')
 else:
     print("Thank for for visiting fazaa , hope to see you soon again ")

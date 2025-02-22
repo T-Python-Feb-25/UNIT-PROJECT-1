@@ -32,7 +32,6 @@ class DatabaseConnector:
         self.__create_user_table()
         self.__cursor.execute("SELECT email FROM users")
         User_list=self.__cursor.fetchall()
-        self.close_connection()
         if any(user[0] == user_to_find for user in User_list):
            return True
         return False
@@ -86,6 +85,22 @@ class DatabaseConnector:
             return user_class(user_id, first_name, last_name, phone, email)
         else:
             print("wrong passward please try again")
-            
+    def remove_user(self,email):
+        try:
+            self.connect()
+            self.__create_user_table()
+            if self.is_user_registered(email):
+                self.__cursor.execute("DELETE FROM users WHERE email = ? ",(email,))
+                self.__connection.commit() 
+                print("The use has been deleted from the system successfully.")
+            else:
+                print("This user does not have an accoount")
+
+        except Exception as err:
+            print(err)
+            print("Something went wrong while trying to remove the user from the system. Please try again.")
+        finally:
+            self.close_connection()
+
     def close_connection(self):
         self.__connection.close()
