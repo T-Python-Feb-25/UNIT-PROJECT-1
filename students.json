@@ -1,0 +1,2 @@
+{"Name": "Mohammed Albushaier", "ID": "MEM1002", "DOB": "1989-02-12T00:00:00", "Address": {"city": "Alhasa", "country": "KSA", "zip_code": "36361"}, "Courses": ["Physics 101"], "Balance": 600.0}
+{"Name": "Mohammed Albushaier 2", "ID": "MEM1004", "DOB": "1989-12-02T00:00:00", "Address": {"city": "Alhasa", "country": "KSA", "zip_code": "36361"}, "Courses": ["Physics 101"], "Balance": 600.0}

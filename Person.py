@@ -1,38 +1,40 @@
-from datetime import date
+from FileHandeler import FileHandler
+from datetime import datetime
+from typing import Dict, Any
 
 
-class Person:
+class Person(FileHandler):
+    """Represents a person with basic details."""
 
-    def __int__(self, per_id:int,name: str, dob: date, address: dict):
-        self.__per_id = per_id
+    def __init__(self, name: str, mem_id: str, dob: datetime, address: Dict[str, str]) -> None:
+        super().__init__("persons.json")
         self.__name = name
+        self.__mem_id = mem_id
         self.__dob = dob
         self.__address = address
 
-    def set_per_id(self,per_id):
-        self.per_id = per_id
-
-    def set_name(self, fname, lname):
-        self.__name = fname + " " + lname
-
-    def set_dob(self, dob:date):
-        self.__dob = dob
-
-    def set_address(self, city: str, country: str, zip_code: str):
-        self.__address = {"city": city,
-                          "country": country,
-                          "zip_code": zip_code
-                          }
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert the person object to a dictionary."""
+        return {
+            "Name": self.__name,
+            "ID": self.__mem_id,
+            "DOB": self.__dob.isoformat(),
+            "Address": self.__address
+        }
 
     @property
-    def get_name(self):
+    def name(self) -> str:
         return self.__name
 
-    def get_dob(self):
+    @property
+    def mem_id(self) -> str:
+        return self.__mem_id
+
+    @property
+    def dob(self) -> datetime:
         return self.__dob
 
-    def get_address(self):
+    @property
+    def address(self) -> Dict[str, str]:
         return self.__address
 
-    def get_per_id(self):
-        return self.__per_id
