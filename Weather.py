@@ -23,8 +23,9 @@ def get_weather(city, date):
       weatherCondition=weatherData["forecast"]["forecastday"][0]["day"]["condition"]["text"]
       
       return temperature, weatherCondition
-    else :
-        print("Error getting weather data")
-        return 
+   else :
+     print("Error getting weather data")
+     return 
 
+def restaurant(city): 
 
