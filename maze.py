@@ -1,11 +1,14 @@
 import curses
 import pygame
 
+# Initialize Pygame mixer
 pygame.mixer.init()
-start_sound = pygame.mixer.Sound("game-start-6104.mp3", )
-end_sound = pygame.mixer.Sound("game-bonus-144751.mp3")
 
-
+try:
+    start_sound = pygame.mixer.Sound("game-start-6104.mp3")
+    end_sound = pygame.mixer.Sound("game-bonus-144751.mp3")
+except pygame.error as e:
+    print(f"Error loading sound: {e}")
 
 maze = [
     "MMMMMMMMM",
@@ -53,8 +56,10 @@ def play(stdscr):
         elif key == ord('d'):
             new_x += 1
 
-        if maze[new_y][new_x] != "M":
-            player_x, player_y = new_x, new_y
+        # Ensure new position is within the maze boundaries
+        if 0 <= new_x < len(maze[0]) and 0 <= new_y < len(maze):
+            if maze[new_y][new_x] != "M":
+                player_x, player_y = new_x, new_y
 
         if maze[player_y][player_x] == "E":
             stdscr.clear()
@@ -64,4 +69,5 @@ def play(stdscr):
             curses.napms(2000)
             break
 
+# Start the game
 curses.wrapper(play)
