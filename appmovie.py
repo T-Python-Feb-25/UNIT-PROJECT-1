@@ -38,7 +38,7 @@ class AppMovie:
                     print("-"*80)
         except Exception as e:
             print(e)
-
+    
     def get_more_info(self,id,type):
         try:
             if type=="movie":
@@ -118,15 +118,15 @@ class AppMovie:
             else:
                 print("The tv show is already added to the watchlist.")
     def add_rating_and_reviews(self,id,type,rating,reviews):
-        alrady_rated=False
+        already_rated=False
         if type=="movie":
             if id in  self.user.get_user_data_login()["movie"]["movie_watch_list"]:
                 self.delate_from_watch_list(id,"movie")
             
             for movie_id in self.user.get_user_data_login()["movie"]["rating"]:
                 if id in movie_id:
-                    alrady_rated=True
-            if alrady_rated==False:
+                    already_rated=True
+            if already_rated==False:
                 self.user.get_user_data_login()["movie"]["rating"].append({id:{"review":reviews,"rating":rating}})
                 self.user.save_data()
             else:
@@ -136,8 +136,8 @@ class AppMovie:
                 self.delate_from_watch_list(id,"tv")
             for tv_show_id in self.user.get_user_data_login()["tv"]["rating"]:
                 if id in tv_show_id:
-                    alrady_rated=True
-            if alrady_rated==False:
+                    already_rated=True
+            if already_rated==False:
                 self.user.get_user_data_login()["tv"]["rating"].append({id:{"review":reviews,"rating":rating}})
                 self.user.save_data()
             else:
@@ -152,14 +152,18 @@ class AppMovie:
                     for watchlist in  self.user.get_user_data_login()["tv"]["tv_watch_list"]:
                         self.get_basic_info_by_id(watchlist,"tv")
                         print("-"*10)
+                else:
+                    return False
                     
             else:
-                if  self.user.get_user_data_login()["movie"]["movie_watch_list"]:
+                if self.user.get_user_data_login()["movie"]["movie_watch_list"]:
                     print("your movie:")
                     print("-"*10)
                     for watchlist in  self.user.get_user_data_login()["movie"]["movie_watch_list"]:
                         self.get_basic_info_by_id(watchlist,"movie")
                         print("-"*10)
+                else:
+                    return False
         except Exception as e:
             print(e)
     def delate_from_watch_list(self,id,type):
@@ -192,6 +196,8 @@ class AppMovie:
                             tv_show=self.tvshow.get_basic_info_by_id(i)
                             print(f"id: {tv_show["id"]}\ntitle: {tv_show["title"]}\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
                             print("-"*10)
+                else:
+                    return False
             else:
                 if self.user.get_user_data_login()["movie"]["rating"]:
                     print("your movie:")
@@ -201,6 +207,8 @@ class AppMovie:
                             movie=self.movie.get_basic_info_by_id(i)
                             print(f"id: {movie["id"]}\ntitle: {movie["title"]}\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
                             print("-"*10)
+                else:
+                    return False
         except Exception as e:
             print(e)
         

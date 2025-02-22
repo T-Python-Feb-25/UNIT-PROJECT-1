@@ -1,45 +1,31 @@
 {
-    "1": {
-        "1": {
+    "abdulrahman": {
+        "123123": {
             "movie": {
                 "rating": [
                     {
-                        "278": {
-                            "review": "good",
-                            "rating": 10
+                        "550": {
+                            "review": null,
+                            "rating": null
                         }
                     }
                 ],
                 "movie_watch_list": [
-                    "826937"
+                    "278"
                 ]
             },
             "tv": {
                 "rating": [
                     {
-                        "1396": {
-                            "review": "good movie",
-                            "rating": 10
+                        "94997": {
+                            "review": null,
+                            "rating": null
                         }
                     }
                 ],
                 "tv_watch_list": [
-                    "1401"
+                    "1396"
                 ]
-            }
-        }
-    },
-    "xxxxxx": {
-        "xxxxxx": {
-            "movie": {
-                "rating": [],
-                "movie_watch_list": [
-                    "637"
-                ]
-            },
-            "tv": {
-                "rating": [],
-                "tv_watch_list": []
             }
         }
     }

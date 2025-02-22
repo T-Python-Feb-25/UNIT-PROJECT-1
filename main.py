@@ -6,7 +6,13 @@ def heandle_watchlist_and_reating(type:str)->None:
     if id.isdigit():
         valid_id:bool=app.get_more_info(id, type)
         if not valid_id==False:
-            user_choice:str=input(f"if you want to rate thie {type} enter 'r' if you want to add to watchlist type 'w' press enter to continue:")
+            user_choice: str = input(
+    f"Choose an option for this {type}:\n"
+"r  - Rate it\n"
+"w  - Add to Watchlist\n"
+"aw - Mark as Already Watched\n"
+"Press Enter to continue: "
+).strip()
             print("="*50)
 
             if user_choice.lower()=='w':
@@ -28,7 +34,10 @@ def heandle_watchlist_and_reating(type:str)->None:
                 if share_on_x=="y":
                     app.share_tweet_on_x(id,type,rating,reviews)
                 input("press enter to continue:")  
-
+            elif user_choice.lower()=='aw':
+                app.add_rating_and_reviews(id,type,None,None)
+            else:
+                input("Invaild option press enter to continue:")
            
 while True:
     if app.user.get_user_useername()==None:
@@ -48,6 +57,7 @@ while True:
         elif user_input=='2':
             app.user.register()
         elif user_input=='3':
+            print("Thank you good bye")
             exit()
         
     else:
@@ -138,68 +148,107 @@ Your choice: ''').strip()
             app.get_popular("tvshow")
             heandle_watchlist_and_reating("tvshow")
         elif user_input =='10':
-            app.watch_list("movie")
-            id:str=input("if you wanna delate from watchlist enter the id  or press enter to continue:")
-            if id.isdigit():
-                valid:bool=app.delate_from_watch_list(id,"movie")
-                if valid:
-                    user_choice:str=input("if you want to rate the movie type (r) or press enter to continue")
-                    if user_choice.lower()=='r':
-                        while True:
-                            try:
-                                rating:int = int(input("Please enter your rating (0-10): "))
-                                if rating>=0 and rating<=10:
-                                    break  
-                                else:
-                                    print("Invalid input. Rating must be between 0 and 10.")
-                            except ValueError:
-                                print("Invalid input. Please enter a number between 0 and 10.")
-                    reviews:str=input("please enter your reaview:")       
-                    app.add_rating_and_reviews(id,"movie",rating,reviews)
-                    share_on_x:str=input("do you want share the review on x (y or n):")
-                    if share_on_x=="y":
-                        app.share_tweet_on_x(id,"movie",rating,reviews)
-            elif id == '':
-                pass
+            found_movie=app.watch_list("movie")
+            if not found_movie==False:
+                id:str=input("if you wanna delate from watchlist enter the id  or press enter to continue:")
+                if id.isdigit():
+                    valid:bool=app.delate_from_watch_list(id,"movie")
+                    input("The movie has been removed successfully. press enter to contniue")
+
+                    if valid:
+                        user_choice: str = input(
+    f"Choose an option for this {type}:\n"
+" r  - Rate it\n"
+" w  - Add to Watchlist\n"
+" aw - Mark as Already Watched\n"
+"Press Enter to continue: "
+).strip()
+                        if user_choice.lower()=='r':
+                            while True:
+                                try:
+                                    rating:int = int(input("Please enter your rating (0-10): "))
+                                    if rating>=0 and rating<=10:
+                                        break  
+                                    else:
+                                        print("Invalid input. Rating must be between 0 and 10.")
+                                except ValueError:
+                                    print("Invalid input. Please enter a number between 0 and 10.")
+                            reviews:str=input("please enter your reaview:")       
+                            app.add_rating_and_reviews(id,"movie",rating,reviews)
+                            share_on_x:str=input("do you want share the review on x (y or n):")
+                            if share_on_x=="y":
+                                app.share_tweet_on_x(id,"movie",rating,reviews)
+                        elif user_choice=='aw':
+                            app.add_rating_and_reviews(id,"movie",None,None)
+                elif id == '':
+                    pass
+               
+                else:
+                    input("Invaild id press enter to continue")
             else:
-                input("Invaild id press enter to continue")
+                input("There are no movie in your watchlist. press enter to continue")
         elif user_input =='11':
-            app.watch_list("tvshow")
-            id:str=input("if you wanna delate from watchlist enter the id or press enter to continue:")
-            if id.isdigit():
-                valid:bool=app.delate_from_watch_list(id,"tvshow")
-                if valid:
-                    user_choice:str=input("if you want to rate the movie type (r) or press enter to continue")
-                    if user_choice.lower()=='r':
-                        while True:
-                            try:
-                                rating:int = int(input("Please enter your rating (0-10): "))
-                                if rating>=0 and rating<=10:
-                                    break  
-                                else:
-                                    print("Invalid input. Rating must be between 0 and 10.")
-                            except ValueError:
-                                print("Invalid input. Please enter a number between 0 and 10.")
-                    reviews:str=input("please enter your reaview:")       
-                    app.add_rating_and_reviews(id,"tv",rating,reviews)
-                    share_on_x:str=input("do you want share the review on x (y or n):")
-                    if share_on_x=="y":
-                        app.share_tweet_on_x(id,"tv",rating,reviews)
-            elif id == '':
-                pass
+            found_tv=app.watch_list("tvshow")
+            if not found_tv==False:
+                id:str=input("if you wanna delate from watchlist enter the id or press enter to continue:")
+                if id.isdigit():
+                    valid:bool=app.delate_from_watch_list(id,"tvshow")
+                    input("The tvshow has been removed successfully. press enter to contniue")
+
+                    if valid:
+                        user_choice: str = input(
+    f"Choose an option for this {type}:\n"
+" r  - Rate it\n"
+" w  - Add to Watchlist\n"
+" aw - Mark as Already Watched\n"
+"Press Enter to continue: "
+).strip()
+                        if user_choice.lower()=='r':
+                            while True:
+                                try:
+                                    rating:int = int(input("Please enter your rating (0-10): "))
+                                    if rating>=0 and rating<=10:
+                                        break  
+                                    else:
+                                        print("Invalid input. Rating must be between 0 and 10.")
+                                except ValueError:
+                                    print("Invalid input. Please enter a number between 0 and 10.")
+                            reviews:str=input("please enter your reaview:")       
+                            app.add_rating_and_reviews(id,"tv",rating,reviews)
+                            share_on_x:str=input("do you want share the review on x (y or n):")
+                            if share_on_x=="y":
+                                app.share_tweet_on_x(id,"tv",rating,reviews)
+                        elif user_choice=='aw':
+                            app.add_rating_and_reviews(id,"tv",None,None)
+                elif id == '':
+                    pass
+                else:
+                    input("Invaild id press enter to continue")
             else:
-                input("Invaild id press enter to continue")
+                input("There are no Tvshow in your watchlist. press enter to continue:")
+                
         elif user_input=='12':
-            app.already_watched("movie")
-            user_choice:str=input("if you wanna delate from already watched enter the id:")
-            if user_choice.isdigit() and not user_choice == "":
-                app.delate_from_already_watched(user_choice,"movie")
+            found_movie=app.already_watched("movie")
+            if not found_movie==False:
+                user_choice:str=input("if you wanna delate from already watched enter the id:")
+                if user_choice.isdigit() and not user_choice == "":
+                    app.delate_from_already_watched(user_choice,"movie")
+                    input("The movie has been removed successfully. press enter to contniue")
+            else:
+                input("You haven't watched any movies yet. press enter to continue:")
+
             
         elif user_input=='13':
-            app.already_watched("tv")
-            user_choice:str=input("if you wanna delate from already watched enter the id:")
-            if user_choice.isdigit() and not user_choice  == "":
-                app.delate_from_already_watched(user_choice,"tv")
+            found_tv=app.already_watched("tv")
+            if not found_tv==False:
+                user_choice:str=input("if you wanna delate from already watched enter the id:")
+                if user_choice.isdigit() and not user_choice  == "":
+                    app.delate_from_already_watched(user_choice,"tv")
+                    input("The tvshow has been removed successfully. press enter to contniue")
+
+            else:
+                input("You haven't watched any TV shows yet. press enter to continue:")
+
         elif user_input == '14':
             app.user.logout()
         elif user_input == '15':

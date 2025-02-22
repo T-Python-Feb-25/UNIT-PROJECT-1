@@ -26,7 +26,7 @@ class Tvshow:
         return tvshows
         
     def get_more_info_by_id(self,id:str)->dict:
-        '''get more detailed informatio about a tv show by its id
+        '''get more detailed about a tv show by its id
            args:
                id(str):the id of the tv show 
            return:
@@ -53,6 +53,14 @@ class Tvshow:
         }  
         return tv_show_info
     def get_popular_tv(self)->object:
+        '''
+        this function get a list of popular tv show
+        return:
+            list:a list of dictionires contin basic info id,title ,release date    
+        reaise:
+            raise Exception if the request fails
+  '''
+
         response:object=requests.get(f"{self.__base_url}tv/popular?&api_key={self.__api_key}")
         response.raise_for_status()
         response=response.json()
@@ -69,6 +77,12 @@ class Tvshow:
         return tvshows
        
     def get_top_rated_tv(self):
+        '''
+        this function get a list of top rated tv show
+        return:
+            list:a list of dictionires contin basic info id,title ,release date    
+        reaise:
+            raise Exception if the request fails'''
         response=requests.get(f"{self.__base_url}tv/top_rated?&api_key={self.__api_key}")
         response.raise_for_status()
         response=response.json()
@@ -84,6 +98,15 @@ class Tvshow:
             tvshows.append(movie_info)
         return tvshows
     def get_basic_info_by_id(self,id):
+        '''
+        get detailed about a tv show by its id
+           args:
+               id(str):the id of the tv show 
+           return:
+               list:list of dictiniory contining datiled id,title,release date,geners,overview,number of seasons,tmdb rating ,imdb id
+            raise:
+                raise Exception if the request fails
+        '''
         response=requests.get(f"{self.__base_url}tv/{id}?&api_key={self.__api_key}")
         response.raise_for_status()
         response=response.json()
@@ -98,16 +121,27 @@ class Tvshow:
         
         return tv_show_info
     def print_genre(self):
+        '''
+        Prints all TV show genres available on TMDb.
+        reaise:
+            raise Exception if the request fails
+        '''
         genre=requests.get(f"{self.__base_url}genre/tv/list?&api_key={self.__api_key}")
         genre.raise_for_status()
         genre=genre.json()
         for gen in genre["genres"]:
             print(f"id:{gen["id"]} name:{gen["name"]}")
-            print("-"*20)
+        print("-"*20)
+
     def get_tv_by_genre(self,id):
+        '''
+        this function get a list of tv show by specified genre id 
+        return:
+            list:a list of dictionires contin basic info id,title ,release date    
+        reaise:
+            raise Exception if the request fails'''
         self.print_genre()
         response=requests.get(f"{self.__base_url}discover/tv?&api_key={self.__api_key}&sort_by=popularity.desc&with_genres={id}").json()
-        print(response)
         tvshows=[]
         for tvshow in response["results"]:
             tvshow_info={
