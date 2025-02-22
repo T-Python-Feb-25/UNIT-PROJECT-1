@@ -3,6 +3,7 @@ import sqlite3
 import os
 import matplotlib.pyplot as plt
 from colorama import Fore, Style, init
+from modules.email_sender import send_email
 
 init(autoreset=True)
 
@@ -27,6 +28,23 @@ cursor.execute("""
         date TEXT
     )
 """)
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS email_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    risk_id INTEGER,
+    recipient TEXT,
+    timestamp TEXT,
+    status TEXT
+)
+""")
+conn.commit()
+
+
+
+
+
+
 
 conn.commit()
 
@@ -58,6 +76,25 @@ def login():
         print(Fore.RED + "Incorrect username or password.")
         return False
 
+"""def add_risk():
+    risk_type = input("Enter risk type: ").strip()
+    level = input("Enter risk level (Low/Medium/High): ").strip()
+    location = input("Enter location: ").strip()
+    date = input("Enter date (YYYY-MM-DD): ").strip()
+
+    confirm = input("Are you sure you want to save this risk? (yes/no): ").strip().lower()
+    
+    if confirm == "yes":
+        cursor.execute("INSERT INTO risks (risk_type, level, location, date) VALUES (?, ?, ?, ?)",
+                       (risk_type, level, location, date))
+        conn.commit()
+
+        
+        print("\n" + Fore.GREEN + "Risk added successfully!\n")  
+    else:
+        print("\n" + Fore.RED + "Operation canceled. Risk not saved.\n")
+
+    input("Risk added successfully! Press Enter to continue...")"""
 def add_risk():
     risk_type = input("Enter risk type: ").strip()
     level = input("Enter risk level (Low/Medium/High): ").strip()
@@ -70,12 +107,23 @@ def add_risk():
         cursor.execute("INSERT INTO risks (risk_type, level, location, date) VALUES (?, ?, ?, ?)",
                        (risk_type, level, location, date))
         conn.commit()
-        print("\n" + Fore.GREEN + "Risk added successfully!\n")  
+
+        risk_id = cursor.lastrowid  
+        print(f"✔ Risk added successfully! (ID: {risk_id})")
+
+        if level.lower() == "high":
+            email_status = send_email(risk_id, risk_type, level, location, date)
+
+            cursor.execute("INSERT INTO email_logs (risk_id, recipient, timestamp, status) VALUES (?, ?, datetime('now'), ?)",
+                           (risk_id, "recipient_email@example.com", email_status))
+            conn.commit()
+            print("📧 Email notification sent!")
+
+        else:
+            print("ℹ No email sent, as risk level is not High.")
+
     else:
-        print("\n" + Fore.RED + "Operation canceled. Risk not saved.\n")
-
-    input("Risk added successfully! Press Enter to continue...")
-
+        print("❌ Operation canceled. Risk not saved.")
 
 
 
