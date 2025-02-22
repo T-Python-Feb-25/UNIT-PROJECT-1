@@ -1,4 +1,20 @@
 def generate_report():
+    """
+    Generates a risk report from the recorded risks.
+
+    This function reads the risk data from `risks.txt` and generates a formatted
+    report in `risk_report.txt`. If no risks are recorded, it displays a message.
+
+    Returns:
+        None
+
+    Example:
+         generate_report()
+        # Output:
+        # Risk Report
+        # --------------
+        # Fire, High, Jeddah, 2024-02-25
+    """
     try:
         with open("risks.txt", "r", encoding="utf-8") as file:
             risks = file.readlines()

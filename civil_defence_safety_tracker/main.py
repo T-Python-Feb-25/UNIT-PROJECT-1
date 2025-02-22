@@ -4,6 +4,16 @@ import os
 import matplotlib.pyplot as plt
 from colorama import Fore, Style, init
 from modules.email_sender import send_email
+from modules.export_excel import export_to_excel
+import pandas as pd
+ 
+"""
+Main module for the Civil Defense Safety Tracker.
+
+This script initializes the SQLite database, creates necessary tables,
+and imports required modules for data handling, visualization, and email notifications.
+"""
+
 
 init(autoreset=True)
 
@@ -46,9 +56,15 @@ conn.commit()
 
 
 
-conn.commit()
+#conn.commit()
 
 def register():
+    """
+    Registers a new user by storing a hashed password in the database.
+
+    Prompts the user to enter a username and password, then hashes the password 
+    and saves it in the database. If the username already exists, an error message is displayed.
+    """
     username = input("Enter new username: ").strip()
     password = input("Enter new password: ").strip()
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
@@ -61,6 +77,16 @@ def register():
         print(Fore.RED + "Username already exists. Please try a different one.")
 
 def login():
+    """
+    Authenticates a user by verifying their username and hashed password.
+
+    Prompts the user for their username and password, hashes the password, 
+    and checks it against the stored credentials in the database.
+    
+    Returns:
+        bool: True if login is successful, False otherwise.
+    """
+
     username = input("Enter your username: ").strip()
     password = input("Enter your password: ").strip()
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
@@ -76,26 +102,14 @@ def login():
         print(Fore.RED + "Incorrect username or password.")
         return False
 
-"""def add_risk():
-    risk_type = input("Enter risk type: ").strip()
-    level = input("Enter risk level (Low/Medium/High): ").strip()
-    location = input("Enter location: ").strip()
-    date = input("Enter date (YYYY-MM-DD): ").strip()
-
-    confirm = input("Are you sure you want to save this risk? (yes/no): ").strip().lower()
-    
-    if confirm == "yes":
-        cursor.execute("INSERT INTO risks (risk_type, level, location, date) VALUES (?, ?, ?, ?)",
-                       (risk_type, level, location, date))
-        conn.commit()
-
-        
-        print("\n" + Fore.GREEN + "Risk added successfully!\n")  
-    else:
-        print("\n" + Fore.RED + "Operation canceled. Risk not saved.\n")
-
-    input("Risk added successfully! Press Enter to continue...")"""
 def add_risk():
+    """
+    Adds a new risk entry to the database.
+
+    Prompts the user to enter details about the risk, including type, level, location, and date.
+    If the user confirms, the risk is inserted into the database.
+    """
+
     risk_type = input("Enter risk type: ").strip()
     level = input("Enter risk level (Low/Medium/High): ").strip()
     location = input("Enter location: ").strip()
@@ -124,11 +138,20 @@ def add_risk():
 
     else:
         print("❌ Operation canceled. Risk not saved.")
-
+    input(Fore.GREEN+"Risk added successfully! Press Enter to continue..."+Fore.GREEN)
 
 
 
 def list_risks():
+    """
+    Displays all recorded risks from the database.
+
+    Prompts the user to press Enter to display all risks or type 'exit' to cancel.
+    Retrieves and prints all risks stored in the database.
+
+    Returns:
+        None
+    """
     confirm = input("Press Enter to display all recorded risks or type 'exit' to cancel: ").strip().lower()
     if confirm == "exit":
         return
@@ -148,6 +171,15 @@ def list_risks():
     
 
 def search_risk():
+    """
+    Searches for risks based on a specific location.
+
+    Prompts the user to enter a location, then retrieves and displays 
+    all risks that match the entered location.
+
+    Returns:
+        None
+    """
     location = input("Enter location to search for risks: ").strip()
     cursor.execute("SELECT * FROM risks WHERE location = ?", (location,))
     risks = cursor.fetchall()
@@ -161,6 +193,17 @@ def search_risk():
     input( "\nPress Enter to return to the menu..."  )  
 
 def generate_report():
+    """
+    Generates a text report containing all recorded risks.
+
+    Fetches all risks from the database and writes them into a file 
+    named 'risk_report.txt'. The report includes risk type, level, 
+    location, and date.
+
+    Returns:
+        None
+    """
+
     cursor.execute("SELECT * FROM risks")
     risks = cursor.fetchall()
 
@@ -168,15 +211,30 @@ def generate_report():
         file.write("Risk Report\n===================\n")
         for risk in risks:
             file.write(f"Risk: {risk[1]}, Level: {risk[2]}, Location: {risk[3]}, Date: {risk[4]}\n")
-
+    
     print(Fore.GREEN + "Report generated successfully (risk_report.txt).")
+    input( "\nPress Enter to return to the menu..."  )  
+
+
 
 def plot_risks():
+    """
+    Generates a bar chart displaying the distribution of risks by level.
+
+    Fetches the count of each risk level from the database and visualizes it
+    using a bar chart with different colors for each level.
+
+    Returns:
+        None
+    """
     cursor.execute("SELECT level, COUNT(*) FROM risks GROUP BY level")
     data = cursor.fetchall()
 
     if data:
         levels, counts = zip(*data)
+        
+
+
         plt.bar(levels, counts, color=['green', 'orange', 'red'])
         plt.xlabel("Risk Level")
         plt.ylabel("Count")
@@ -185,9 +243,19 @@ def plot_risks():
     else:
         print(Fore.YELLOW + "No risk data available for plotting.")
 
-from colorama import Fore, Style
+
+ #from colorama import Fore, Style
 
 def update_risk():
+    """
+    Updates an existing risk in the database.
+
+    Prompts the user to enter the ID of the risk to update, then allows modifying
+    the risk type, level, location, and date. The updated values are then saved to the database.
+
+    Returns:
+        None
+    """
     list_risks()
     risk_id = input(Fore.YELLOW + "Enter the ID of the risk to update: " + Style.RESET_ALL).strip()
     new_type = input(Fore.CYAN + "Enter new risk type: " + Style.RESET_ALL).strip()
@@ -203,6 +271,15 @@ def update_risk():
 
 
 def delete_risk():
+    """
+    Deletes a risk entry from the database.
+
+    Asks the user for the ID of the risk to be deleted. 
+    Confirms the deletion before removing the record from the database.
+
+    Returns:
+        None
+    """
     list_risks()
     risk_id = input(Fore.YELLOW + "Enter the ID of the risk to delete: " + Style.RESET_ALL).strip()
     confirmation = input(Fore.RED + "Are you sure you want to delete this risk? (yes/no): " + Style.RESET_ALL).strip().lower()
@@ -218,6 +295,17 @@ def delete_risk():
 
 
 def display_menu():
+
+    """
+    Displays the main menu options for the Civil Defense Safety Tracker.
+
+    Shows a numbered list of available actions, allowing the user to select
+    operations such as adding, updating, deleting, or viewing risks.
+
+    Returns:
+        None
+    """
+
     print(Fore.CYAN + "\n" + "=" * 50)
     print(Fore.BLUE + " Civil Defense Safety Tracker")
     print(Fore.CYAN + "=" * 50)
@@ -228,9 +316,27 @@ def display_menu():
     print(f"{Fore.GREEN}5.{Fore.RESET} Delete a risk")
     print(f"{Fore.GREEN}6.{Fore.RESET} Generate a report")
     print(f"{Fore.GREEN}7.{Fore.RESET} Plot risk chart")
+    print(f"{Fore.GREEN}8.{Fore.RESET} Export risks to Excel (Formatted)")
     print(f"{Fore.RED}0.{Fore.RESET} Exit")
 
 def main():
+    def main():
+     """
+    Main function to run the Civil Defense Safety Tracker.
+
+    This function provides a user interface for logging in, registering, and navigating 
+    through the available features such as adding, listing, searching, updating, deleting, 
+    and exporting risks.
+
+    The function runs an infinite loop that:
+        - Prompts the user to log in or register.
+        - If login is successful, displays the main menu.
+        - Handles user inputs to execute the corresponding functions.
+
+    Returns:
+        None
+        """
+
     print(Fore.YELLOW + "=" * 50)
     print(Fore.MAGENTA + " Welcome to the Civil Defense Safety Tracker!")
     print(Fore.YELLOW + " Manage and analyze risks efficiently.")
@@ -272,6 +378,8 @@ def main():
                 generate_report()
             elif choice == "7":
                 plot_risks()
+            elif choice == "8":
+                export_to_excel()   
             elif choice == "0":
                 print("Exiting... Stay Safe!")
                 break
