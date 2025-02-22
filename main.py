@@ -12,9 +12,11 @@ def menu():
         print(Fore.MAGENTA + "3️⃣  Search Workout by Exercise Name")
         print(Fore.CYAN + "4️⃣  View Workout History")
         print(Fore.RED + "5️⃣  Delete Workout")
-        print(Fore.LIGHTBLACK_EX + "6️⃣  Exit\n")
+        print(Fore.WHITE+ "6️⃣  View Best Records")
+        print(Fore.YELLOW +"7️⃣  Weekly Statistics") 
+        print(Fore.LIGHTBLACK_EX + "8️⃣  Exit\n")
 
-        choice = input(Fore.WHITE + "👉 Choose an option (1-6): ")
+        choice = input(Fore.WHITE + "👉 Choose an option: ")
         
         if choice == "1":
             workout_categories()
@@ -26,10 +28,14 @@ def menu():
             view_workout()
         elif choice == "5":
             delete_workout()
-        elif choice == "6":
+        elif choice == "6":  
+            view_best_records()
+        elif choice == "7":  
+            weekly_statistics()
+        elif choice == "8":
             print("\nThank you .. Stay strong and fit!")
             break
         else:
-            print(Fore.RED + "❌ Invalid choice. Please try again.")
+            print("\n❌ Invalid choice number. Please try again.\n")
         
 menu()
