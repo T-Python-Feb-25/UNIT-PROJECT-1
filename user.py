@@ -26,7 +26,6 @@ class User:
             self.__user_username=username
             self.__user_password=password
             self.__users_data_login=self.__users_data[username][password]
-            print(self.get_user_data_login())
             print("\n"*15)
             print("Your login is successful.")
     def logout(self):

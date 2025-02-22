@@ -3,11 +3,21 @@ class Tvshow:
     def __init__(self,api_key):
         self.__api_key = api_key
         self.__base_url = 'https://api.themoviedb.org/3/'
-    def search_query(self,query):
-        response=requests.get(f"{self.__base_url}search/tv?query={query}&api_key={self.__api_key}").json()
-        tvshows=[]
+    def search_query(self,query:str)->list:
+        '''search for tv shows by a query and return a list of matching result
+           args:
+               query(str):the search key word for tv show
+           return:
+                list:a list of dictionires contin basic info id,title ,release date    
+           raise:
+                raise Exception if the request fails
+             '''
+        response:object=requests.get(f"{self.__base_url}search/tv?query={query}&api_key={self.__api_key}")
+        response.raise_for_status()
+        response=response.json()
+        tvshows:list=[]
         for tv_show in response["results"]:
-            tv_show_info={
+            tv_show_info:dict={
                 "id":tv_show["id"],
                 "title":tv_show["name"],
                 "release_date":tv_show["first_air_date"]
@@ -15,14 +25,23 @@ class Tvshow:
             tvshows.append(tv_show_info)
         return tvshows
         
-    def get_more_info_by_id(self,id):
-        response=requests.get(f"{self.__base_url}tv/{id}?&api_key={self.__api_key}")
+    def get_more_info_by_id(self,id:str)->dict:
+        '''get more detailed informatio about a tv show by its id
+           args:
+               id(str):the id of the tv show 
+           return:
+               list:list of dictiniory contining datiled id,title,release date,geners,overview,number of seasons,tmdb rating ,imdb id
+            raise:
+                raise Exception if the request fails
+
+            '''
+        response:object=requests.get(f"{self.__base_url}tv/{id}?&api_key={self.__api_key}")
         response.raise_for_status()
         response=response.json()
-        imdb=requests.get(f"{self.__base_url}tv/{id}/external_ids?&api_key={self.__api_key}")
+        imdb:object=requests.get(f"{self.__base_url}tv/{id}/external_ids?&api_key={self.__api_key}")
         imdb.raise_for_status()
         imdb=imdb.json()
-        tv_show_info = {
+        tv_show_info:dict = {
             "id":response["id"],
             "title": response["name"],
             "release_date": response["first_air_date"],
@@ -33,11 +52,13 @@ class Tvshow:
             "imdb_id":imdb["imdb_id"]
         }  
         return tv_show_info
-    def get_popular_tv(self):
-        response=requests.get(f"{self.__base_url}tv/popular?&api_key={self.__api_key}").json()
-        tvshows=[]
+    def get_popular_tv(self)->object:
+        response:object=requests.get(f"{self.__base_url}tv/popular?&api_key={self.__api_key}")
+        response.raise_for_status()
+        response=response.json()
+        tvshows:list=[]
         for movie in response["results"]:
-            movie_info={
+            movie_info:dict={
                 "id":movie["id"],
                 "title":movie["name"],
                 "release_date":movie["first_air_date"],
@@ -48,7 +69,9 @@ class Tvshow:
         return tvshows
        
     def get_top_rated_tv(self):
-        response=requests.get(f"{self.__base_url}tv/top_rated?&api_key={self.__api_key}").json()
+        response=requests.get(f"{self.__base_url}tv/top_rated?&api_key={self.__api_key}")
+        response.raise_for_status()
+        response=response.json()
         tvshows=[]
         for movie in response["results"]:
             movie_info={
@@ -74,4 +97,25 @@ class Tvshow:
         }
         
         return tv_show_info
-        
+    def print_genre(self):
+        genre=requests.get(f"{self.__base_url}genre/tv/list?&api_key={self.__api_key}")
+        genre.raise_for_status()
+        genre=genre.json()
+        for gen in genre["genres"]:
+            print(f"id:{gen["id"]} name:{gen["name"]}")
+            print("-"*20)
+    def get_tv_by_genre(self,id):
+        self.print_genre()
+        response=requests.get(f"{self.__base_url}discover/tv?&api_key={self.__api_key}&sort_by=popularity.desc&with_genres={id}").json()
+        print(response)
+        tvshows=[]
+        for tvshow in response["results"]:
+            tvshow_info={
+                "id":tvshow["id"],
+                "title":tvshow["name"],
+                "release_date":tvshow["first_air_date"]
+            }
+            tvshows.append(tvshow_info)
+        return tvshows
+
+
