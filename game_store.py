@@ -9,22 +9,12 @@ costom_theme = Theme({"success": "green", "error": "bold red"})
 console = Console (theme=costom_theme)
 
 class Store:
-    def __init__(self, email, password):
-        self.password = password
-        self.email = email
+    def __init__(self, ):
+    
         self.games = []  
         self.cart = []   
         self.purchase_history = []
-        
-        
         self.load_games()
-        self.save_login_data()
-        
-
-    def set_user(self):
-        if not isinstance ():
-            pass
-
 
 
     def load_games(self):
@@ -32,7 +22,7 @@ class Store:
 
     def add_game(self, game: Game):
         self.games.append(game)  
-    #set & get
+   
     def browse_games(self):
         for index, game in enumerate(self.games, start=1):
             print(f"{index}. {game.display()}")  
@@ -103,17 +93,3 @@ class Store:
             print(f"Error: Game file '{game_file_path}' not found." ,style="error")
         except Exception as e:
             print(f"Error running the game: {e}" ,style="error")
-
-    def save_login_data(self):
-        login_data = {
-            'email': self.email,
-            'password': self.password,
-        }
-        try:
-            with open('login_data.json', 'w') as f:
-                json.dump(login_data, f)
-            console.print("Login data saved successfully.", style="success")
-        except Exception as e:
-            print(f"Error saving login data: {e}", style="error")
-    
-    

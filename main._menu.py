@@ -4,23 +4,34 @@ from rich.console import Console
 from rich.theme import Theme
 from colorama import *
 from art import *
+from User_data import UserData
 
 costom_theme = Theme({"success": "green", "error": "bold red"})
 console = Console (theme=costom_theme)
 
+
 def main():
+    
     print(Fore.BLUE + Style.BRIGHT)
-    tprint("Welcome to my Game Store!")
+    tprint("Welcome to my Maze Game !")
     print(Style.RESET_ALL)
 
     input("PRESS ANY KEY TO CONTINUE... ")
 
-#dont forget the set & get
-    email = input("Enter your email to log in : ")
-    password = input("Enter your password: ")
-    store = Store(email, password)  
-    print(input(""))
-
+    user_data = UserData()
+    
+    email = input("enter your user name to login ")
+    
+    while True:
+        password = input("inter your password( just number): ")
+        if user_data.has_numbers(password):
+            break
+        print("the password need to be numbers")
+    
+    user_data.save_login_data(email, password)
+    store = Store()  
+    
+    
     error = ErrorRebot("", "")
  
 # add more try & except
