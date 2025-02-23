@@ -1,0 +1,91 @@
+[
+    {
+        "name": "avocado toast",
+        "ingredients": [
+            "avocado",
+            "bread",
+            "salt",
+            "pepper",
+            "olive oil",
+            "lemon juice"
+        ],
+        "steps": "Toast the bread. Mash the avocado with salt, pepper, olive oil, and lemon juice. Spread on the toast and serve.",
+        "calories": "240",
+        "user": "danah1"
+    },
+    {
+        "name": "banana smoothie",
+        "ingredients": [
+            "banana",
+            "milk",
+            "honey"
+        ],
+        "steps": "Blend banana, milk, and honey until smooth.",
+        "calories": "200",
+        "user": "danah1"
+    },
+    {
+        "name": "grilled chicken salad",
+        "ingredients": [
+            "chicken breast",
+            "lettuce",
+            "tomatoes",
+            "cucumber",
+            "olive oil",
+            "lemon juice",
+            "salt",
+            "pepper"
+        ],
+        "steps": "Grill the chicken, chop the vegetables, mix everything, and drizzle with olive oil and lemon juice.",
+        "calories": "350",
+        "user": "danah1"
+    },
+    {
+        "name": "lemon cake",
+        "ingredients": [
+            "flour",
+            "sugar",
+            "butter",
+            "eggs",
+            "baking powder",
+            "milk",
+            "lemon juice",
+            "lemon zest",
+            "vanilla extract",
+            "salt"
+        ],
+        "steps": "Preheat the oven to 350°F (175°C) and grease a pan. Mix flour, baking powder, and salt. Beat butter and sugar until fluffy, then add eggs. Stir in lemon juice, zest, vanilla, and milk. Gradually mix in the dry ingredients. Pour the batter into the pan and bake for 30-35 minutes. Let it cool.",
+        "calories": "555",
+        "user": "duha1"
+    },
+    {
+        "name": "chocolate chip cookies",
+        "ingredients": [
+            "flour",
+            "sugar",
+            "butter",
+            "eggs",
+            "baking soda",
+            "vanilla extract",
+            "chocolate chips"
+        ],
+        "steps": "Mix all ingredients, form small cookie dough balls, and bake at 350°F (175°C) for 10-12 minutes.",
+        "calories": "480",
+        "user": "duha1"
+    },
+    {
+        "name": "strawberry pancakes",
+        "ingredients": [
+            "flour",
+            "milk",
+            "eggs",
+            "sugar",
+            "baking powder",
+            "strawberries",
+            "butter"
+        ],
+        "steps": "Mix flour, sugar, baking powder, eggs, and milk. Cook pancakes on a pan. Serve with butter and strawberries.",
+        "calories": "430",
+        "user": "duha1"
+    }
+]

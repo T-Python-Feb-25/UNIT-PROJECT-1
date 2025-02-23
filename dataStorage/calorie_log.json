@@ -1,0 +1,58 @@
+[
+    {
+        "user": "duha1",
+        "meal": "Cornflakes",
+        "calories": 544,
+        "date": "2025-02-23",
+        "time": "11:28 AM"
+    },
+    {
+        "user": "duha1",
+        "meal": "egg toast",
+        "calories": 333,
+        "date": "2025-02-23",
+        "time": "01:01 PM"
+    },
+    {
+        "user": "duha1",
+        "meal": "Pancakes",
+        "calories": 412,
+        "date": "2025-02-22",
+        "time": "11:00 AM"
+    },
+    {
+        "user": "danah1",
+        "meal": "Burger",
+        "calories": 800,
+        "date": "2025-02-16",
+        "time": "07:00 PM"
+    },
+    {
+        "user": "duha1",
+        "meal": "rice",
+        "calories": 409,
+        "date": "2025-02-20",
+        "time": "10:51 AM"
+    },
+    {
+        "user": "duha1",
+        "meal": "Pancakes",
+        "calories": 712,
+        "date": "2025-02-21",
+        "time": "11:00 AM"
+    },
+    {
+        "user": "duha1",
+        "meal": "lemon cake",
+        "calories": 765,
+        "date": "2025-02-19",
+        "time": "04:45 PM"
+    },
+    {
+        "user": "duha1",
+        "meal": "latte",
+        "calories": 265,
+        "date": "2025-02-18",
+        "time": "04:45 PM"
+    }
+]
