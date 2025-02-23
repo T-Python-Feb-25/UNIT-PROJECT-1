@@ -88,15 +88,19 @@ def read_from_QR_img(image_path):
 #//////////////////////////////////////////////////////////////////////
 
 
-#//////////////////////////////////////////////////////creat QR CODES with diffrent window /////////////////////////////////////////////////////////////
+#//////////////////////////////////////////////////////creat QR CODES with diffrent window /////////////////////////////////////////////////
 
 
 
 
 def create_qr_code_gui():
+
+    """ This function creates a QR for a contact by entering the contact information in the GUI screen"""
+
     # Create the main window
     qr_image= None
     tk_img= None
+    
     root = tk.Tk()       
     root.title("QR Code Generator")
     root.geometry("450x650")
@@ -256,7 +260,7 @@ END:VCARD"""
 create_qr_code_gui()
 
 
-#///////////////////////////////////////////////////////end creation QR with diffrent window ////////////////////////////////////////////////
+#/////////////////////////////////////////////////end creation QR with GUI ////////////////////////////////////////////////
 
 
 """  Call the function with the user-input data ,file name,img  """
@@ -268,7 +272,7 @@ while True:
     print(Fore.BLUE +"3️⃣  Read QR Codes from img ")
     print(Fore.BLUE +"4️⃣  Generate QR Codes with diffrent window  ")
 
-#////////////////////////////////////////
+
     choice = input("🔸 Select an option (1 or 2 or 3 or 4): ").strip() # strip() to remove the space
     
 
@@ -281,21 +285,19 @@ while True:
       QR_img = input("Enter the name of the QR image (with extension): ")
       read_from_QR_img(QR_img)
     elif choice == "4":
-    # سؤال المستخدم إذا كان يريد فتح نافذة إدخال البيانات
-      QR_win = input("Type 'start' to creat qr with diffrent window : ").strip().lower()
+      
+    # Ask the user if he wants to open the data entry window
+
+      QR_win = input("Type 'start' to creat contact qr with diffrent window : ").strip().lower()
       if QR_win == "start":
-       create_qr_code_gui( )  # فتح نافذة إنشاء QR فقط إذا كتب المستخدم "start"
+       create_qr_code_gui( )  # Open QR generation window only if user types "start"
       else:
-       print("you are dont write 'start'.")
+       print("you are dont write 'start' please write 'start' .")
 
     else:
       print(Fore.YELLOW +"⚠️ Invalid choice!")
     answer= input("Do you want to continue press 'y' or 'n'  :  ")
-    # try:
-    #  answer = input("Do you want to continue press 'y' or 'n'  :  ")
-    # except KeyboardInterrupt:
-    #  print("\nProcess interrupted. Exiting.")
-    # exit()
+   
 
     if answer=='y':
       continue
