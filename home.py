@@ -1,7 +1,6 @@
 import msvcrt
 import hashlib
 import json
-# from admin.events import manage_events, display_calendar
 from admin.reminder import reminders_main
 
 class User:
@@ -11,18 +10,13 @@ class User:
         self.password = self.hash_password(password) if not is_hashed else password
 
     def hash_password(self, password):
-        
-        '''This function is used to hash the password using SHA-256 algorithm and return the hashed password
-        as a hexadecimal string.'''
-        
+        '''This function is used to hash the password using SHA-256 algorithm and return the hashed password as a hexadecimal string.'''
         return hashlib.sha256(password.encode()).hexdigest()
 
 def custom_getpass(prompt='Password: ', mask='*'):
-    
     '''This function is used to get the password from the user without showing it on the screen. 
     It uses msvcrt.getch() to get the input character by character and prints a mask symbol instead of the actual character. 
     The function returns the password entered by the user.'''
-    
     print(prompt, end="", flush=True)
     password = ""
     while True:
@@ -40,11 +34,9 @@ def custom_getpass(prompt='Password: ', mask='*'):
     return password
 
 def register(users):
-    
     '''This function is used to register a new user by taking the username and password as input from the user.
     It checks if the username already exists in the users dictionary and if not, it creates a new User instance with the hashed password.
     It then saves the user data to the 'logins.json' file and returns the updated users dictionary.'''
-    
     username = input("Enter username: ")
 
     # Check if the username already exists in the users dictionary
@@ -67,11 +59,9 @@ def register(users):
     return users
 
 def login(users):
-    
     '''This function is used to log in a user by checking the username and password entered by the user.
     It returns the updated users dictionary and the logged-in user object if the login is successful.
     If the login fails, it returns the users dictionary and None for the user object.'''
-    
     while True:  # Keep asking for login until successful or user decides to exit
         username = input("Enter username: ")
         password = custom_getpass("Enter password: ")
@@ -95,9 +85,7 @@ def login(users):
         return users, None  # In case of failed login or invalid input
 
 def password_reset(users, username):
-    
     '''This function is used to reset the password for a user by updating the password in the users dictionary and the logins.json file.'''
-    
     if username in users:
         new_password = custom_getpass("Enter a new password: ").strip()
         # Update password with the hashed version
@@ -108,17 +96,13 @@ def password_reset(users, username):
         print("Username not found.")
 
 def update_logins_file(users):
-    
     '''This function is used to update the logins.json file with the new password after a password reset.'''
-    
     # Rewrite the logins.json file with updated user information
     with open('logins.json', 'w') as file:
         json.dump({user.username: user.password for user in users.values()}, file)
 
 def load_users():
-    
     '''This function is used to load the user data from the logins.json file.'''
-    
     users = {}
     try:
         with open('logins.json', 'r') as file:

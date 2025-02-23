@@ -1,9 +1,8 @@
 import calendar
 from datetime import datetime
-from colorama import init, Fore
+from colorama import init, Fore, Back, Style
 import json
 import os
-import unittest
 
 # Initialize colorama
 init(autoreset=True)
@@ -15,28 +14,31 @@ def manage_events(logged_in_user):
     while True:
         print("\nHello! Ready to organise your events? Let’s go!")
         print("1. Add Event")
-        print("2. View Events")
-        print("3. Update Event")
-        print("4. Delete Event")
-        print("5. Exit")
+        print("2. Search for an event")
+        print("3. View Events")
+        print("4. Update Event")
+        print("5. Delete Event")
+        print("6. Exit")
         
         try:
             choice = int(input("Enter your choice: "))
         except ValueError:
-            print("Invalid input. Please enter a number between 1 and 5.")
+            print("Invalid input. Please enter a number between 1 and 6.")
             continue  # Continue the loop to ask for the input again
 
         if choice == 1:
             add_event(logged_in_user)
         elif choice == 2:
-            view_events(logged_in_user)
+            search_event(logged_in_user)
         elif choice == 3:
-            update_event(logged_in_user)
+            view_events(logged_in_user)
         elif choice == 4:
-            delete_event(logged_in_user)
+            update_event(logged_in_user)
         elif choice == 5:
+            delete_event(logged_in_user)
+        elif choice == 6:
             print("Exiting the event manager. Goodbye!")
-            break  # Exit the loop if the user chooses option 5
+            break  # Exit the loop if the user chooses option 6
         else:
             print("Invalid choice. Please try again.")
 
@@ -62,9 +64,7 @@ def save_events(events):
         print(f"Error saving events: {e}")
 
 def add_event(logged_in_user):
-    
     '''This function allows the user to add an event to the events.json file.'''
-    
     while True:
         date_str = input("Enter the date (YYYY-MM-DD): ")
         try:
@@ -91,6 +91,21 @@ def add_event(logged_in_user):
     save_events(events)
     print("Event added successfully!")
 
+def search_event(logged_in_user):
+    '''This function allows the user to search for an event in the events.json file.'''
+    search = input("Enter the event name to search: ")
+    
+    events = load_events()
+    found = False
+    
+    for event in events:
+        if event['username'] == logged_in_user.username and search.lower() in event['event'].lower():
+            print(f"{event['date']}: {event['event']}")
+            found = True
+    
+    if not found:
+        print("Event not found.")
+
 def view_events(logged_in_user):
     '''This function allows the user to view their events from the events.json file.'''
     events = load_events()
@@ -104,12 +119,13 @@ def view_events(logged_in_user):
 
 def update_event(logged_in_user):
     '''This function allows the user to update an event in the events.json file.'''
-    # Loop until a valid date is entered for the event
+    
     while True:
-        date = input("Enter the date of the event to update (YYYY-MM-DD): ")
+        date_str = input("Enter the date of the event to update (YYYY-MM-DD): ")
         try:
-            date = datetime.strptime(date, "%Y-%m-%d")
-            break  # Exit the loop if the date is valid
+            # Validate the date format
+            date = datetime.strptime(date_str, "%Y-%m-%d")
+            break
         except ValueError:
             print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
     
@@ -118,22 +134,24 @@ def update_event(logged_in_user):
     updated = False
     
     for event in events:
-        if event['username'] == logged_in_user.username and event['date'] == date.strftime('%Y-%m-%d'):
+        if event['username'] == logged_in_user.username and event['date'] == date_str:
             new_event = input("Enter the new event name: ")
+            
             while not new_event.strip():
                 print("Event name cannot be empty. Please enter a valid event name.")
                 new_event = input("Enter the new event name: ")
 
             while True:
-                new_date = input("Enter the new date (YYYY-MM-DD): ")
+                new_date_str = input("Enter the new date (YYYY-MM-DD): ")
                 try:
-                    new_date = datetime.strptime(new_date, "%Y-%m-%d")
-                    break  # Exit the loop if the date is valid
+                    new_date = datetime.strptime(new_date_str, "%Y-%m-%d")
+                    break
                 except ValueError:
                     print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
             
+            # Update event details
             event['event'] = new_event
-            event['date'] = new_date.strftime('%Y-%m-%d')
+            event['date'] = new_date_str
             updated = True
         
         updated_events.append(event)
@@ -147,12 +165,12 @@ def update_event(logged_in_user):
 
 def delete_event(logged_in_user):
     '''This function allows the user to delete an event from the events.json file.'''
-    # Loop until a valid date is entered for the event
+    
     while True:
-        date = input("Enter the date of the event to delete (YYYY-MM-DD): ")
+        date_str = input("Enter the date of the event to delete (YYYY-MM-DD): ")
         try:
-            date = datetime.strptime(date, "%Y-%m-%d").strftime('%Y-%m-%d')
-            break  # Exit the loop if the date is valid
+            date = datetime.strptime(date_str, "%Y-%m-%d").strftime('%Y-%m-%d')
+            break
         except ValueError:
             print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
     
@@ -161,7 +179,7 @@ def delete_event(logged_in_user):
     deleted = False
     
     for event in events:
-        if event['username'] == logged_in_user.username and event['date'] == date:
+        if event['username'] == logged_in_user.username and event['date'] == date_str:
             deleted = True
         else:
             updated_events.append(event)
@@ -177,22 +195,20 @@ def display_calendar(logged_in_user):
     '''This function displays a calendar for the given month and year with events highlighted.'''
     
     while True:
-        # User input for the year and month with validation
         try:
             year = int(input("Enter year (e.g. 2025): "))
             month = int(input("Enter month (1-12): "))
             if month < 1 or month > 12:
                 print("Invalid month. Please enter a number between 1 and 12.")
                 continue
-            break  # Exit the loop if valid input
+            break
         except ValueError:
             print("Invalid input. Please enter numeric values for year and month.")
             continue
 
     events = load_events()
-
-    # Set of event days for the given month and year
     event_days = set()
+    
     for event in events:
         if event['username'] == logged_in_user.username:
             try:
@@ -202,21 +218,24 @@ def display_calendar(logged_in_user):
             except ValueError:
                 print(f"Skipping invalid date format: {event['date']}")
 
-    # Print the calendar for the month
     cal = calendar.TextCalendar(calendar.SUNDAY)
     print(f"\nCalendar for {calendar.month_name[month]} {year}:")
+    header = "Su Mo Tu We Th Fr Sa"
+    print(header)
+    print("-" * len(header))
 
     for week in cal.monthdayscalendar(year, month):
+        week_str = ""
         for day in week:
             if day == 0:
-                print("   ", end=" ")  # Empty days
+                week_str += "   "
             elif day in event_days:
-                print(Fore.LIGHTGREEN_EX + f"{day:2}", end=" ")  # Event days in green
+                print(Fore.RESET)
+                week_str += Back.LIGHTCYAN_EX+ Fore.BLACK + f"{day:2}" + Style.RESET_ALL + " "
             else:
-                print(f"{day:2}", end=" ")  # Normal days
-        print()  # Newline after each week
+                week_str += f"{day:2} "
+        print(week_str)
 
-    # Print the events for the month
     print(f"\nThe events for {calendar.month_name[month]} {year}:")
     events_found = False
     for event in events:
@@ -228,3 +247,12 @@ def display_calendar(logged_in_user):
 
     if not events_found:
         print("No events found for this month.")
+
+# Example usage
+if __name__ == "__main__":
+    class User:
+        def __init__(self, username):
+            self.username = username
+
+    logged_in_user = User(username="test_user")
+    display_calendar(logged_in_user)

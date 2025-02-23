@@ -1,14 +1,15 @@
-from home import load_users, register, login, manage_events, display_calendar, reminders_main
+from home import load_users, register, login, reminders_main
+from admin.events import manage_events, display_calendar
+import unittest
 
 def main():
-    
     '''This is the main function that runs the Virtual Assistant program.'''
     
     users = load_users()  # Load existing users
     print("Welcome! I am your Virtual Assistant.\nDesigned to assist you with your daily tasks. Please register or log in to proceed.")
     
     while True:
-        choice = input("Type 'r' to register, 'l' to login, 'e' to exit: ").strip().lower()
+        choice = input("Type 'r' to register, 'l' to login, 'e' to exit, 't' to run tests: ").strip().lower()
         
         if choice == 'r' or choice == 'register':
             users = register(users)  # Register a new user
@@ -27,15 +28,16 @@ def main():
                         manage_events(logged_in_user)  # Manage user events
                         break
                     elif action_choice == '2':
-                        display_calendar(logged_in_user)  # Display calendar with events
-                        choice = input("\nType 'v' to view calendar again, 'e' to exit: ")
-                        if choice == 'v':
-                            display_calendar(logged_in_user)
-                            break
-                        elif choice == 'e':
-                            break
-                        else:
-                            print("Invalid input, Type 'v' to view calendar again, 'e' to exit.")
+                        while True:
+                            display_calendar(logged_in_user)  # Display calendar with events
+                            choice = input("\nType 'v' to view calendar again, 'e' to exit: ").strip().lower()
+                            if choice == 'v':
+                                continue
+                            elif choice == 'e':
+                                break
+                            else:
+                                print("Invalid input, Type 'v' to view calendar again, 'e' to exit.")
+                        break
                     elif action_choice == '3':
                         reminders_main()  # Check reminders
                         break
@@ -50,8 +52,12 @@ def main():
         elif choice == 'e':
             print("Exiting the program...")
             break
+        elif choice == 't':
+            print("Running tests...")
+            # Adjust the import path for the test module
+            unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromName('test.home_test.TestHomeFunctions'))
         else:
-            print("Invalid choice. Please enter 'r' to register or 'l' to login.")
+            print("Invalid choice. Please enter 'r' to register, 'l' to login, 'e' to exit, or 't' to run tests.")
 
 if __name__ == "__main__":
     main()
