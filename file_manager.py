@@ -2,7 +2,7 @@ import json
 import os
 
 def load_data(file_path):
-    """to load the data from json file"""
+    """ to load the data from json file """
     if not os.path.exists(file_path):
         return []
     with open(file_path, "r") as file:
