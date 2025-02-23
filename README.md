@@ -7,40 +7,56 @@
 - Organize Your Code into modules & (or packages)
 - Use git & Github to track changes in your code.
 
-## Project : Virtual Assistant for Admin and Web Developer
+## Project : Virtual Assistant
 
-#### Overview : A command-line interface (CLI) virtual assistant designed to cater to two distinct user types: Admin (for personal use) and Web Developer (for technical use). The assistant can help admins with daily tasks and assist web developers with technical tasks, making it a versatile tool for different needs.
+#### Overview : A command-line interface (CLI) virtual assistant designed to help users with managing their schedule, setting up reminders, and organizing personal events. This assistant can help you track important tasks, manage personal events like meetings, and set reminders.
 
 ### Features & User Stories
 
-#### As an Admin I should be able to do the following:
+### As an Admin I should be able to do the following:
 
-- Set reminders and tasks for personal management.
-- Event Management: Track personal events such as birthdays, anniversaries, or meetings.
+- Register: Create an account with a username and password.
 
-### As a Web Developer I should be able to do the following:
+- Login: Log in using my username and password.
 
-Check the server status and health of my website.
-Fetch logs for debugging and monitoring.
-View and run code snippets.
-Automate deployment tasks for web applications.
-Check the status of virtual environments or Docker containers.
-Interact with version control (e.g., Git) for commits, push, pull, and branch management.
-View API documentation and code references.
-Automate documenting functions ...
+- Reset my account password: Reset my password in case I forget it.
+
+- Set reminders for my tasks or important dates.
+
+- Display all active reminders.
+
+- Manage personal events such as meetings.
+
+- Add, update, and delete events.
+
+- View my events in a calendar format
 
 #### Usage :
 
 For Admin:
+
 Register/Login: Enter your username and password to access the assistant.
 
-For Web Developer:
-Register/Login: Enter your username and password to access the assistant.
-Check Server Status: Type server status to check if your server is up and running.
-View Logs: Type logs to view the latest server/application logs.
-Run Tests: Type test run [test_name] to execute a predefined test.
-Deploy Project: Type deploy project to deploy your latest project version.
-Git Commands: Type git commit [message] to commit your changes, or git push to push changes to the repository.
+Reset Password: If you forget your password, you can reset it at any time.
+
+Reminder Management:
+
+Set reminders for tasks or dates.
+View or check all active reminders.
+Display all reminders.
+
+Event Management:
+
+Add, update, and view your events.
+Delete events from your calendar.
+View your events in a calendar format.
+
+### Example Commands:
+
+Register: Follow the prompt to register your username and password.
+Login: After registration, log in to access features.
+Set Reminder: Type set reminder followed by your reminder text and time.
+Add Event: Type add event followed by the event details and date.
 
 ### For your project. Edit this README.md file to include your own project name, overview, user stories, and usage.
 

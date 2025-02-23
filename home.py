@@ -1,8 +1,8 @@
 import msvcrt
 import hashlib
-from admin.events import manage_events, display_calendar
+import json
+# from admin.events import manage_events, display_calendar
 from admin.reminder import reminders_main
-from datetime import datetime
 
 class User:
     def __init__(self, username, password, is_hashed=False):
@@ -11,9 +11,13 @@ class User:
         self.password = self.hash_password(password) if not is_hashed else password
 
     def hash_password(self, password):
+        
+        '''This function is used to hash the password using SHA-256 algorithm and return the hashed password
+        as a hexadecimal string.'''
+        
         return hashlib.sha256(password.encode()).hexdigest()
 
-def custom_getpass(prompt='Password: ', mask='*'): 
+def custom_getpass(prompt='Password: ', mask='*'):
     
     '''This function is used to get the password from the user without showing it on the screen. 
     It uses msvcrt.getch() to get the input character by character and prints a mask symbol instead of the actual character. 
@@ -27,7 +31,7 @@ def custom_getpass(prompt='Password: ', mask='*'):
             break
         elif ch == b'\x08':  # Backspace is pressed
             if password:
-                password = password[:-1]  # Remove last character from password
+                password = password[:-1]  # Remove last character from password if backspace is pressed
                 print('\b \b', end="", flush=True)  # Remove last masked character on screen
         else:
             password += ch.decode('utf-8')  # Add the character to the password
@@ -36,6 +40,11 @@ def custom_getpass(prompt='Password: ', mask='*'):
     return password
 
 def register(users):
+    
+    '''This function is used to register a new user by taking the username and password as input from the user.
+    It checks if the username already exists in the users dictionary and if not, it creates a new User instance with the hashed password.
+    It then saves the user data to the 'logins.json' file and returns the updated users dictionary.'''
+    
     username = input("Enter username: ")
 
     # Check if the username already exists in the users dictionary
@@ -48,23 +57,28 @@ def register(users):
     users[username] = User(username, password, is_hashed=False)
 
     try:
-        # Save the user data to 'logins.txt' file
-        with open('logins.txt', 'a') as file:
-            file.write(f"{username},{users[username].password}\n")
-        print("You have been registered successfully! login to start using the VA")
+        # Save the user data to 'logins.json' file
+        with open('logins.json', 'w') as file:
+            json.dump({user.username: user.password for user in users.values()}, file)
+        print("You have been registered successfully! Login to start using the VA.")
     except IOError as e:
         print(f"Error saving user data: {e}")
 
     return users
 
 def login(users):
+    
+    '''This function is used to log in a user by checking the username and password entered by the user.
+    It returns the updated users dictionary and the logged-in user object if the login is successful.
+    If the login fails, it returns the users dictionary and None for the user object.'''
+    
     while True:  # Keep asking for login until successful or user decides to exit
         username = input("Enter username: ")
         password = custom_getpass("Enter password: ")
 
         # Check if username exists and the password matches the hashed password
         if username in users and users[username].password == hashlib.sha256(password.encode()).hexdigest():
-            print(f"You have logged in successsfully! Welcome {username}")
+            print(f"You have logged in successfully! Welcome {username}")
             return users, users[username]
         else:
             print("Incorrect username or password.")
@@ -73,103 +87,45 @@ def login(users):
                 password_reset(users, username)
                 # After password reset, we want to allow the user to log in again
             elif password_reset_choice == 'no':
-                print("Okay then try to login again")
+                print("Okay, try to login again")
                 continue  # Keep the loop running to allow retrying the login
             else:
                 print("Invalid choice. Please choose 'yes' or 'no'.")
-    
+                
         return users, None  # In case of failed login or invalid input
 
 def password_reset(users, username):
+    
+    '''This function is used to reset the password for a user by updating the password in the users dictionary and the logins.json file.'''
+    
     if username in users:
         new_password = custom_getpass("Enter a new password: ").strip()
         # Update password with the hashed version
         users[username].password = users[username].hash_password(new_password)
         print(f"Password for {username} has been reset successfully.")
-        update_logins_file(users)  # Update the logins.txt file with the new password
+        update_logins_file(users)  # Update the logins.json file with the new password
     else:
         print("Username not found.")
 
 def update_logins_file(users):
-    '''This function is used to update the logins.txt file with the new password after a password reset.'''
-    # Rewrite the logins.txt file with updated user information
-    with open('logins.txt', 'w') as file:
-        for username, user in users.items():
-            file.write(f"{username},{user.password}\n")
+    
+    '''This function is used to update the logins.json file with the new password after a password reset.'''
+    
+    # Rewrite the logins.json file with updated user information
+    with open('logins.json', 'w') as file:
+        json.dump({user.username: user.password for user in users.values()}, file)
 
 def load_users():
-    '''This function is used to load the user data from the logins.txt file.'''
+    
+    '''This function is used to load the user data from the logins.json file.'''
+    
     users = {}
     try:
-        with open('logins.txt', 'r') as file:
-            for line in file:
-                parts = line.strip().split(',')
-                if len(parts) == 2:
-                    username, password = parts
-                    # Load users with their password already hashed
-                    users[username] = User(username, password, is_hashed=True)
-                else:
-                    print(f"Skipping invalid line in logins.txt: {line.strip()}")
+        with open('logins.json', 'r') as file:
+            user_data = json.load(file)
+            for username, password in user_data.items():
+                # Load users with their password already hashed
+                users[username] = User(username, password, is_hashed=True)
     except FileNotFoundError:
         pass  # File does not exist yet, return empty dictionary
     return users
-
-def main():
-    '''This is the main function that runs the Virtual Assistant program.'''
-    users = load_users()
-    print("Welcome! I am your Virtual Assistant.\nDesigned to assist you with your daily tasks. Please register or log in to proceed.")
-    
-    while True:
-        choice = input("Type 'r' to register, 'l' to login, 'e' to exit: ").strip().lower()
-        
-        if choice == 'r' or choice == 'register':
-            users = register(users)  # Call register function to add a new user
-        elif choice == 'l' or choice == 'login':
-            users, logged_in_user = login(users)
-            if logged_in_user:
-                print("\nChoose an action:")
-                print("1. Manage Events")
-                print("2. View Calendar with Events")
-                print("3. Check reminders")
-                print("4. Chat with VA")
-                print("5. Logout")
-                        
-                while True:
-                    action_choice = input("Enter your choice: ").strip()
-                    if action_choice == '1':
-                        manage_events(logged_in_user)  # Call manage_events function from admin.services module
-                        break
-                    elif action_choice == '2':
-                        display_calendar(logged_in_user)  # Display the calendar with events
-                        choice = input("\nType 'v' to view calendar again, 'e' to exit: ")
-                        if choice == 'v':
-                            display_calendar(logged_in_user)
-                            break
-                        elif choice == 'e':
-                            break
-                        else:
-                            print("invalid input, Type 'v' to view calendar again, 'e' to exit: ")
-                        break
-                    elif action_choice == '3':
-                        reminders_main()
-                        break
-                    elif action_choice == '4':
-                        print("Chat with VA")
-                        break
-                    elif action_choice == '5':
-                        print("Logging out...")
-                        break  # Exit the loop to log out
-                    else:
-                        print("Invalid choice. Please try again.")
-            else:
-                print("Login failed. Please try again.")
-        
-        elif choice == 'e':
-            print("Exiting the program...")
-            break
-        else:
-            print("Invalid choice. Please enter 'r' to register or 'l' to login.")
-
-if __name__ == "__main__":
-    main()
-

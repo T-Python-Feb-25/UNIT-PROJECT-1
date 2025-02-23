@@ -24,7 +24,9 @@ def set_reminder():
             print("Invalid date format. Please use 'YYYY-MM-DD HH:MM:SS'.")
 
 def check_reminders():
+    
     """Function to check reminders and notify the user."""
+    
     while True:
         current_time = datetime.now()
         with reminders_lock:
@@ -37,7 +39,9 @@ def check_reminders():
         time.sleep(60)  # Check every minute
 
 def display_reminders():
+    
     """Display all current reminders."""
+    
     with reminders_lock:
         if not reminders:
             print("No reminders set.")

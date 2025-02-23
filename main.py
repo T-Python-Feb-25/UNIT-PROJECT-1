@@ -1,7 +1,9 @@
 from home import load_users, register, login, manage_events, display_calendar, reminders_main
 
 def main():
+    
     '''This is the main function that runs the Virtual Assistant program.'''
+    
     users = load_users()  # Load existing users
     print("Welcome! I am your Virtual Assistant.\nDesigned to assist you with your daily tasks. Please register or log in to proceed.")
     
@@ -17,8 +19,7 @@ def main():
                 print("1. Manage Events")
                 print("2. View Calendar with Events")
                 print("3. Check reminders")
-                print("4. Chat with VA")
-                print("5. Logout")
+                print("4. Logout")
                         
                 while True:
                     action_choice = input("Enter your choice: ").strip()
@@ -30,6 +31,7 @@ def main():
                         choice = input("\nType 'v' to view calendar again, 'e' to exit: ")
                         if choice == 'v':
                             display_calendar(logged_in_user)
+                            break
                         elif choice == 'e':
                             break
                         else:
@@ -38,9 +40,6 @@ def main():
                         reminders_main()  # Check reminders
                         break
                     elif action_choice == '4':
-                        print("Chat with VA")
-                        break
-                    elif action_choice == '5':
                         print("Logging out...")
                         break  # Exit the inner loop to log out
                     else:
