@@ -1,4 +1,6 @@
 import requests
+from colorama import Fore, Style
+
 class Movie:
     def __init__(self,api_key):
         self.__api_key = api_key
@@ -119,9 +121,9 @@ class Movie:
         genre=requests.get(f"{self.__base_url}genre/movie/list?&api_key={self.__api_key}")
         genre.raise_for_status()
         genre=genre.json()
-        for gen in genre["genres"]:
-            print(f"id:{gen["id"]} name:{gen["name"]}")
-        print("-"*20)
+        for i,gen in enumerate(genre["genres"]):
+            print(f"{Fore.MAGENTA}{i}.id:{gen["id"]} name:{gen["name"]}")
+            print("-"*50)
 
     def get_movie_by_genre(self,id):
         '''

@@ -1,4 +1,6 @@
 import requests
+from colorama import Fore
+
 class Tvshow:
     def __init__(self,api_key):
         self.__api_key = api_key
@@ -48,6 +50,8 @@ class Tvshow:
             "genres": [gen["name"] for gen in response["genres"]],
             "overview": response["overview"],
             "number_of_seasons":response["number_of_seasons"],
+            "number_of_episodes":response["number_of_episodes"],
+
             "TMDb_Rating": response["vote_average"],
             "imdb_id":imdb["imdb_id"]
         }  
@@ -129,9 +133,9 @@ class Tvshow:
         genre=requests.get(f"{self.__base_url}genre/tv/list?&api_key={self.__api_key}")
         genre.raise_for_status()
         genre=genre.json()
-        for gen in genre["genres"]:
-            print(f"id:{gen["id"]} name:{gen["name"]}")
-        print("-"*20)
+        for i,gen in enumerate(genre["genres"]):
+            print(f"{Fore.MAGENTA}{i}.id:{gen["id"]} name:{gen["name"]}")
+            print("-"*50)
 
     def get_tv_by_genre(self,id):
         '''
