@@ -3,6 +3,11 @@ from email_validator import validate_email, EmailNotValidError
 import maskpass
 import base64
 import re
+from openai import OpenAI
+from config import API_CLIENT
+import json
+from province_mangement import get_all_governorates, get_all_provinces, load_data
+from datetime import datetime, timedelta
 
 pass_requirments='''Please create a strong password that meets the following requirements:
         1. At least 8 characters long.
@@ -12,12 +17,48 @@ pass_requirments='''Please create a strong password that meets the following req
         5. Contains at least one special character (e.g., !@#$%^&*).
         6. Cannot contain spaces or tabs.'''
 
-def number_input_validation(prompt:str, limit):
+def llm_response(prompt):
+    completion = API_CLIENT.chat.completions.create(
+        model="gpt-4o-mini",
+        store=True,
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0
+    )
+    return completion.choices[0].message.content
+
+
+def order_info_validation(from_city,to_city):
+    prompt = f'''
+    calculate the distance kilo by car from {from_city} , Saudi Arabia to {to_city} ,Saudi Arabia and the time taken by hours return max 
+    follow the same format of the answer return
+    "distance": km
+    "hours": hours
+
+    make sure to follow the output format with no extra text
+    '''
+    response = llm_response(prompt)
+        
+    # Clean the string
+    # cleaned_response = response.strip()
+
+    # cleaned_response = cleaned_response.replace(' km', ",").replace(' hours', '')
+
+    # cleaned_response = '{' + cleaned_response + '}'
+    try:
+        response_data:dict = json.loads(response)
+        print(response_data)
+        return response_data.values()
+    except json.JSONDecodeError:
+        print("the system is out of service try again later.")
+
+def get_number_input_with_limit(prompt:str, limit)->int:
     while True:
         try:
             user_input=input(prompt)
             if not (user_input.isnumeric()):
-                raise Exception("Invalid input , please enter numbers only")
+                raise Exception("Invalid input , Please enter a valid integer number.")
             elif int(user_input)>int(limit) or int(user_input)<=0:
                 raise Exception("Invalid Choice.")
 
@@ -26,18 +67,25 @@ def number_input_validation(prompt:str, limit):
         else:
             return int(user_input)
         
-def text_input_validation(prompt:str):
+def get_number_input(prompt: str) -> float:
     while True:
+        user_input = input(prompt)
         try:
-            user_input=input(prompt)
-            if not (user_input.isalpha()):
-                raise Exception("Invalid input , please enter charechters only")
-        except Exception as error:
-            print(error)
+            number = float(user_input)
+            return number  
+        except ValueError:
+            print("Invalid input. Please enter a valid number (integer or float).")
+
+def get_alphabetic_input(prompt: str) -> str:
+    while True:
+        user_input = input(prompt)
+        if not user_input.strip() or not all(char.isalpha() or char.isspace() for char in user_input):
+            print("Invalid input, please enter alphabetic characters only (spaces allowed).")
         else:
             return user_input
+
         
-def email_input_validation(prompt:str):
+def get_email_input(prompt:str)->str:
     while True:
         try:
             user_input=input(prompt)
@@ -47,7 +95,7 @@ def email_input_validation(prompt:str):
         else:
             return emailinfo.normalized
 
-def phone_input_validation(prompt:str):
+def get_phone_input(prompt:str)->str:
     while True:
         try:
             user_input=input(prompt)
@@ -58,7 +106,7 @@ def phone_input_validation(prompt:str):
         else:
             return user_input
         
-def password_input_Validation(prompt:str):
+def get_password_input(prompt:str):
     while True:
         try:
             # Password masking
@@ -90,9 +138,85 @@ def password_input_masking(prompt:str):
         print(error)
     else:
         return encpwd
+    
+
+
+
+def collect_order_info():
+    from config import truck_db
+    # Load provinces and pricing data
+    provinces_list, pricing_list = load_data()
+    order_info = {}
+    
+    # Display pricing information
+    menu = f'''------- Prices ------
+- Kilo cost for closed truck: {pricing_list["cost_kilo_closed"]}
+- Kilo cost for open truck: {pricing_list["cost_kilo_open"]}
+Note: Prices are excluding VAT {pricing_list["vat"] * 100}% and insurance {pricing_list['insurance']}'''
+    print(menu)
+
+    # Select service type
+    order_info['service_type'] = "open" if get_number_input_with_limit("1 - Open truck\n2 - Closed truck\nEnter service type:", 2) == 1 else "closed"
+    
+    # Retrieve available trucks and filter based on service type
+    trucks = truck_db.retrive_available_trucks()
+    filtered_trucks = list(filter(lambda truck: truck["body_style"] == order_info['service_type'], trucks))
+    
+    if len(filtered_trucks) == 0:
+        print(f"Sorry, no available {order_info['service_type']} trucks for the following days.")
+        return 
+    else:
+        order_info['assigined_truck'] = filtered_trucks[0]["truck_id"]
+    # print("Available trucks:", filtered_trucks)
+    
+    # Get today's date
+    today = datetime.now()
+    print("Delivery time takes from 1 to 2 days based on your destination.")
+    
+    # Display the next three days
+    for i in range(1, 4):
+        next_day = today + timedelta(days=i)
+        print(f"{i} - {next_day.strftime('%Y-%m-%d')}")
+
+    # Select pickup date
+    selected_date = get_number_input_with_limit("Please select the pickup date within the following three days to check the trucks' availability:", 3)
+    date = today + timedelta(days=selected_date)
+    order_info['pickup_date'] = date.strftime('%Y-%m-%d')
+
+    # Get pickup location
+    get_all_provinces(provinces_list)
+    keys_list = list(provinces_list.keys())
+    province_num = get_number_input_with_limit("Choose the province number that you want to ship from:", len(provinces_list))
+    selected_province = keys_list[province_num - 1]
+    
+    get_all_governorates(provinces_list, selected_province)
+    govern_num = get_number_input_with_limit("Choose the governorate number that you want to ship from:", len(provinces_list[selected_province]))
+    order_info['pickup'] = provinces_list[selected_province][govern_num - 1]
+    provinces_list[selected_province].pop(govern_num - 1)  # Remove selected governorate
+
+    # Get delivery location
+    get_all_provinces(provinces_list)
+    province_num = get_number_input_with_limit("Choose the province number that you want to ship to:", len(provinces_list))
+    selected_province = keys_list[province_num - 1]
+    
+    get_all_governorates(provinces_list, selected_province)
+    govern_num = get_number_input_with_limit("Choose the governorate number that you want to ship to:", len(provinces_list[selected_province]))
+    order_info['delivery'] = provinces_list[selected_province][govern_num - 1]
+    
+    # Validate distance and hours
+    order_info['distance'], order_info['hours'] = order_info_validation(order_info['pickup'], order_info['delivery'])
+    total=(order_info['distance']*(pricing_list["cost_kilo_closed"] if order_info['service_type'] else pricing_list["cost_kilo_open"]))+pricing_list['insurance']
+    order_info['price']= round((total*pricing_list["vat"])+total,2)
+
+    # Collect car information
+    order_info['car_make'] = get_alphabetic_input("Enter car make: ")
+    order_info['car_model'] = input("Enter car model: ")
+    order_info['car_year'] = get_number_input_with_limit("Enter car year:", 2026)
+    
+    # Return collected order information
+    return order_info
         
 
 
 
-            
             

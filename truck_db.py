@@ -90,12 +90,12 @@ class TruckDB:
             self.__create_truck_table()
             self.__cursor.execute(sql, params)
             self.__connection.commit()
-            print(f"Truck {truck_id}data updated successfully.")
+            print(f"Truck {truck_id} status updated successfully.")
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
         finally:
             self.close_connection()   
-           
+    
     def retrive_trucks(self)->list:
 
         self.connect()
@@ -108,7 +108,6 @@ class TruckDB:
         cursor.execute("SELECT * FROM trucks")
 
         # Convert to list of dictionaries
-        # result = [dict(row) for row in current_user]
         trucs=cursor.fetchall() 
         conn.close()
 
@@ -116,7 +115,53 @@ class TruckDB:
         if len(trucks_list)==0:
             print("No trucks available in the system")
         return trucks_list
-        
-          
+    
+    def retrive_available_trucks(self):
+        self.connect()
+        self.__create_truck_table()
+        # Connect to the SQLite database
+        conn = self.__connection
+        # Set the row factory to return dictionaries
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM trucks WHERE availability= 1")
+
+        # Convert to list of dictionaries
+        trucs=cursor.fetchall() 
+        conn.close()
+
+        trucks_list = [dict(truck) for truck in trucs] if trucs!=None else []
+        if len(trucks_list)==0:
+            print("No trucks available in the system")
+        return trucks_list
+
+    def __create_truck_assignments_table(self):
+        self.__cursor.execute('''
+        CREATE TABLE IF NOT EXISTS truck_assignments (
+        assignment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER,
+        truck_id INTEGER,
+        assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (order_id) REFERENCES orders(order_id),
+        FOREIGN KEY (truck_id) REFERENCES trucks(truck_id)
+    )
+    ''')
+    
+
+
+    def assigin_truck(self,truck_data):
+        try:
+            self.connect()
+            self.__create_truck_assignments_table()
+            self.__cursor.execute("INSERT INTO truck_assignments(order_id,truck_id) VALUES(?,?)",truck_data)
+            self.__connection.commit()
+            self.close_connection()
+
+        except Exception as error :
+            print(error)
+            print("Something went wrong while trying to assigne the truck to the order . Please try again later.")
+
+   
+    
     def close_connection(self):
         self.__connection.close()

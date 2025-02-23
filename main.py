@@ -30,19 +30,19 @@ def setup():
         try:
             user_input=input(menu+"Enter your choice: ")
             if user_input=='1':
-                email=email_input_validation("Enter your email adress:")
+                email=get_email_input("Enter your email adress:")
                 encoded_pass= password_input_masking("Enter your password: ")
                 user_dict=login(email,encoded_pass)
                 current_user=user_role_converter(user_dict)
 
                 is_valid=False if current_user==None else True
             elif user_input=='2':
-                first_name=text_input_validation("Enter your first name: ")
-                last_name=text_input_validation("Enter your last name: ")
-                email=email_input_validation("Enter your email adress:")
+                first_name=get_alphabetic_input("Enter your first name: ")
+                last_name=get_alphabetic_input("Enter your last name: ")
+                email=get_email_input("Enter your email adress:")
                 print(pass_requirments)
-                encoded_pass= password_input_Validation("Enter your password: ")
-                phone=phone_input_validation("Enter your phone number (e.g. 05xxxxxxxx):")
+                encoded_pass= get_password_input("Enter your password: ")
+                phone=get_phone_input("Enter your phone number (e.g. 05xxxxxxxx):")
                 
                 user_dict=sign_up(first_name,last_name,email,encoded_pass,phone)
                 current_user=user_role_converter(user_dict)
@@ -75,7 +75,7 @@ def setup():
 def main():
     # email=email_input_validation("Enter your email adress:")
     encoded_pass= password_input_masking("Enter your password: ")
-    user_dict=login("sabreenbinsalmna@hotmail.com",encoded_pass)
+    user_dict=login("sabreenbinsalman@hotmail.com",encoded_pass)
     current_user=user_role_converter(user_dict)
     print("-----welcome to Fazaa------")
 
