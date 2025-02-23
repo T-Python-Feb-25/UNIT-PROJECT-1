@@ -1,4 +1,4 @@
-from transformers import pipeline, GPT2LMHeadModel, GPT2Tokenizer
+'''from transformers import pipeline, GPT2LMHeadModel, GPT2Tokenizer
 import torch
 import re
 
@@ -16,26 +16,12 @@ model.to(device)
 # Set pad_token_id to eos_token_id (common approach for GPT-2)
 tokenizer.pad_token = tokenizer.eos_token
 
-# Context about Saudi Arabia
-context_saudi_arabia = """
-Saudi Arabia, officially known as the Kingdom of Saudi Arabia (KSA), is a country located on the Arabian Peninsula. 
-It is bordered by Jordan, Iraq, Kuwait, Bahrain, Qatar, the UAE, Oman, and Yemen. Saudi Arabia is known for its vast deserts and rich cultural heritage. 
-The country is also home to Islam's two holiest cities, Mecca and Medina.
-"""
 
-# Context about Riyadh
-context_riyadh = """
-Riyadh is the capital city of Saudi Arabia and the largest city in the country. It is located in the central region of the Arabian Peninsula. 
-Riyadh is known for its modern architecture, shopping malls, and vibrant cultural life. The city has been undergoing rapid development in recent years, 
-with new business districts, residential areas, and international hotels emerging. Riyadh is also home to many government offices and institutions.
-"""
+context_time_weather = """ .........."""
 
-# Context about time and weather
-context_time_weather = """
-Saudi Arabia has a desert climate with hot summers and mild winters. The country experiences high temperatures throughout the year, 
-especially in the summer months of June to August. Riyadh, in particular, experiences extremely hot temperatures in summer, often exceeding 40°C (104°F). 
-Rainfall is scarce, and the country faces occasional sandstorms. Winters in Riyadh are much milder, with temperatures dropping to around 15°C (59°F) at night.
-"""
+context
+
+
 
 # Combine all contexts into one
 combined_context = context_saudi_arabia + " " + context_riyadh + " " + context_time_weather
@@ -90,3 +76,4 @@ if __name__ == "__main__":
         else:
             response = generate_response(user_input)
             print("AI:", response)
+'''

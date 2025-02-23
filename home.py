@@ -13,7 +13,12 @@ class User:
     def hash_password(self, password):
         return hashlib.sha256(password.encode()).hexdigest()
 
-def custom_getpass(prompt='Password: ', mask='*'):
+def custom_getpass(prompt='Password: ', mask='*'): 
+    
+    '''This function is used to get the password from the user without showing it on the screen. 
+    It uses msvcrt.getch() to get the input character by character and prints a mask symbol instead of the actual character. 
+    The function returns the password entered by the user.'''
+    
     print(prompt, end="", flush=True)
     password = ""
     while True:
@@ -59,7 +64,7 @@ def login(users):
 
         # Check if username exists and the password matches the hashed password
         if username in users and users[username].password == hashlib.sha256(password.encode()).hexdigest():
-            print(f"Login successful! You are logged in now!!!!")
+            print(f"You have logged in successsfully! Welcome {username}")
             return users, users[username]
         else:
             print("Incorrect username or password.")
@@ -86,12 +91,14 @@ def password_reset(users, username):
         print("Username not found.")
 
 def update_logins_file(users):
+    '''This function is used to update the logins.txt file with the new password after a password reset.'''
     # Rewrite the logins.txt file with updated user information
     with open('logins.txt', 'w') as file:
         for username, user in users.items():
             file.write(f"{username},{user.password}\n")
 
 def load_users():
+    '''This function is used to load the user data from the logins.txt file.'''
     users = {}
     try:
         with open('logins.txt', 'r') as file:
@@ -108,6 +115,7 @@ def load_users():
     return users
 
 def main():
+    '''This is the main function that runs the Virtual Assistant program.'''
     users = load_users()
     print("Welcome! I am your Virtual Assistant.\nDesigned to assist you with your daily tasks. Please register or log in to proceed.")
     

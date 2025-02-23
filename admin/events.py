@@ -6,8 +6,9 @@ from colorama import init, Fore, Back  # Import colorama for colored output
 init(autoreset=True)
 
 def manage_events(logged_in_user):
+    '''This function allows the user to manage their events using multiple options.'''
     while True:
-        print(Fore.LIGHTGREEN_EX + Back.LIGHTWHITE_EX +"\nHello! Ready to organise your events? Let’s go!")
+        print("\nHello! Ready to organise your events? Let’s go!")
         print("1. Add Event")
         print("2. View Events")
         print("3. Update Event")
