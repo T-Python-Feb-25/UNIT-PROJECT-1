@@ -4,45 +4,106 @@
         "title": "event 3",
         "presenter": "ahmed",
         "location": "riyadh",
-        "start": "2025-02-20 14:06",
-        "end": "2025-02-20 14:06",
-        "seats": 24,
+        "date": {
+            "start_date": "2025-1-1",
+            "end_date": "2025-1-3"
+        },
+        "time": {
+            "start_time": "12:00",
+            "end_time": "04:00"
+        },
+        "seats": 23,
         "regester_users": [
             "5",
             "Q",
+            "mohamad",
+            "qqq"
+        ]
+    },
+    {
+        "id": 96,
+        "title": "python intro",
+        "presenter": "khalid",
+        "location": "riyahd - tuwaiq acadmy",
+        "date": {
+            "start_date": "2025-03-03",
+            "end_date": "2025-04-03"
+        },
+        "time": {
+            "start_time": "16:00:00",
+            "end_time": "18:00:00"
+        },
+        "seats": 12,
+        "regester_users": []
+    },
+    {
+        "id": 97,
+        "title": "AI",
+        "presenter": "SAAD",
+        "location": "madina",
+        "date": {
+            "start_date": "2026-01-01",
+            "end_date": "2026-02-02"
+        },
+        "time": {
+            "start_time": "20:00:00",
+            "end_time": "22:00:00"
+        },
+        "seats": 89,
+        "regester_users": [
             "mohamad"
         ]
     },
     {
-        "id": 88,
-        "title": "event 4",
-        "presenter": "yazeed",
-        "location": "qassim",
-        "start": "2025-02-20 14:11",
-        "end": "2025-02-20 14:11",
-        "seats": 44,
+        "id": 98,
+        "title": "ww",
+        "presenter": "ee",
+        "location": "makkah",
+        "date": {
+            "start_date": "2030-01-01",
+            "end_date": "2030-02-02"
+        },
+        "time": {
+            "start_time": "12:00:00",
+            "end_time": "12:00:00"
+        },
+        "seats": 17,
+        "regester_users": []
+    },
+    {
+        "id": 99,
+        "title": "yy",
+        "presenter": "tt",
+        "location": "yy",
+        "date": {
+            "start_date": "2025-04-04",
+            "end_date": "2025-05-05"
+        },
+        "time": {
+            "start_time": "12:00:00",
+            "end_time": "12:30:00"
+        },
+        "seats": 54,
         "regester_users": [
-            "10",
-            "11",
-            "Q",
-            "Q",
-            "Q",
-            "Q"
+            "mohamad"
         ]
     },
     {
-        "id": 89,
-        "title": "event 5",
-        "presenter": "mohammed",
-        "location": "riyadh",
-        "start": "2025-02-20 14:41",
-        "end": "2025-02-20 14:41",
-        "seats": 46,
+        "id": 100,
+        "title": "fotball2",
+        "presenter": "saud2",
+        "location": "jubail",
+        "date": {
+            "start_date": "2025-04-10",
+            "end_date": "2025-04-10"
+        },
+        "time": {
+            "start_time": "10:00:00",
+            "end_time": "12:00:00"
+        },
+        "seats": 98,
         "regester_users": [
-            "Q",
-            "R",
-            "52",
-            "mohamad"
+            "qqq"
         ]
     }
 ]

@@ -1,17 +1,15 @@
-from art import text2art
 from utils import *
 from colorama import Fore, Style,Back,init
-from modules.Event import Event
-from modules.user import *
+from Event import Event
+from user import User,Admin
 from Exceptions import * 
-import file_handler,os,time,getpass,re,utils
+import file_handler as file_handler,os,time,re
+import datetime 
 from prompt_toolkit import prompt
-from prompt_toolkit.validation import Validator, ValidationError
 from rich.console import Console
 from rich.table import Table
-from email_validator import validate_email, EmailNotValidError
-# USERS_FILEPATH  = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\users.json"
-# EVENTS_PATH = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\events.json"
+
+
 init(autoreset=True)
 def is_username_unique(username):
     users = file_handler.load_file(file_handler.USERS_FILEPATH)
@@ -26,15 +24,62 @@ def get_event_by_id():
 #     os.system('cls' if os.name == 'nt' else 'clear')  # Clear terminal
 #     print(message)  # First line stays
 def display_events(title='null',username='all'):
-    print(username)
     events = file_handler.load_file(file_handler.EVENTS_PATH)
     # *** convert JsON to event objects for using to_dict() func 
     list_events = [Event(**event_data).to_dect() for event_data in events]
     console = Console()
     if title == 'null':
         title = f"📅 Available Events({len(list_events)})"
+    table = Table(title=title)
+    
+    table.add_column("ID", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Title", style="bold magenta")
+    table.add_column("presentor", justify="center", style="green")
+    table.add_column("Date", justify="center", style="yellow")
+    table.add_column("Time", justify="center", style="yellow")
+    table.add_column("Location", style="blue")
+    table.add_column("Seats", justify="center", style="red")
+    table.add_column("registered users",justify="center",style="green")
+    try:
+        if username == 'all':
+            for event in list_events:
+                date = f"Start date:{event['date']['start_date']}\nEnd date:{event['date']['end_date']}"
+                time = f"Start time:{event['time']['start_time']}\nEnd date:{event['time']['end_time']}"
 
-    table = Table(title)
+                table.add_row(
+                    str(event["id"]),
+                    event["title"],
+                    event["presenter"],
+                    date,
+                    time,
+                    event["location"],
+                    str(event["seats"]),
+                    str(event['regester_users'])
+                )
+        else:
+            for event in list_events:
+                if username in event['regester_users']:
+                    date = f"Start date:{event['date']['start_date']}\nEnd date:{event['date']['end_date']}"
+                    time = f"Start time:{event['time']['start_time']}\nEnd date:{event['time']['end_time']}"
+                    table.add_row(
+                        str(event["id"]),
+                        event["title"],
+                        event["presenter"],
+                        date,
+                        time,
+                        event["location"],
+                        str(event["seats"]),
+                        str(event['regester_users'])
+                    )
+        console.print(table)
+    except Exception as e:
+        print(e)
+def display_event(massage,id):
+    events = file_handler.load_file(file_handler.EVENTS_PATH)
+    # *** convert JsON to event objects for using to_dict() func 
+    list_events = [Event(**event_data).to_dect() for event_data in events]
+    console = Console()
+    table = Table(title=f"📅 {massage} ")
 
     table.add_column("ID", justify="center", style="cyan", no_wrap=True)
     table.add_column("Title", style="bold magenta")
@@ -44,41 +89,30 @@ def display_events(title='null',username='all'):
     table.add_column("Location", style="blue")
     table.add_column("Seats", justify="center", style="red")
     table.add_column("registered users",justify="center",style="green")
-    print(username)
-    if username == 'all':
-        print("in all ")
-        for event in list_events:
+
+
+    for event in list_events:
+        date = f"Start date:{event['date']['start_date']}\nEnd date:{event['date']['end_date']}"
+        time = f"Start time:{event['time']['start_time']}\nEnd date:{event['time']['end_time']}"
+        if str(event['id']) == str(id):
             table.add_row(
                 str(event["id"]),
                 event["title"],
                 event["presenter"],
-                event["start"],
-                event["end"],
+                date,
+                time,
                 event["location"],
                 str(event["seats"]),
                 str(event['regester_users'])
             )
-    else:
-        print("in " , username)
-        for event in list_events:
-            if username in event['regester_users']:
-                table.add_row(
-                    str(event["id"]),
-                    event["title"],
-                    event["presenter"],
-                    event["start"],
-                    event["end"],
-                    event["location"],
-                    str(event["seats"]),
-                    str(event['regester_users'])
-                )
     console.print(table)
-def display_event(title,id):
+
+def display_events_by_title(massage,title):
     events = file_handler.load_file(file_handler.EVENTS_PATH)
     # *** convert JsON to event objects for using to_dict() func 
     list_events = [Event(**event_data).to_dect() for event_data in events]
     console = Console()
-    table = Table(title=f"📅 {title} ")
+    table = Table(title=f"📅 {massage} ")
 
     table.add_column("ID", justify="center", style="cyan", no_wrap=True)
     table.add_column("Title", style="bold magenta")
@@ -90,7 +124,7 @@ def display_event(title,id):
     table.add_column("registered users",justify="center",style="green")
 
     for event in events:
-        if str(event['id']) == str(id):
+        if title in event['title']:
             table.add_row(
                 str(event["id"]),
                 event["title"],
@@ -105,13 +139,14 @@ def display_event(title,id):
     console.print(table)
 
 
-
 def login_page(error_msg=""):        
     """Displays the login page."""
-    print_header("🔐 LOGIN PAGE")
+    print_header("🔐 Login page")
     if error_msg:
-        print(f"⚠️  {error_msg}\n")
+        print(f"⚠️  {error_msg}\n Enter(r) for register. ")
     username = input("👤 Enter Username: ").strip()
+    if username == 'r':
+        register_page()
     password = prompt("🔑 Enter Password: ",is_password=True)
     Users = file_handler.load_file(file_handler.USERS_FILEPATH)    
     users_list = [User(**user_data).to_dict() for user_data in Users]
@@ -126,14 +161,14 @@ def login_page(error_msg=""):
                 else: print("error in login page . ")
                 break
             else:
-                print("wrong password.Try again! ")
+                login_page("wrong password. Try again! ")
     else:
         login_page("Username not found! Try again.")
     
     
 def register_page(error_msg=""):
     """Displays the register page."""
-    print_header("📝 REGISTER PAGE")
+    print_header("📝 Register page")
     if error_msg:
         print(f"⚠️  {error_msg}\n")
 
@@ -150,7 +185,8 @@ def register_page(error_msg=""):
         register_page("❌ Invalid email. Try again.")
         return
     password = prompt("🔑 Enter Password: ",is_password=True)
-    file_handler.add_user(email,username,password)
+    user = file_handler.add_user(email,username,password)
+    user_page(user.to_dict())
 def clear_screen():
     """Clears the terminal screen."""
     os.system("cls" if os.name == "nt" else "clear")
@@ -187,9 +223,9 @@ def user_page(user):
     2️⃣  list booked events
     3️⃣  book an event 
     4️⃣  cancel event
-    5️⃣  search by title
-    6️⃣  main page
-    
+    5️⃣  main page
+    (exit) to end the program.
+        
      choice: '''
     welcoming = f"👤 Welcom {Fore.GREEN}{user['username']}"
     while(True):
@@ -207,11 +243,11 @@ def user_page(user):
             elif choice == '3':
                 print_header(welcoming)
                 display_events()
-                event_id = input("Privide Event ID: ")
+                event_id = input("Provide Event ID: ")
                 is_booked = file_handler.book_seat(event_id,str(user["username"]))
                 if is_booked:
                     print_header(f"👤 Welcom {Fore.GREEN}{user['username']}")
-                    print(f"{Fore.GREEN }successfuly booking of event {event_id}")
+                    print(f"{Fore.GREEN }event {event_id} is booked successfuly")
                     display_event("Booked event",event_id)
                 else:
                     print("❌  Wrong input, please prive ID from the table")
@@ -219,19 +255,20 @@ def user_page(user):
             elif choice =='4':
                 print_header(welcoming)
                 display_events(title="booked events ",username=user['username'])
-                event_id = input("Privide Event ID: ")
+                event_id = input("Provide Event ID: ")
                 is_canceled = file_handler.cancel_seat(event_id,str(user["username"]))
                 if is_canceled:
                     print_header(f"👤 Welcom {Fore.GREEN}{user['username']}")
-                    print(f"{Fore.GREEN }canceling successfuly of event {event_id}")
+                    print(f"{Fore.RED }event {event_id} canceled successfuly")
                     display_event("Cancled event",event_id)
                 else:
                     print("❌  Wrong input, please prive ID from the table")
                 input("press any button to go back to main page... ")
             elif choice =='5':
-                pass
-            elif choice =='6':
                 main()
+            elif choice == 'exit':
+                print("\n👋 Goodbye!")
+                exit()
         except Exception as e:
             print(e)
             input("press any button to go back to main menu ... ")
@@ -242,8 +279,11 @@ def admin_page(user):
     3️⃣  modify event 
     4️⃣  delete event
     5️⃣  main page
+    (exit) to end the program.
+    
      choice: '''
     welcoming = f"⚜️  Welcom Admin {Fore.BLACK} {Style.BRIGHT}{Back.GREEN}{user['username']}{Back.RESET}  ⚜️"
+    admin = Admin()
     while(True):
         print_header(welcoming)
         choice = input(admin_menu)
@@ -262,23 +302,125 @@ def admin_page(user):
                 start_time = is_valid_time("⏰ Enter start time (HH:MM, 24-hour format): ")
                 end_time = is_valid_time("⏰ Enter end time (HH:MM, 24-hour format): ")
                 seats = int(input("🪑 Enter available seats: "))
-                if seats <=0:
-                    raise ValueError("❌  seats must be more than zero!")
+                date = {
+                    'start_date':str(start_date),
+                    'end_date':str(end_date)
+                    }
+                time = {
+                    'start_time':str(start_time),
+                    'end_time':str(end_time)
+                    }
                 if end_date < start_date or end_time < start_time:
                     raise DateError("❌  End date & time must be after the start date & time!")
-                file_handler.add_event()
+                event_id = file_handler.add_event(title,presenter,location,date,time,seats)
+                print_header(welcoming)
+                print(f"{Fore.GREEN }{event_id}:{title} is added successfuly ")
+                display_event("Added event",event_id)
             except Exception as e:
                 print(e)
             input("press any button to go back to main page... ")
+        
         elif choice == '3':
-            print_header(f"👤 Welcom {Fore.GREEN}{user['username']}")
+            print_header(welcoming + "Modify event")
             display_events()
-            event_id = input("Privide Event ID: ")
-            is_booked = file_handler.book_seat(event_id,str(user["username"]))
-            if is_booked:
-                print_header(f"👤 Welcom {Fore.GREEN}{user['username']}")
-                print(f"{Fore.GREEN }successful booking of event:{event_id}")
-                display_event("Booked event",event_id)
+            ############################################################
+            event_id = input("Provide Event ID you want to modify: ")
+            events = list(file_handler.load_file(file_handler.EVENTS_PATH))
+            list_events = [Event(**event_data).to_dect() for event_data in events]
+            
+            for index,event in enumerate(list_events):
+                if str(event['id']) == str(event_id):
+                    event_index = index
+            print_header(welcoming + "Modify event")
+            display_event("Modify event",event_id)
+            p = f'''
+            provide what you want to modify 
+            from: (title,presenter,loation,date,time,seats) seperated by space 
+            for example: {Fore.BLUE} title time
+            {Fore.RESET} --> '''
+            list_to_modify = input(p).split(' ')
+            for modify in list_to_modify:
+                if modify in list_events[event_index]:
+                    if modify == 'date':
+                        start_date = is_valid_date("🔹 Enter new start date (YYYY-M-D): ")
+                        end_date = is_valid_date("🔹 Enter new end date (YYYY-M-D): ")
+                        list_events[event_index]['date'] = {
+                        'start_date':str(start_date),
+                        'end_date':str(end_date)
+                        }
+                    elif modify == 'time':   
+                        start_time = is_valid_time("⏰ Enter new start time (HH:MM, 24-hour format): ")
+                        end_time = is_valid_time("⏰ Enter new end time (HH:MM, 24-hour format): ")
+                        list_events[event_index]['time'] = {
+                            'start_time':str(start_time),
+                            'end_time':str(end_time)
+                            }                      
+                    else:
+                        list_events[event_index][modify] = input(f"{Fore.RED}{list_events[event_index][modify]}{Fore.RESET} to : ")
+                else:
+                    print(f"⚠️  {modify} is not in [title,presenter,location,date,time,seats] ")
+            file_handler.save_file(list_events,EVENTS_PATH)
+            print_header(welcoming + "Modify event")
+            display_event("Modified event ",event_id)
             input("press any button to go back to main page... ")
+            
+            #######################################################################
+        elif choice == '4':
+            print_header(welcoming)
+            display_events()
+            event_id = input("Privide Event ID for delete: ")
+            is_deleted = admin.delete_event(event_id)
+            if is_deleted:
+                print_header(welcoming)
+                print(f"{Fore.GREEN }{event_id} is deleted successfuly ")
+                display_event("Deleted event",event_id)
+            else:
+                print("❌  Wrong input, please prive ID from the table")
+            input("press any button to go back to main page... ")
+        elif choice == '5':
+            main()
+        elif choice == 'exit':
+            print("\n👋 Goodbye!")
+            exit()
+
+
+
+def is_valid_date(prompt):
+    """Prompt the admin for a valid future date (YYYY-M-D)."""
+    while True:
+        date_str = input(prompt).strip()
+        try:
+            event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+            if event_date >= datetime.datetime.today().date():
+                return event_date
+            else:
+                raise DateError("❌ Date must be today or in the future!")
+        except ValueError:
+            print("❌ Invalid format! Use YYYY-M-D.")
+
+def is_valid_time(prompt):
+    """Prompt the admin for a valid time (HH:MM, 24-hour format)."""
+    while True:
+        time_str = input(prompt).strip()
+        try:
+            event_time = datetime.datetime.strptime(time_str, "%H:%M").time()
+            return event_time  # ✅ Valid time
+        except ValueError:
+            print("❌ Invalid format! Use HH:MM (24-hour format).")
+
+def get_event_datetime():
+    """Prompt admin to enter event start & end datetime with validation."""
+    try:
+        start_date = is_valid_date("🔹 Enter start date (YYYY-M-D): ")
+        end_date = is_valid_date("🔹 Enter end date (YYYY-M-D): ")
+        start_time = is_valid_time("⏰ Enter start time (HH:MM, 24-hour format): ")
+        end_time = is_valid_time("⏰ Enter end time (HH:MM, 24-hour format): ")
+        if end_date > start_date or end_time > start_time:
+            return True 
+        else:
+            raise DateError("❌  End date & time must be after the start date & time!")
+    except Exception as e:
+        print(e)
+
 
 main()

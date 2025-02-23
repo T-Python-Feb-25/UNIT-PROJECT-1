@@ -124,5 +124,54 @@
         "email": "mohamad8@m.com",
         "username": "moahad7",
         "password": "1"
+    },
+    {
+        "id": 58,
+        "role": "user",
+        "email": "q@q.com",
+        "username": "qqq",
+        "password": "1122"
+    },
+    {
+        "id": 59,
+        "role": "user",
+        "email": "w@w.com",
+        "username": "www",
+        "password": "1122"
+    },
+    {
+        "id": 60,
+        "role": "user",
+        "email": "a@a.com",
+        "username": "aaa",
+        "password": "1"
+    },
+    {
+        "id": 61,
+        "role": "user",
+        "email": "g@g.com",
+        "username": "ggg",
+        "password": "1"
+    },
+    {
+        "id": 62,
+        "role": "user",
+        "email": "c@c.com",
+        "username": "ccc",
+        "password": "1"
+    },
+    {
+        "id": 63,
+        "role": "user",
+        "email": "d@d.com",
+        "username": "ddd",
+        "password": "1"
+    },
+    {
+        "id": 64,
+        "role": "user",
+        "email": "nawaf@gmail.com",
+        "username": "nawaf",
+        "password": "1122"
     }
 ]

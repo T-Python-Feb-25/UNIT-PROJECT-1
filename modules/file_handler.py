@@ -1,7 +1,6 @@
-import json,os,time
-from modules.user import *
-from modules.Event import *
-from utils import *
+import json,os
+from user import User,Admin
+from Event import Event
 METADATA_PATH  = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\metadata.json"
 EVENTS_PATH = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\events.json"
 USERS_FILEPATH  = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\users.json"
@@ -63,19 +62,20 @@ def add_user(email,username,password):
         users = list(load_file(USERS_FILEPATH))
         user = User(email,username,password)
         users.append(user.to_dict())
-        file_handler.save_file(users,USERS_FILEPATH)
+        save_file(users,USERS_FILEPATH)
         return user
     except Exception as e:
         print(f'In add_user : {e}') 
  
 def add_event(title,presenter,location,date,time,seats=0):
     try:
-        events = file_handler.load_file(EVENTS_PATH)
+        events = load_file(EVENTS_PATH)
         # *** convert JDON to event objects 
         list_events = [Event(**event_data) for event_data in events]
         admin =  Admin()
-        event = Event("event 5","mohammed","riyadh",seats=50)
+        event = Event(title,presenter,location,date,time,seats=seats)
         admin.add_event(event.to_dect())
+        return event.get_id()
     except Exception as e:
         print(e)
  
