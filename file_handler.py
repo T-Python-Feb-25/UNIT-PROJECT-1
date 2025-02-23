@@ -1,5 +1,10 @@
-import json,os
-from setteings import *
+import json,os,time
+from modules.user import *
+from modules.Event import *
+from utils import *
+METADATA_PATH  = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\metadata.json"
+EVENTS_PATH = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\events.json"
+USERS_FILEPATH  = r"C:\Users\Mohamed\tuwaiq\projects\EventManagement\UNIT-PROJECT-1\data\users.json"
 
 def load_file(filepath):
     """loading from a file and return what is in the file 
@@ -51,8 +56,69 @@ def generate_unique_id(name,type=0,file_path=METADATA_PATH):
         file.seek(0)
         json.dump(data, file, indent=4)
         file.truncate()
-    return data[name]    
+    return data[name]   
  
+def add_user(email,username,password):
+    try:
+        users = list(load_file(USERS_FILEPATH))
+        user = User(email,username,password)
+        users.append(user.to_dict())
+        file_handler.save_file(users,USERS_FILEPATH)
+        return user
+    except Exception as e:
+        print(f'In add_user : {e}') 
+ 
+def add_event(title,presenter,location,date,time,seats=0):
+    try:
+        events = file_handler.load_file(EVENTS_PATH)
+        # *** convert JDON to event objects 
+        list_events = [Event(**event_data) for event_data in events]
+        admin =  Admin()
+        event = Event("event 5","mohammed","riyadh",seats=50)
+        admin.add_event(event.to_dect())
+    except Exception as e:
+        print(e)
+ 
+def book_seat(event_id:str,username:str) -> bool:
+    events = load_file(EVENTS_PATH)
+    # *** convert JSON to event objects 
+    list_events = [Event(**event_data) for event_data in events]
+    #get the index of the booked event  
+    for index,event in enumerate(list_events):
+        if str(event.get_id()) == event_id:
+            booked_event_index = index
+            list_events[booked_event_index].book_seat(username)
+            break
+    else:
+        return False
+    # saving to file
+    new_events = []
+    for event in list_events:
+        new_events.append(event.to_dect())
+    save_file(new_events,EVENTS_PATH)
+    return True
+
+
+def cancel_seat(event_id,username):
+    events = load_file(EVENTS_PATH)
+    # *** convert JSON to event objects 
+    list_events = [Event(**event_data) for event_data in events]
+    #get the index of the booked event  
+    for index,event in enumerate(list_events):
+        # print(f"event: {str(event.get_id())}:{type(str(event.get_id()))} || {event_id}:{type(event_id)}")
+        if str(event.get_id()) == event_id:
+            cancel_booked_event_index = index
+            list_events[cancel_booked_event_index].cancel_booking(username)
+            break
+    else:
+        return False
+    # saving to file
+    new_events = []
+    for event in list_events:
+        new_events.append(event.to_dect())
+    save_file(new_events,EVENTS_PATH)
+    return True
+    
  
 
 # def list_events():
