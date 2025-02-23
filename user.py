@@ -4,6 +4,7 @@ import sys
 
 # Local application imports
 from input_validation import *
+from province_mangement import add_province, delete_province
 from truck_management_mixin import *
 class User:
     def __init__(self, id, first_name, last_name, phone,email, role):
@@ -77,8 +78,8 @@ class Employee(User,TruckManagementMixin):
 5-logout
 '''
         self.functionality={
-            "1":self.add_truck,
-            "2":self.remove_truck,
+            "1":self.register_truck,
+            "2":self.unregister_truck,
             "3":self.update_price,
             "4":self.update_order_status,
             "5":self.user_logout
@@ -88,20 +89,30 @@ class Admin(User,TruckManagementMixin):
     def __init__(self, id, first_name, last_name, phone,email ):
         super().__init__(id, first_name, last_name, phone,email,role="Admin")
         self.menu='''1-Add Employee
-2-remove Employeee
-3-update locations
-4- Add Truck
-5-Remove Truck
+2-Remove Employeee
+3-Update locations
+4-Register a Truck
+5-Unregister a Truck
 6-Update Price
 7-Update order status
-8-logout
+8-Logout
 '''
+        # self.functionality={
+        #     "1":self.add_employee,
+        #     "2":self.remove_employee,
+        #     "3":self.update_locations,
+        #     "4":self.add_truck,
+        #     "5":self.remove_truck,
+        #     "6":self.update_price,
+        #     "7":self.update_order_status,
+        #     "8":self.user_logout
+        # }
         self.functionality={
-            "1":self.add_employee,
-            "2":self.remove_employee,
+            "1":self.register_truck,
+            "2":self.unregister_truck,
             "3":self.update_locations,
-            "4":self.add_truck,
-            "5":self.remove_truck,
+            "4":self.register_truck,
+            "5":self.unregister_truck,
             "6":self.update_price,
             "7":self.update_order_status,
             "8":self.user_logout
@@ -132,6 +143,26 @@ class Admin(User,TruckManagementMixin):
         
     def update_locations(self):
         print("Updating locations...")
+        while True:
+
+            option=text_input_validation("Do you want to add or remove a province? ")
+            if option.lower()=="remove":
+                for index,province in enumerate(self.Provinces,start=1):
+                    print(f"{index}- {province}")
+                num=number_input_validation("choose the province number that you want to remove:",len(self.Provinces))
+                delete_province(self.Provinces,num)
+                print("The province has been removed")
+                break
+            elif option.lower()=="add":
+                new_province=text_input_validation("Enter the province name: ")
+                add_province(self.Provinces,new_province)
+                print("The province has been added")
+                break
+            else:
+                print("invalid input")
+
+
+
         
 
 

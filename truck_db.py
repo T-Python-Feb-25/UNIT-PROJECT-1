@@ -18,26 +18,48 @@ class TruckDB:
         self.__cursor.execute('''CREATE TABLE IF NOT EXISTS trucks(
                                 truck_id INTEGER PRIMARY KEY,
                                 model TEXT, 
+                                body_style TEXT,
                                 capacity INTEGER, 
-                                availability BOOLEAN, 
-                                )''')  
+                                availability BOOLEAN 
+                                )''')   
+        
+    def drop_truck_table(self):
+        self.connect()
+
+        self.__cursor.execute('''DROP TABLE IF EXISTS trucks''')  
     def insert_truck(self,truck_data):
         try:
             self.connect()
             self.__create_truck_table()
-            self.__cursor.execute("INSERT INTO trucks (model,capacity,availability) VALUES(?,?,?)",truck_data)
+            self.__cursor.execute("INSERT INTO trucks (model,body_style,capacity,availability) VALUES(?,?,?,?)",truck_data)
             self.__connection.commit()
             self.close_connection()
+            print("The Truck has been added to the system successfully.")
+
         except Exception as error :
-            print("Somthing went wrong while trying to add new truck to the system")
+            print(error)
+            print("Something went wrong while trying to add the truck to the system. Please try again later.")
+
+
+    def is_truck_registered(self,truck_id)->bool:
+        self.connect()
+        self.__create_truck_table()
+        self.__cursor.execute("SELECT truck_id FROM trucks")
+        truck_list=self.__cursor.fetchall()
+        if any(truck[0] == truck_id for truck in truck_list):
+           return True
+        return False
 
     def remove_truck(self,truck_id):
         try:
             self.connect()
             self.__create_truck_table()
-            self.__cursor.execute("DELETE FROM trucks WHERE truck_id = ? ",(truck_id,))
-            self.__connection.commit() 
-            print("The truck has been deleted from the system successfully.")
+            if self.is_truck_registered(truck_id):
+                self.__cursor.execute("DELETE FROM trucks WHERE truck_id = ? ",(truck_id,))
+                self.__connection.commit() 
+                print("The truck has been deleted from the system successfully.")
+            else:
+                print("Faild to remove the truck , Invalid truck number.")
 
         except Exception as err:
             #TODO delete thi print
@@ -66,18 +88,15 @@ class TruckDB:
         try:
             self.connect()
             self.__create_truck_table()
-
             self.__cursor.execute(sql, params)
             self.__connection.commit()
-            print("Truck data updated successfully.")
+            print(f"Truck {truck_id}data updated successfully.")
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
         finally:
             self.close_connection()   
-    
-
            
-    def retrive_truck(self):
+    def retrive_trucks(self)->list:
 
         self.connect()
         self.__create_truck_table()
@@ -96,9 +115,7 @@ class TruckDB:
         trucks_list = [dict(truck) for truck in trucs] if trucs!=None else []
         if len(trucks_list)==0:
             print("No trucks available in the system")
-            return None
-        else:
-            return trucks_list
+        return trucks_list
         
           
     def close_connection(self):

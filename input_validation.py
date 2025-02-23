@@ -12,7 +12,20 @@ pass_requirments='''Please create a strong password that meets the following req
         5. Contains at least one special character (e.g., !@#$%^&*).
         6. Cannot contain spaces or tabs.'''
 
+def number_input_validation(prompt:str, limit):
+    while True:
+        try:
+            user_input=input(prompt)
+            if not (user_input.isnumeric()):
+                raise Exception("Invalid input , please enter numbers only")
+            elif int(user_input)>int(limit) or int(user_input)<=0:
+                raise Exception("Invalid Choice.")
 
+        except Exception as error:
+            print(error)
+        else:
+            return int(user_input)
+        
 def text_input_validation(prompt:str):
     while True:
         try:
@@ -69,9 +82,10 @@ def password_input_Validation(prompt:str):
 def password_input_masking(prompt:str):
     try:
         # Password masking
-        pwd = maskpass.advpass(prompt)  
+        #TODO Uncomment this and return the variable
+        #pwd = maskpass.advpass(prompt)  
         # encoding the entered password
-        encpwd = base64.b64encode(pwd.encode("utf-8"))
+        encpwd = base64.b64encode("Aa142536*".encode("utf-8"))
     except Exception as error:
         print(error)
     else:

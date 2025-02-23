@@ -92,7 +92,7 @@ class UserDB:
             if self.is_user_registered(email):
                 self.__cursor.execute("DELETE FROM users WHERE email = ? ",(email,))
                 self.__connection.commit() 
-                print("The use has been deleted from the system successfully.")
+                print("The Employee has been deleted from the system successfully.")
             else:
                 print("This user does not have an accoount")
 
