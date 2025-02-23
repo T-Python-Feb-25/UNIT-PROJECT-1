@@ -1,45 +1,46 @@
 # UNIT-PROJECT-1
 
 
+# Areej Beauty - CLI Store
 
-## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
 
-- Must be interactive on CLI.
-- Use your coding skills in Python accurately.
-- Organize Your Code into modules & (or packages)
-- Use git & Github to track changes in your code.
+Areej Beauty is an interactive online store that operates through the command line interface (CLI). Users can browse skincare and makeup products, shop items, and complete purchases easily. The system is distinguished by its unique features and includes memberships with varying benefits, providing customers with a distinctive shopping experience.
 
-## Example Project :  An online Grocery Store :
 
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
+## Fearures
 
-### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
+- Log in or create a new account
+- Browse all products or browse by category (Makeup - Skin Care)
+- View product details such as (price, category, available quantity)
+- Search for products by name
+- Get recommendations based on purchase history
+- Add products to cart
+- View cart contents with total calculation
+- Remove products from cart
+-Add a prodect to My Favorites
+-View My Favorites
+-View Membership Information
+- Continue to checkout and enter delivery address
+- Receive invoice after purchase Sign out 
 
 
 
-#### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
 
+### Types of Memberships:
+1. White Membership: Basic membership with fewer benefits
+2. Black Membership: Offers medium benefits
+3. Gold Membership: Premium membership with the most benefits
 
-### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
+## Main Program Functionality
 
-### NOTE: before submitting the final project, please do the following command:
-`pip freeze > requirements.txt` to enable use to know & use the packages used in your project.
+The main program (main.py) serves as the entry point for users, allowing them to interact with the Areej Beauty store through a user-friendly CLI interface. The following functionalities are included:
+
+- User Authentication: Users can log in or create an account.
+- Menu Navigation: A rich, formatted menu displays various options for product browsing, searching, and account management.
+- Product Management: Users can view, search for, and add products to their shopping cart.
+- Shopping Cart Management: Users can view cart contents, remove items, and proceed to checkout.
+- Membership Information: Users can view their membership details and benefits.
+- Favorites: Users can add products to their favorites for easy access later.
+
+### Dependencies
+- rich: A library for rich text and beautiful formatting in the terminal.
