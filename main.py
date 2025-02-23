@@ -14,9 +14,9 @@ def handle_watchlist_and_rating(category: str) -> None:
     if id.isdigit():
         valid_id: bool = app.get_more_info(id, category)
         if not valid_id == False:
-            handle_rating_watchlist(category,id)
+            handle_rating_watchlist_after_deleate_it_from_watchlist(category,id)
           
-def handle_rating_watchlist(category,id):
+def handle_rating_watchlist_after_deleate_it_from_watchlist(category,id):
     user_choice: str = input(
                 f"{Fore.CYAN}Choose an option for this {category}:\n"
                 "r  - Rate it\n"
@@ -106,8 +106,9 @@ Your choice:{Fore.YELLOW} ''').strip()
                 if user_input=='1':
                     title: str = input(f"{Fore.CYAN}Enter the title of the movie you want to search for:{Fore.YELLOW} ").strip()
                     if not title == "":
-                        app.search_by_qurey(title, "movie")
-                        More_info("movie")
+                        empty=app.search_by_qurey(title, "movie")
+                        if empty==None:
+                            More_info("movie")
 
                     else:
                         print(f"{Fore.RED}Please enter a valid movie title.{Style.RESET_ALL}")
@@ -115,8 +116,9 @@ Your choice:{Fore.YELLOW} ''').strip()
                 elif user_input=='2':
                     title: str = input(f"{Fore.CYAN}Enter the title of the Tvshow you want to search for:{Fore.YELLOW} ").strip()
                     if not title == "":
-                        app.search_by_qurey(title, "tvshow")
-                        More_info("tvshow")
+                        empty=app.search_by_qurey(title, "tvshow")
+                        if empty==None:
+                            More_info("tvshow")
 
                     else:
                         print(f"{Fore.RED}Please enter a valid Tvshow title.{Style.RESET_ALL}")
@@ -217,16 +219,18 @@ Your choice:{Fore.YELLOW} ''').strip()
         if user_input=='1':
             title: str = input(f"{Fore.CYAN}Enter the title of the movie you want to search for:{Fore.YELLOW} ").strip()
             if not title == "":
-                app.search_by_qurey(title, "movie")
-                handle_watchlist_and_rating("movie")
+                empty=app.search_by_qurey(title, "movie")
+                if empty==None:
+                    handle_watchlist_and_rating("movie")
             else:
                 print(f"{Fore.RED}Please enter a valid movie title.{Style.RESET_ALL}")
                 time.sleep(1)
         elif user_input=='2':
             title: str = input(f"{Fore.CYAN}Enter the title of the Tvshow you want to search for:{Fore.YELLOW} ").strip()
             if not title == "":
-                app.search_by_qurey(title, "tvshow")
-                handle_watchlist_and_rating("tvshow")
+                empty=app.search_by_qurey(title, "tvshow")
+                if empty==None:
+                    handle_watchlist_and_rating("tvshow")
             else:
                 print(f"{Fore.RED}Please enter a valid Tvshow title.{Style.RESET_ALL}")
                 time.sleep(1)
@@ -290,7 +294,7 @@ Your choice:{Fore.YELLOW} ''').strip()
                     if valid:
                         print(f"{Fore.GREEN}The movie has been removed successfully.{Style.RESET_ALL}")
                         time.sleep(1)
-                        handle_rating_watchlist("movie",id)     
+                        handle_rating_watchlist_after_deleate_it_from_watchlist("movie",id)     
                 elif id == '':
                     pass
                 else:
@@ -311,7 +315,7 @@ Your choice:{Fore.YELLOW} ''').strip()
                     if valid:
                         print(f"{Fore.GREEN}The tvshow has been removed successfully.{Style.RESET_ALL}")
                         time.sleep(1)
-                        handle_rating_watchlist("tvshow",id)
+                        handle_rating_watchlist_after_deleate_it_from_watchlist("tvshow",id)
                 elif id == '':
                     pass
                 else:

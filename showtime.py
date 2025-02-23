@@ -30,20 +30,33 @@ class ShowTime:
         try:
             if category=="movie":
                 movies=self.movie.search_query(query)
-                print(f"{Fore.MAGENTA}="*50)
-                for i,movie in enumerate(movies):
-                    print(f"{Fore.MAGENTA}{i+1}.id:{movie["id"]} title:{movie["title"]} release_date:{movie["release_date"]}")
-                    print("-"*80)
+                if movies:
+                    print(f"{Fore.MAGENTA}="*50)
+                    for i,movie in enumerate(movies):
+                        print(f"{Fore.MAGENTA}{i+1}.id:{movie["id"]} title:{movie["title"]} release_date:{movie["release_date"]}")
+                        print("-"*80)
+                else:
+                    print(f"{Fore.RED}No Movies found for '{query}'.{Style.RESET_ALL}")
+                    time.sleep(1)
+                    return False
+
             else:
                 tv_shows=self.tvshow.search_query(query)
-                print(F"{Fore.CYAN}="*50)
+                if tv_shows:
+                    print(F"{Fore.CYAN}="*50)
 
 
-                for i,tvshow in enumerate(tv_shows):
-                    print(f"{Fore.MAGENTA}{i+1}.id:{tvshow["id"]} title:{tvshow["title"]} release_date:{tvshow["release_date"]}")
-                    print("-"*80)
+                    for i,tvshow in enumerate(tv_shows):
+                        print(f"{Fore.MAGENTA}{i+1}.id:{tvshow["id"]} title:{tvshow["title"]} release_date:{tvshow["release_date"]}")
+                        print("-"*80)
+                else:
+                    print(f"{Fore.RED}No TV shows found for '{query}'.{Style.RESET_ALL}")
+                    time.sleep(1)
+                    return False
+
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
     
     def get_more_info(self,id,category):
@@ -78,6 +91,7 @@ class ShowTime:
                 print(Style.RESET_ALL,end="")
                 print(f"{Fore.CYAN}="*50)
         except Exception as e:
+            print(f"{Fore.RED}{e}")
             print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
             return False
@@ -97,7 +111,8 @@ class ShowTime:
                     print(f"{Fore.MAGENTA}id: {tvshow["id"]}\ntitle: {tvshow["title"]}\nRelease Date: {tvshow["release_date"]}\nTMDb Rating: {tvshow["TMDb_Rating"]}\nvote count: {tvshow["TMDb_vote_count"]}")
                     print("-"*20)      
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
     def get_top_rated(self,category):
         ''' get and print a list of top rated movies or TV shows.
@@ -115,7 +130,8 @@ class ShowTime:
                     print(f"{Fore.MAGENTA}id: {tvshow["id"]}\ntitle: {tvshow["title"]}\nRelease Date: {tvshow["release_date"]}\nTMDb Rating: {tvshow["TMDb_Rating"]}\nvote count: {tvshow["TMDb_vote_count"]}")
                     print("-"*20)   
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
     def get_basic_info_by_id(self,id,category):
         '''get and print basic information about a movie or TV show.
@@ -133,7 +149,8 @@ class ShowTime:
                 tv_shows=self.tvshow.get_basic_info_by_id(id)
                 print(f"id: {tv_shows["id"]}\nTitle: {tv_shows["title"]}\nRelease Date: {tv_shows["release_date"]}\nGenres: {" ".join([gen for gen in tv_shows["genres"]])}\nnumber of seasons: {tv_shows["number_of_seasons"]}")
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
     def add_watchlist(self,id,category):
         '''Adds a movie or TV show to the user's watchlist.
@@ -229,7 +246,8 @@ class ShowTime:
                 else:
                     return False
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
     def delate_from_watch_list(self,id,category):
         '''Removes a movie or TV show from the user's watchlist.
@@ -294,7 +312,8 @@ class ShowTime:
                 else:
                     return False
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
 
         
@@ -334,7 +353,8 @@ class ShowTime:
                 x_url = f"https://x.com/intent/tweet?text={encoded_content}"
                 webbrowser.open(x_url)
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
 
     def delate_from_already_watched(self,id,category):
@@ -396,7 +416,8 @@ class ShowTime:
                 else:
                     return False
         except Exception as e:
-            print(f"{Fore.RED}{e}{Style.RESET_ALL}")
+            print(f"{Fore.RED}{e}")
+            print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
             time.sleep(1)
     def ai_recomdation(self,category):
         '''
