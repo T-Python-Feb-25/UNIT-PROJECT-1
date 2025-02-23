@@ -309,6 +309,9 @@ Your choice:{Fore.YELLOW} ''').strip()
                     app.delate_from_already_watched(id, "movie")
                     print(f"{Fore.GREEN}The movie has been removed successfully.")
                     time.sleep(1)
+                else:
+                    print(f"{Fore.RED}Invaild id.{Style.RESET_ALL}")
+                    time.sleep(1)
             else:
                 print(f"{Fore.RED}You haven't watched any movies yet. press enter to continue:{Fore.YELLOW}")
                 time.sleep(1)
@@ -319,6 +322,9 @@ Your choice:{Fore.YELLOW} ''').strip()
                 if id.isdigit() and not id == "":
                     app.delate_from_already_watched(id, "tv")
                     print(f"{Fore.GREEN}The tvshow has been removed successfully.")
+                    time.sleep(1)
+                else:
+                    print(f"{Fore.RED}Invaild id.{Style.RESET_ALL}")
                     time.sleep(1)
             else:
                 print(f"{Fore.RED}You haven't watched any TV shows yet. press enter to continue:{Fore.YELLOW}")

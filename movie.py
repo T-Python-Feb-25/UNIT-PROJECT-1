@@ -92,7 +92,7 @@ class Movie:
             }
             movies.append(movie_info)
         return movies
-       
+
     def get_basic_info_by_id(self,id):
         ''' get detailed about a movie by its id
            args:
@@ -111,9 +111,7 @@ class Movie:
             "genres": [gen["name"] for gen in movie["genres"]],
             "duration": movie["runtime"],
         }
-        
         return movie_info
-        
     def print_genre(self):
         '''  Prints all movie genres available on TMDb.
         reaise:
@@ -124,7 +122,6 @@ class Movie:
         for i,gen in enumerate(genre["genres"]):
             print(f"{Fore.MAGENTA}{i+1}.id:{gen["id"]} name:{gen["name"]}")
             print("-"*50)
-
     def get_movie_by_genre(self,id):
         '''
         this function get a list of movie by specified genre id 
