@@ -3,6 +3,7 @@
 
 from colorama import Fore
 import emoji
+import Weather
 
 import log_in_and_ctreate_an_acconunt
 
@@ -82,7 +83,9 @@ while True:
         print()
        #Previous_Plans.view_Previous_Plans(email)
     elif userChoice=="2":
-        print("your choice is num 2")
+        city=input(Fore.BLUE+"Please enter the name of the city you would like to go to \n")
+        date=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
+        Weather.get_weather(city,date)
     elif userChoice=="3":
         print(Fore.GREEN+"thank you for using travelmate App, Come back again")
         break

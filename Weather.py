@@ -8,13 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
  
-#دالة لجلب معلومات المدينة و تاريخ الذهاب و الاياب من المستخدم 
-def get_trip_info(city , date ):
-   city=input(Fore.BLUE+"Please enter the name of the city you would like to go to \n")
-   date=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
-   return (city, date )
-
-#دالة لجلب معلومات الطقس 
+#دالة لجلب معلومات الطقس بناءا على اسم المدينة و تاريخ الوصول اللذان تم ادخالهما من المستخدم 
 def get_weather(city, date):
    myKey=os.getenv("API_KEY")
    url= "http://api.weatherapi.com/v1/forecast.json?key={}&q={}&dt={}".format(myKey,city,date)
@@ -23,7 +17,7 @@ def get_weather(city, date):
    if "forecast" in weatherData:
       temperature=weatherData["forecast"]["forecastday"][0]["day"]["avgtemp_c"]
       weatherCondition=weatherData["forecast"]["forecastday"][0]["day"]["condition"]["text"]
-      print(Fore.LIGHTBLUE_EX+"The temperature will be at {} and the weather will be {}".format(temperature,weatherCondition))
+      print(Fore.LIGHTBLUE_EX+"The temperature in {} will be at {}, and the weather will be {}".format(city,temperature,weatherCondition))
 #لاعطاء نصائح للملابس حسب درجة الحرارة
      
       if temperature<10:
@@ -41,6 +35,4 @@ def get_weather(city, date):
    else :
      print(Fore.RED+"Error getting weather data")
      return 
-
-
 
