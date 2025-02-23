@@ -3,34 +3,25 @@
 📖 project:  QR Code Generator :
 
 ### Overview 
-   This project allows users to generate, scan, and manage QR codes easily. With features like bulk QR code creation, customization, and scanning from images or webcam, it is a versatile tool for various use cases.
-### Features & User Stories
+This project allows users to easily create, scan and manage QR codes. With features like bulk QR code generation, customization, and reading barcodes from photos or a camera, it is a versatile tool for different use cases.### Features & User Stories.
+
+### Feature & Users stories:
 #### As a user I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
+- Create QR codes from text or URLs
+- Scan QR codes using a webcam 
+- Read and display QR code data contained in the image 
+- Save and manage QR code history
+- Share QR codes easily
 
-
-
-#### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
-
-
-### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
-
-### NOTE: before submitting the final project, please do the following command:
-`pip freeze > requirements.txt` to enable use to know & use the packages used in your project.
+#### Usage : 
+ 
+ - When the program is running, a list appears from which the user can choose.
+ - The list consists of three options.
+ - If type chooses 1, will be asked to enter the data for which wants to create QR code.
+ - If type chooses 2, the user will be asked to enter the path of the text file for which user wants to create QR code.
+ - If type chooses 3, the user will be asked to enter the name of the QR code image from which user wants to read the data                     print it on the screen.
+ - With each QR code creation process, the QR code will be saved automatically.
+ - If type chooses an error, a message will appear about not choosing from the list or choosing incorrectly.
+ - After each selection process from the list, a list will appear to choose whether to continue with the program or not.
+ - If the answer is 'y', the list will continue.
+ - If the answer is 'n, the program will not exit.
