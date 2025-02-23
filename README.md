@@ -1,45 +1,76 @@
-# UNIT-PROJECT-1
+## Project :  ShowTime:
 
-
-
-## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
-
-- Must be interactive on CLI.
-- Use your coding skills in Python accurately.
-- Organize Your Code into modules & (or packages)
-- Use git & Github to track changes in your code.
-
-## Example Project :  An online Grocery Store :
-
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
+#### Overview : ShowTime is CLI(command-line application) designed to help users discover movies and TV shows, manage watchlists, track watched content, rate and review shows, and get recommendations from ai. The app has two types of users: guests and registered users.
 
 ### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
+#### As a guset user I should be able to do the following :
+- Search for a Movie by title.
+- Search for a TV Show by title.
+- Search for Movies by genre.
+- Search for TV Shows by genre.
+- Get recommendations from ai.
+- View top-rated movies.
+- View popular movies.
+- View top-rated TV shows.
+- View popular TV shows.
+- Register an account or log in to access more features.
+#### As a register user I should be able to do the following :
+- login to my account . 
+- register a new account with a secure password (SHA-256 hashed).
+- Do everything a guest can do.
+- Add a Movie or TV Show to my watchlist.
+- Remove a Movie or TV Show from my watchlist.
+- List all items in my watchlist.
+- Mark a Movie or TV Show as already watched.
+- List all Movies or TV Shows I’ve watched.
+- Rate and review a Movie or TV Show.
+- Share my review on X.
+- Log out from my account.
+
 
 
 
 #### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
-
-
-### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
-
-### NOTE: before submitting the final project, please do the following command:
-`pip freeze > requirements.txt` to enable use to know & use the packages used in your project.
+for both users:
+-Type 1 to login
+-Type 2 to register
+-Type 3 to Continue as Guest
+-Type 4 to Exit the program
+for guset users:
+-Type 1 to Search for a Movie
+-Type 2 to Search for a TV Show
+-Type 3 to Search for a Movie by Genre
+-Type 4 to Search for a TV Show by Genre
+-Type 5 to Get AI Recommendations
+-Type 6 to View Top Rated Movies
+-Type 7 to View Popular Movies
+-Type 8 to View Top Rated TV Shows
+-Type 9 to View Popular TV Shows
+-Type 10 to login
+-Type 11 to Exit Program
+-Type enter to continue
+-Type t for tv show
+-Type m for movie
+for register users:
+-Type 1 to Search for a Movie
+-Type 2 to Search for a TV Show
+-Type 3 to Search for a Movie by Genre
+-Type 4 to Search for a TV Show by Genre
+-Type 5 to Get AI Recommendations
+-Type 6 to View Top Rated Movies
+-Type 7 to View Popular Movies
+-Type 8 to View Top Rated TV Shows
+-Type 9 to View Popular TV Shows
+-Type 10 to View Your Movie Watchlist
+-Type 11 to View Your TV Show Watchlist
+-Type 12 to View Movies You’ve Watched
+-Type 13 to View TV Shows You’ve Watched
+-Type 14 to Logout
+-Type 15 to Exit Program
+-Type enter to continue
+-Type w to add a Movie/TV Show to the Watchlist.
+-Type aw to mark a Movie/TV Show as Already Watched.
+-Type r to Rate and Review a Movie/TV Show.
+-Type t for tv show
+-Type m for movie
+ 
