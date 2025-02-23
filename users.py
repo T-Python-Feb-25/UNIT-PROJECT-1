@@ -50,7 +50,7 @@ class Users:
                 + "Username already exists. Please choose another name. Or try login."
                 + Style.RESET_ALL
             )
-            return 
+            return
 
         if not re.match(r"^[A-Za-z]+\d+$", username):
             print(
@@ -58,7 +58,7 @@ class Users:
                 + "Invalid username! It must contain letters followed by numbers."
                 + Style.RESET_ALL
             )
-            return 
+            return
 
         if not password.isdigit():
             print(
@@ -66,7 +66,7 @@ class Users:
                 + "Invalid password! It must contain only numbers."
                 + Style.RESET_ALL
             )
-            return 
+            return
 
         self.username = username
         self.name = name
@@ -133,60 +133,69 @@ class Users:
         Returns:
             str: The username if login is successful, None otherwise.
         """
-        username = input("Enter your username: ").strip()
-        password = getpass.getpass("Enter your password: ")
+        try:
+            username = input("Enter your username: ").strip()
+            password = getpass.getpass("Enter your password: ")
 
-        con = sqlite3.connect("tutorial.db")
-        cur = con.cursor()
+            con = sqlite3.connect("tutorial.db")
+            cur = con.cursor()
 
-        cur.execute(
-            "SELECT password, last_updated FROM users WHERE username = ?", (username,)
-        )
-        user = cur.fetchone()
-        con.close()
+            cur.execute(
+                "SELECT password, last_updated FROM users WHERE username = ?",
+                (username,),
+            )
+            user = cur.fetchone()
+            con.close()
 
-        if user:
-            stored_password, last_updated = user
-            if Users.check_password(stored_password, password):
-                print(
-                    emoji.emojize(Fore.GREEN + "Login successful :OK_hand:")
-                    + Style.RESET_ALL
-                )
-                print(f"\U0001f4c5 Last updated: {last_updated}")
+            if user:
+                stored_password, last_updated = user
+                if Users.check_password(stored_password, password):
+                    print(
+                        emoji.emojize(Fore.GREEN + "Login successful :OK_hand:")
+                        + Style.RESET_ALL
+                    )
+                    print(f"\U0001f4c5 Last updated: {last_updated}")
 
-                # Check if a day has passed since last update
-                today = datetime.today().strftime("%Y-%m-%d")
-                if last_updated != today:
-                    # If the last update date is not today, reset consumed_calories to 0
+                    # Check if a day has passed since last update
+                    today = datetime.today().strftime("%Y-%m-%d")
+                    if last_updated != today:
+                        # If the last update date is not today, reset consumed_calories to 0
+                        con = sqlite3.connect("tutorial.db")
+                        cur = con.cursor()
+                        cur.execute(
+                            "UPDATE users SET consumed_calories = 0, last_updated = ? WHERE username = ?",
+                            (today, username),
+                        )
+                        con.commit()
+                        con.close()
+                        print("Your consumed calories have been reset to 0 for today.")
+
+                    # Display the total daily calories
                     con = sqlite3.connect("tutorial.db")
                     cur = con.cursor()
                     cur.execute(
-                        "UPDATE users SET consumed_calories = 0, last_updated = ? WHERE username = ?",
-                        (today, username),
+                        "SELECT total_calories FROM users WHERE username = ?",
+                        (username,),
                     )
-                    con.commit()
+                    total_calories = cur.fetchone()[0]
                     con.close()
-                    print("Your consumed calories have been reset to 0 for today.")
 
-                # Display the total daily calories
-                con = sqlite3.connect("tutorial.db")
-                cur = con.cursor()
-                cur.execute(
-                    "SELECT total_calories FROM users WHERE username = ?", (username,)
-                )
-                total_calories = cur.fetchone()[0]
-                con.close()
-
-                return username
+                    return username
+                else:
+                    print(
+                        emoji.emojize(
+                            Fore.RED + "The password is incorrect :thumbs_down:"
+                        )
+                        + Style.RESET_ALL
+                    )
+                    return None
             else:
-                print(
-                    emoji.emojize(Fore.RED + "The password is incorrect :thumbs_down:")
-                    + Style.RESET_ALL
-                )
+                print(Fore.RED + "Username not found!" + Style.RESET_ALL)
                 return None
-        else:
-            print(Fore.RED + "Username not found!" + Style.RESET_ALL)
-            return None
+        except sqlite3.Error as e:
+            print(Fore.RED + f"Database error: {e}" + Style.RESET_ALL)
+        except Exception as e:
+            print(Fore.RED + f"An unexpected error occurred: {e}" + Style.RESET_ALL)
 
     def check_user_exists(self, username):
         """
@@ -196,50 +205,56 @@ class Users:
         Returns:
             bool: True if the user exists, False otherwise.
         """
-
-        con = sqlite3.connect("tutorial.db")
-        cur = con.cursor()
-        cur.execute("SELECT COUNT(*) FROM users WHERE username = ?", (username,))
-        user_count = cur.fetchone()[0]
-        con.close()
-        return user_count > 0
+        try:
+            con = sqlite3.connect("tutorial.db")
+            cur = con.cursor()
+            cur.execute("SELECT COUNT(*) FROM users WHERE username = ?", (username,))
+            user_count = cur.fetchone()[0]
+            con.close()
+            return user_count > 0
+        except sqlite3.Error as e:
+            print(Fore.RED + f"Database error: {e}" + Style.RESET_ALL)
+            return False
 
     def calculate_calories(self):
         """
         Calculates the daily required calories based on gender and activity level.
         """
-        if self.gender == "male":
-            bmr = (
-                88.362
-                + (13.397 * self.weight)
-                + (4.799 * self.height)
-                - (5.677 * self.age)
-            )
-        elif self.gender == "female":
-            bmr = (
-                447.593
-                + (9.247 * self.weight)
-                + (3.098 * self.height)
-                - (4.330 * self.age)
-            )
-        else:
-            print(Fore.RED + "Invalid gender" + Style.RESET_ALL)
-            return None
+        try:
+            if self.gender == "male":
+                bmr = (
+                    88.362
+                    + (13.397 * self.weight)
+                    + (4.799 * self.height)
+                    - (5.677 * self.age)
+                )
+            elif self.gender == "female":
+                bmr = (
+                    447.593
+                    + (9.247 * self.weight)
+                    + (3.098 * self.height)
+                    - (4.330 * self.age)
+                )
+            else:
+                print(Fore.RED + "Invalid gender" + Style.RESET_ALL)
+                return None
 
-        activity_multipliers = {
-            "sedentary": 1.2,
-            "light": 1.375,
-            "moderate": 1.55,
-            "active": 1.75,
-            "very active": 1.9,
-        }
-        multiplier = activity_multipliers.get(self.activate_level, None)
-        if multiplier is None:
-            print(Fore.RED + "Invalid activity level" + Style.RESET_ALL)
-            return None
+            activity_multipliers = {
+                "sedentary": 1.2,
+                "light": 1.375,
+                "moderate": 1.55,
+                "active": 1.75,
+                "very active": 1.9,
+            }
+            multiplier = activity_multipliers.get(self.activate_level, None)
+            if multiplier is None:
+                print(Fore.RED + "Invalid activity level" + Style.RESET_ALL)
+                return None
 
-        self.calories = bmr * multiplier
-        self.total_calories = self.calories
+            self.calories = bmr * multiplier
+            self.total_calories = self.calories
+        except ValueError as e:
+            print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)
 
     def save_to_db(self):
         """
