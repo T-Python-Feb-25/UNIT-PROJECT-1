@@ -4,5 +4,11 @@
         "lastName": "fallatah",
         "password": "12345678",
         "Travel Plans": []
+    },
+    "rana@gmail.com": {
+        "firstName": "rana",
+        "lastName": "ahmed",
+        "password": "12345678",
+        "Travel Plans": []
     }
 }

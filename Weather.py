@@ -4,17 +4,20 @@ information in the city selected by the user and
 
 from colorama import Fore
 import requests
-#المفتاح الخاص بمكتبة الطقس
-apiKey="11b1953aab3d44f3824193935251902"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+ 
 #دالة لجلب معلومات المدينة و تاريخ الذهاب و الاياب من المستخدم 
 def get_trip_info(city , date ):
    city=input(Fore.BLUE+"Please enter the name of the city you would like to go to \n")
-   arrivlDate=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
+   date=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
    return (city, date )
 
 #دالة لجلب معلومات الطقس 
 def get_weather(city, date):
-   url= "http://api.weatherapi.com/v1/forecast.json?key={}&q={}&dt={}".format(apiKey,city,date)
+   myKey=os.getenv("API_KEY")
+   url= "http://api.weatherapi.com/v1/forecast.json?key={}&q={}&dt={}".format(myKey,city,date)
    response=requests.get(url)
    weatherData=response.json()
    if "forecast" in weatherData:

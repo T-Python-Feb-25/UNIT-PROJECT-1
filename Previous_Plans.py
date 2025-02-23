@@ -13,6 +13,7 @@ def view_Previous_Plans(email):
     if email in users_accounts:
         users_accounts= users_accounts[email]
         if users_accounts.get("Travel Plans") is None:
+            
             print("You don't have any Plans yet")
         else:
             print(users_accounts.get["Travel Plans"])
