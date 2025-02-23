@@ -3,7 +3,6 @@ from art import *
 from login import load_users, save_users, login_menu 
 
 
-
 def questions1():
     users = load_users()
     total = users[username]["points"]
@@ -15,7 +14,7 @@ def questions1():
             answer2 = (Fore.RED + "2️⃣  WORD")
             print(answer1 + Style.RESET_ALL, "               " + answer2 + Style.RESET_ALL)
             ques1 = input("").lower().strip()
-            if ques1 == "word":
+            if ques1 == "2":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -25,7 +24,7 @@ def questions1():
                 if next1 == "ok":
                    question2()
                    break
-            elif  ques1 == "red":
+            elif  ques1 == "1":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -46,7 +45,7 @@ def question2():
             answer4 = (Fore.MAGENTA + "2️⃣  PURPLE")
             print(answer3 + Style.RESET_ALL, "               " + answer4 + Style.RESET_ALL)
             ques2 = input("" ).lower().strip()
-            if ques2 == "option":
+            if ques2 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -56,7 +55,7 @@ def question2():
                 if next2 == "ok":
                     question3()
                     break
-            elif  ques2 == "pink":
+            elif  ques2 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -76,7 +75,7 @@ def question3():
             answer6 = (Back.BLUE + " 2️⃣  NUMBER  1️⃣")
             print(answer5 + Style.RESET_ALL, "               " + answer6 + Style.RESET_ALL)
             ques3 = input("" ).lower().strip()
-            if ques3 == "number one":
+            if ques3 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -86,7 +85,7 @@ def question3():
                 if next3 == "ok":
                     question4()
                     break
-            elif ques3 == "number 1":
+            elif ques3 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -105,7 +104,7 @@ def question4():
             answer8 = (Back.LIGHTWHITE_EX + "2️⃣  ANSWER")
             print(answer7 + Style.RESET_ALL, "               " + answer8 + Style.RESET_ALL)
             ques4 = input("").lower().strip()
-            if ques4 == "right":
+            if ques4 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -115,7 +114,7 @@ def question4():
                 if next4 == "ok":
                     question5()
                     break
-            elif ques4 == "answer":
+            elif ques4 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -133,7 +132,7 @@ def question5():
             answer10 = (Back.MAGENTA + "2️⃣  FIRST")
             print(answer9 + Style.RESET_ALL, "               " + answer10 + Style.RESET_ALL)
             ques5 = input("").lower().strip()
-            if ques5 == "second":
+            if ques5 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -141,9 +140,9 @@ def question5():
                 print(f"YOUR POINT {Fore.GREEN} {total} {Style.RESET_ALL} KEEP GOING TO BE BEST ONE")          
                 next5 = input("WRITE(" + Fore.YELLOW + " 🆗 " + Style.RESET_ALL + ")TO GO NEXT! \n").lower()
                 if next5 == "ok":
-                    question6()
+                    CATEGORY()
                     break
-            elif ques5 == "first":
+            elif ques5 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -157,12 +156,12 @@ def question6():
     print("SIXTH QUESTION:")
     while True:
         try:
-            print("Q6 WHICH WORD IS SPELLED CORRECTLY : ❔")
-            answer11 = (Back.GREEN + "1️⃣  CORRECTLY")  
-            answer12 = (Back.GREEN + "2️⃣  WRONG")
+            print("Q6 THE FIRST WOMAN TO WIN A NOBEL PRIZE WAS MARIE CURIE : ❔")
+            answer11 = (Back.GREEN + "1️⃣  Lexi Anderson.")  
+            answer12 = (Back.GREEN + "2️⃣  Marie Curie.")
             print(answer11 + Style.RESET_ALL, "               " + answer12 + Style.RESET_ALL)
             ques6 = input("").lower().strip()
-            if ques6 == "correctly":
+            if ques6 == "2":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -172,7 +171,7 @@ def question6():
                 if next6 == "ok":
                     question7()
                     break
-            elif ques6 == "wrong":
+            elif ques6 == "1":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -185,12 +184,12 @@ def question7():
     print("SEVENTH QUESTION:")
     while True:
         try:
-            print("Q7 WHICH ONE IS THE ODD ONE OUT : ❔")
-            answer13 = (Back.YELLOW + "1️⃣  THIS ONE")  
-            answer14 = (Back.YELLOW + "2️⃣  THE OTHER ONE")
+            print("Q7 WHAT IS THE CAPITAL OF JAPAN : ❔")
+            answer13 = (Back.YELLOW + "1️⃣  TOKYO")  
+            answer14 = (Back.YELLOW + "2️⃣  KYOTO")
             print(answer13 + Style.RESET_ALL, "               " + answer14 + Style.RESET_ALL)
             ques7 = input("").lower().strip()
-            if ques7 == "this one":
+            if ques7 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -200,7 +199,7 @@ def question7():
                 if next7 == "ok":
                     question8()
                     break
-            elif ques7 == "this other one":
+            elif ques7 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -213,12 +212,12 @@ def question8():
     print("EIGHTH QUESTION:")
     while True:
         try:
-            print("Q8 WHAT HAPPENS IF YOU PICK THIS OPTION : ❔")
-            answer15 = (Back.BLUE + "1️⃣  NOTHING")  
-            answer16 = (Back.BLUE + "2️⃣  YOU WIN")
+            print("Q8 WHO INVENTED THE ELECTRIC LIGHT BULB : ❔")
+            answer15 = (Back.BLUE + "1️⃣  THOMAS EDISON")  
+            answer16 = (Back.BLUE + "2️⃣  NIKOLA TESLA")
             print(answer15 + Style.RESET_ALL, "               " + answer16 + Style.RESET_ALL)
             ques8 = input("").lower().strip()
-            if ques8 == "nothing":
+            if ques8 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -228,7 +227,7 @@ def question8():
                 if next8 == "ok":
                     question9()
                     break
-            elif ques8 == "you win":
+            elif ques8 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -241,12 +240,12 @@ def question9():
     print("NINTH QUESTION:")
     while True:
         try:
-            print("Q9 WHICH OPTION IS THE CORRECT ONE : ❔")
-            answer17 = (Back.RED + "1️⃣  THE INCORRECT ONE")  
-            answer18 = (Back.RED + "2️⃣  THE CORRECT ONE")
+            print("Q9 WHAT IS THE LARGEST OCEAN IN THE WORLD : ❔")
+            answer17 = (Back.RED + "1️⃣  PACIFIC OCEAN")  
+            answer18 = (Back.RED + "2️⃣  ATLANTIC OCEAN")
             print(answer17 + Style.RESET_ALL, "               " + answer18 + Style.RESET_ALL)
             ques9 = input("").lower().strip()
-            if ques9 == "the correct one":
+            if ques9 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -256,7 +255,7 @@ def question9():
                 if next9 == "ok":
                     question10(username)
                     break
-            elif ques9 == "the incorrect one":
+            elif ques9 == "2":
                 print(Back.RED + "FAIL! TRY AGAIN..❗️ " + Style.RESET_ALL)
             else:
                 print(Back.RED + "PLEASE CHOOSE ANSWER ⛔️ " + Style.RESET_ALL)
@@ -269,12 +268,12 @@ def question10(username):
     print("TENTH QUESTION:")
     while True:
         try:
-            print("Q10 WHICH NUMBER COMES LAST IN THIS LIST : ❔")
-            answer19 = (Back.CYAN + "1️⃣  3")  
-            answer20 = (Back.CYAN + "2️⃣  2")
+            print("Q10 ON WHICH CONTINENT IS EGYPT LOCATED : ❔")
+            answer19 = (Back.CYAN + "1️⃣  ASIA")  
+            answer20 = (Back.CYAN + "2️⃣  AFRICA")
             print(answer19 + Style.RESET_ALL, "               " + answer20 + Style.RESET_ALL)
             ques10 = (input("").lower().strip())
-            if ques10 == "3":
+            if ques10 == "1":
                 print(Back.GREEN + "GOOD JOB ✅" + Style.RESET_ALL)
                 total += 100
                 users[username]["points"] = total
@@ -326,18 +325,20 @@ def trophy():
 
 
 
-def continue1():
+def CATEGORY():
     while True:
-        print("-PART 1️⃣\n-PART 2️⃣\n-EXIT 3️⃣")
+        print("-BRIN QUESTIONS 1️⃣\n-CULTURAL QUESTIONS 2️⃣\n-MATH QUESTIONS (SOON) 3️⃣\n-EXIT 4️⃣")
         choice2 = input("CHOOSE AN OPTION: ")
         if choice2 == "1":
             questions1()
             continue
         elif choice2 == "2":
-            output = question5()
+            output = question6()
             if output == False:
                 return False
         elif choice2 == "3":
+            print(Back.GREEN + "SOON IN NEXT UPDATE" + Style.RESET_ALL)
+        elif choice2 == "4":
             return False        
 
 
@@ -354,7 +355,7 @@ def choice(username):
         if choice1 == "1":
             questions1()
         elif choice1 == "2":
-            output = continue1()
+            output = CATEGORY()
             if output == False:
                 exit1()
                 break
