@@ -1,3 +1,4 @@
+from datetime import datetime
 from data_handler import load_data,save_data
 from colorama import Fore
 from tabulate import tabulate
@@ -75,6 +76,9 @@ def remove_member(name:str):
     if not member:
         print(Fore.RED + f"Member '{name}' not found!" + Fore.RESET)
         return
+    if member['borrowed_books']:
+        print(Fore.RED + f"Member '{name}' cannot be removed because they have borrowed books. Please return all books first." + Fore.RESET)
+        return 
 
     if member['borrowed_books']:
         for book_title in member['borrowed_books']:
@@ -141,7 +145,13 @@ def borrow_book(member_name:str, id:int):
 
     books['quantity'] -= 1
 
-    members['borrowed_books'].append({'id' : id, 'title': books['title']})
+    borrow_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    members['borrowed_books'].append({
+        'id' : id, 
+        'title': books['title'],
+        'borrow_date': borrow_date
+        })
 
     for book in data['books']:
         if book['id'] == books['id']:
@@ -212,11 +222,11 @@ def view_borrowing(member_name:str):
     
     if member['borrowed_books']:
         print(Fore.GREEN + f"{member_name}'s Borrowing History:" + Fore.RESET)
-        headers = ["id","Title", "Author", "Category"]
-        for book_id in member['borrowed_books']:
-            book = find_book(book_id['id'])
+        headers = ["id","Title", "Author", "Category","Borrow Date", "Return Date"]
+        for borrowed in member['borrowed_books']:
+            book = find_book(borrowed['id'])
             if book:
-                table_data.append([book['id'],book["title"], book["author"], book["category"]])
+                table_data.append([book['id'],book["title"], book["author"], book["category"],borrowed["borrow_date"]])
         print(tabulate(table_data,headers=headers,tablefmt="double_grid"))
     else:
         print(Fore.RED + f"No borrowing history found for {member_name}." + Fore.RESET)

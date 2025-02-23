@@ -23,7 +23,7 @@ def show_menu():
 while True:
     show_menu()
     print("")
-    user_input = input("Choose option:")
+    user_input = input("Choose option:").strip()
 
     if user_input == "1":
         print("")

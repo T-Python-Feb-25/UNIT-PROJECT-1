@@ -80,9 +80,8 @@ def list_book():
         print(Fore.RED + "No books available in the library." + Fore.RESET)
     else:
         print(Fore.GREEN + "The book available in Library :" + Fore.RESET)
-        books_sorted = sorted(books, key=lambda book: book['title'].lower())
         table_data = []
-        for book in books_sorted:
+        for book in books:
             table_data.append([book['id'], book['title'],book['author'],book['category'],book['quantity']])
         headers = ["id","Title","Author","Category","quantity"]
         print(tabulate(table_data,headers=headers,tablefmt="double_grid"))
@@ -100,7 +99,7 @@ def search_book(query:str):
     """
     data = load_data()
     result = []
-
+    
     for book in data['books']:
         if book['title'].lower().startswith(query.lower()) or book['author'].lower().startswith(query.lower()) or book['category'].lower().startswith(query.lower()) :
             result.append(book)
