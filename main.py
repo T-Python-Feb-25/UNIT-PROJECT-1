@@ -77,7 +77,7 @@ while True:
         print(Fore.CYAN,logo)
         print("=" * 50)
         user_input: str = input(
-            f'Please select an option:\n1. login\n2. register\n3. Continue as Guest\n4. Exit the program\nYour choice: {Style.RESET_ALL}{Fore.YELLOW}{Style.RESET_ALL}').strip()
+            f'Please select an option:\n1. login\n2. register\n3. Continue as Guest\n4. Exit the program\nYour choice: {Style.RESET_ALL}{Fore.YELLOW}').strip()
         print(f"{Fore.CYAN}=" * 50)
         if user_input == "1":
             app.user.login()
@@ -86,6 +86,8 @@ while True:
             time.sleep(1)
         elif user_input=='3':
             while True:
+                print("\n"*20)
+
                 print(Fore.CYAN,logo)
                 print("=" * 50)
                 user_input: str = input(f'''
@@ -195,6 +197,8 @@ Your choice:{Fore.YELLOW} ''').strip()
             print(f"{Fore.RED}Invalid option. Please try again.{Style.RESET_ALL}")
             time.sleep(1)
     else:
+        print("\n"*20)
+
         print(Fore.CYAN,logo)
         print("=" * 50)
         user_input: str = input(f'''

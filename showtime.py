@@ -291,23 +291,23 @@ class ShowTime:
         try:
             if category=="tv":
                 if self.user.get_user_data_login()["tv"]["rating"]:
-                    print("your tvshow:")
+                    print(f"{Fore.MAGENTA}your Tv hows:")
                     print("-"*10)
                     for id in  self.user.get_user_data_login()["tv"]["rating"]:
                         for i in id:
                             tv_show=self.tvshow.get_basic_info_by_id(i)
-                            print(f"{Fore.MAGENTA}id: {tv_show["id"]}\ntitle: {tv_show["title"]}\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
+                            print(f"{Fore.MAGENTA}id: {tv_show["id"]}\ntitle: {tv_show["title"]}({tv_show["release_date"]})\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
                             print("-"*10)
                 else:
                     return False
             else:
                 if self.user.get_user_data_login()["movie"]["rating"]:
-                    print("your movie:")
+                    print(f"{Fore.MAGENTA}your movie:")
                     print("-"*10)
                     for id in  self.user.get_user_data_login()["movie"]["rating"]:
                         for i in id:
                             movie=self.movie.get_basic_info_by_id(i)
-                            print(f"{Fore.MAGENTA}id: {movie["id"]}\ntitle: {movie["title"]}\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
+                            print(f"{Fore.MAGENTA}id: {movie["id"]}\ntitle: {movie["title"]}({movie["release_date"]})\nrating: {id[i]["rating"]}\nreview:{id[i]["review"]}")
                             print("-"*10)
                 else:
                     return False
@@ -335,7 +335,7 @@ class ShowTime:
                 post_content = (
                 f"I just watched '{movie['title']}' {category}!\n"
                 f"I gave it a {rating}/10\n"
-                f"My Thoughts: {reviews}\n"
+                f"My review: {reviews}\n"
                 f"More on IMDb: {imdb_url}\n")        
                 encoded_content = urllib.parse.quote(post_content)
                 x_url = f"https://x.com/intent/tweet?text={encoded_content}"
