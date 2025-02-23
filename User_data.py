@@ -1,4 +1,12 @@
 import json
+from rich.console import Console
+from rich.theme import Theme
+
+
+custom_theme = Theme({"success": "bold yellow", "error": "bold red"})
+console = Console(theme=custom_theme)
+
+
 class UserData:
     def __init__(self):
         self.file_name = 'login_data.json'
@@ -15,12 +23,9 @@ class UserData:
 
     def save_login_data(self, user_name, password):
         existing_data = self.load_data()  
-
-        
         existing_data[user_name] = password  
 
-        
         with open(self.file_name, 'w') as f:
-            json.dump(existing_data, f)  
+            json.dump(existing_data, f, indent=4)  
 
-        print("Login data saved successfully.")
+        console.print("Login data saved successfully.", style= "success")

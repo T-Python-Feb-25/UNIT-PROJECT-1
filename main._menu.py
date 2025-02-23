@@ -6,8 +6,7 @@ from colorama import *
 from art import *
 from User_data import UserData
 
-
-custom_theme = Theme({"success": "green", "error": "bold red"})
+custom_theme = Theme({"success": "bold yellow", "error": "bold red"})
 console = Console(theme=custom_theme)
 
 def main():
@@ -18,30 +17,29 @@ def main():
     input("PRESS ANY KEY TO CONTINUE... ")
     user_data = UserData()
 
-    user_name = input("Enter your username to login: ")
+    user_name = console.input("[bold blue]Enter your username to login: [/]")
 
     while True:
-        password = input("Enter your password (only numbers): ")
+        password = console.input("[bold blue]Enter your password (only numbers): [/]")
         if user_data.has_only_numbers(password):
             break
-        print("The password needs to be numbers only.")
+        console.print("The password needs to be numbers only.", style="error")
 
     user_data.save_login_data(user_name, password)
     store = Store()  
 
     error_report= ErrorReport()
-    
 
     while True:
-        print("\n1. Browse Games\n2. Checkout\n3. View Purchase History\n4. Play Game\n5. Report an Issue\n6. Exit")
-        choice = input("Select an option: ")
+        console.print("1. Browse Games\n2. Checkout\n3. View Purchase History\n4. Play Game\n5. Report an Issue\n6. Exit")
+        choice = console.input("[bold blue]Select an option: [/]")
 
         try:
             
             if choice == "1":
                 store.browse_games()
                 game_name = input("Enter the name of the game you want to add to the cart: ")
-                game = next((g for g in store.games if g.name.lower() == game_name.lower()), None)
+                game = next((game for game in store.games if game.name.lower() == game_name.lower()), None)
                 if game:
                     store.add_to_cart(game)  
                     console.print("Game added successfully.", style="success")
@@ -62,7 +60,7 @@ def main():
                     console.print("You have no purchased games to play.", style="error")
                 else:
                     game_name = input("Enter the name of the game you want to play: ")
-                    game = next((g for g in store.purchase_history if g.name.lower() == game_name.lower()), None)
+                    game = next((game for game in store.purchase_history if game.name.lower() == game_name.lower()), None)
                     if game:
                         store.play_game(game)
                     else:
@@ -75,9 +73,12 @@ def main():
                 continue_reporting = input("Do you want to report another issue? (y/n): ").lower()
                 if continue_reporting != 'y':
                     input("Press any key to return to the main menu...")
+                else:
+                    error_report.report()
+                
 
             elif choice == "6":
-                console.print("Thank you! Please come again 🤍")
+                console.print("\n[bold magenta]Thank you! Please come again 🤍[/]", justify="center")
                 break
 
             else:
@@ -86,5 +87,4 @@ def main():
         except Exception as e:
             console.print(f"An error occurred: {e}", style="error")
 
-if __name__ == "__main__":
-    main()
+main()

@@ -8,8 +8,7 @@ from rich.console import Console
 
 pygame.mixer.init()
 
-move_sound = pygame.mixer.Sound("game-bonus-144751.mp3")
-win_sound = pygame.mixer.Sound("game-start-6104.mp3")
+end_sound = pygame.mixer.Sound("game-bonus-144751.mp3")
 
 def load_scores():
     try:
@@ -36,7 +35,7 @@ maze = [
 
 player_x, player_y = 1, 1
 
-username = input("enter your user name for the score: ")
+username = input("enter your name for the score: ")
 
 scores = load_scores()
 
@@ -50,11 +49,11 @@ def play(movememt):
 
     while True:
         movememt.clear()
-
+        
         for y, row in enumerate(maze):
             for x, cell in enumerate(row):
                 if x == player_x and y == player_y:
-                    movememt.addstr(y, x * 2, "P")
+                    movememt. addstr(y, x * 2, "P")
                 elif cell == "M":
                     movememt.addstr(y, x * 2, "#")
                 elif cell == "E":
@@ -67,6 +66,7 @@ def play(movememt):
         key = movememt.getch()
         new_x, new_y = player_x, player_y
 
+         
         if key == ord('w'):
             new_y -= 1
         elif key == ord('s'):
@@ -78,10 +78,10 @@ def play(movememt):
 
         if maze[new_y][new_x] != "M":
             player_x, player_y = new_x, new_y
-            move_sound.play()
+        
 
         if maze[player_y][player_x] == "E":
-            win_sound.play()
+            end_sound.play()
             end_time = time.time()
             elapsed_time = round(end_time - start_time, 2)
 
@@ -89,9 +89,10 @@ def play(movememt):
             save_scores(scores)
 
             movememt.clear()
-            movememt.addstr(5, 5, f"🎉 congra\n{elapsed_time} sec.", curses.A_BOLD)
+            movememt.addstr(5, 5, f"🎉congratulation you finished in{elapsed_time} sec.🎉", curses.A_BOLD)
             movememt.refresh()
             pygame.time.delay(2000)
+            
             break
 
 curses.wrapper(play)

@@ -5,7 +5,7 @@ import subprocess
 from games import Game 
 import os 
 
-custom_theme = Theme({"success": "green", "error": "bold red"})
+custom_theme = Theme({"success": "bold yellow", "error": "bold red"})
 console = Console(theme=custom_theme)
 
 class Store:
@@ -27,12 +27,12 @@ class Store:
 
     def add_to_cart(self, game: Game):
         self.cart.append(game)
-        console.print(f"Added '{game.name}' to your cart!", style="success")
+    
 
     def checkout(self):
         if not self.cart:
-            console.print("Your cart is empty!!", style="error")
-            console.print("Why haven't you bought the game yet? 🤨", style= "error")
+            print("Your cart is empty!!")
+            print("Why haven't you bought the game yet? 🤨")
             return
         
         total_price = sum(game.price for game in self.cart)
