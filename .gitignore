@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#data
+risk_data.xlsx
+
+
+
 # C extensions
 *.so
 

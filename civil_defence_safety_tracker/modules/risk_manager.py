@@ -1,4 +1,4 @@
-import os
+
 
 RISK_FILE = "risks.txt"
 

@@ -1,11 +1,12 @@
 import hashlib
 import sqlite3
-import os
 import matplotlib.pyplot as plt
 from colorama import Fore, Style, init
 from modules.email_sender import send_email
 from modules.export_excel import export_to_excel
-import pandas as pd
+from modules.safety_recommendations import get_recommendations
+
+
  
 """
 Main module for the Civil Defense Safety Tracker.
@@ -50,13 +51,6 @@ CREATE TABLE IF NOT EXISTS email_logs (
 """)
 conn.commit()
 
-
-
-
-
-
-
-#conn.commit()
 
 def register():
     """
@@ -244,7 +238,7 @@ def plot_risks():
         print(Fore.YELLOW + "No risk data available for plotting.")
 
 
- #from colorama import Fore, Style
+ 
 
 def update_risk():
     """
@@ -317,25 +311,25 @@ def display_menu():
     print(f"{Fore.GREEN}6.{Fore.RESET} Generate a report")
     print(f"{Fore.GREEN}7.{Fore.RESET} Plot risk chart")
     print(f"{Fore.GREEN}8.{Fore.RESET} Export risks to Excel (Formatted)")
+    print(f"{Fore.GREEN}9.{Fore.RESET} Get safety recommendations")
     print(f"{Fore.RED}0.{Fore.RESET} Exit")
 
 def main():
-    def main():
-     """
-    Main function to run the Civil Defense Safety Tracker.
+    """
+     Main function to run the Civil Defense Safety Tracker.
 
-    This function provides a user interface for logging in, registering, and navigating 
-    through the available features such as adding, listing, searching, updating, deleting, 
-    and exporting risks.
+     This function provides a user interface for logging in, registering, and navigating 
+     through the available features such as adding, listing, searching, updating, deleting, 
+     and exporting risks.
 
-    The function runs an infinite loop that:
-        - Prompts the user to log in or register.
-        - If login is successful, displays the main menu.
-        - Handles user inputs to execute the corresponding functions.
+     The function runs an infinite loop that:
+         - Prompts the user to log in or register.
+         - If login is successful, displays the main menu.
+         - Handles user inputs to execute the corresponding functions.
 
-    Returns:
-        None
-        """
+     Returns:
+         None
+    """
 
     print(Fore.YELLOW + "=" * 50)
     print(Fore.MAGENTA + " Welcome to the Civil Defense Safety Tracker!")
@@ -376,15 +370,32 @@ def main():
                 delete_risk()
             elif choice == "6":
                 generate_report()
+                
             elif choice == "7":
                 plot_risks()
+                input("\nPress Enter to return to the menu...")
             elif choice == "8":
-                export_to_excel()   
+                export_to_excel()
+                input("\nPress Enter to return to the menu...")   
+
+            elif choice == "9": 
+                 risk_type = input("Enter risk type to get recommendations: ").strip()
+                 recommendations = get_recommendations(risk_type)
+                 print("\nSafety Recommendations:")
+                 for rec in recommendations:
+                    print(f"- {rec}")
+                 input("\nPress Enter to return to the menu ...")   
+                    
+
+
+
+
+                
             elif choice == "0":
-                print("Exiting... Stay Safe!")
+                print(Fore.BLUE+"Exiting... Stay Safe!")
                 break
             else:
-                print(Fore.RED + "Invalid choice! Please enter a number between 0-7.")
+                print(Fore.RED + "Invalid choice! Please enter a number between 0-9.")
         except KeyboardInterrupt:
             print(Fore.RED + "\nProgram interrupted. Exiting safely.")
             break
