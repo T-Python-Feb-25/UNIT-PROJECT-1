@@ -1,5 +1,4 @@
-
-
+import os
 RISK_FILE = "risks.txt"
 
 def add_risk(risk_type, level, location, date):
@@ -39,7 +38,7 @@ def list_risks():
         # - Fire, High, jeddah, 2024-02-25
     """
 
-    if not os.path.exists(RISK_FILE):
+    if not os.path.exists(RISK_FILE): 
         print(" No recorded risks found.")
         return
     with open(RISK_FILE, "r", encoding="utf-8") as file:
