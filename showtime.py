@@ -172,7 +172,7 @@ class ShowTime:
             if id not in self.user.get_user_data_login()["tv"]["tv_watch_list"]:
                 self.user.get_user_data_login()["tv"]["tv_watch_list"].append(id)
                 self.user.save_data()
-                print("The tv show is added to the watchlist.")
+                print(f"{Fore.GREEN}The tv show is added to the watchlist.{Style.RESET_ALL}")
             else:
                 print(Fore.RED,"The tv show is already added to the watchlist.")
                 print(Style.RESET_ALL,end="")
