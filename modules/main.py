@@ -30,21 +30,21 @@ def display_events(title='null',username='all'):
     console = Console()
     if title == 'null':
         title = f"📅 Available Events({len(list_events)})"
-    table = Table(title=title)
+    table = Table(title=title,show_lines=True)
     
-    table.add_column("ID", justify="center", style="cyan", no_wrap=True)
-    table.add_column("Title", style="bold magenta")
-    table.add_column("presentor", justify="center", style="green")
-    table.add_column("Date", justify="center", style="yellow")
-    table.add_column("Time", justify="center", style="yellow")
+    table.add_column("ID", justify="center", style="black", no_wrap=True)
+    table.add_column("Title", style="blue")
+    table.add_column("presentor", justify="center", style="blue")
+    table.add_column("Date", justify="center",style='bright_magenta')
+    table.add_column("Time", justify="center", style='magenta')
     table.add_column("Location", style="blue")
-    table.add_column("Seats", justify="center", style="red")
+    table.add_column("Seats", justify="center", style="yellow")
     table.add_column("registered users",justify="center",style="green")
     try:
         if username == 'all':
             for event in list_events:
-                date = f"Start date:{event['date']['start_date']}\nEnd date:{event['date']['end_date']}"
-                time = f"Start time:{event['time']['start_time']}\nEnd date:{event['time']['end_time']}"
+                date = f"Start date: {event['date']['start_date']}\nEnd date: {event['date']['end_date']}"
+                time = f"Start time: {event['time']['start_time']}\nEnd time: {event['time']['end_time']}"
 
                 table.add_row(
                     str(event["id"]),
