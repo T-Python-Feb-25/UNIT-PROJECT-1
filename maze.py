@@ -1,14 +1,28 @@
 import curses
 import pygame
+import json
+import time
+from rich.table import Table
+from rich.console import Console
 
-# Initialize Pygame mixer
+
 pygame.mixer.init()
 
-try:
-    start_sound = pygame.mixer.Sound("game-start-6104.mp3")
-    end_sound = pygame.mixer.Sound("game-bonus-144751.mp3")
-except pygame.error as e:
-    print(f"Error loading sound: {e}")
+move_sound = pygame.mixer.Sound("game-bonus-144751.mp3")
+win_sound = pygame.mixer.Sound("game-start-6104.mp3")
+
+def load_scores():
+    try:
+        with open("scores.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+
+
+def save_scores(scores):
+    with open("scores.json", "w") as file:
+        json.dump(scores, file, indent=4)
+
 
 maze = [
     "MMMMMMMMM",
@@ -22,31 +36,37 @@ maze = [
 
 player_x, player_y = 1, 1
 
-def play(stdscr):
+username = input("enter your user name for the score: ")
+
+scores = load_scores()
+
+start_time = time.time()
+
+def play(movememt):
     global player_x, player_y
     curses.curs_set(0)
-    stdscr.nodelay(1)
-    stdscr.timeout(100)
+    movememt.nodelay(1)
+    movememt.timeout(100)
 
     while True:
-        stdscr.clear()
+        movememt.clear()
 
         for y, row in enumerate(maze):
             for x, cell in enumerate(row):
                 if x == player_x and y == player_y:
-                    stdscr.addstr(y, x * 2, "P")
+                    movememt.addstr(y, x * 2, "P")
                 elif cell == "M":
-                    stdscr.addstr(y, x * 2, "#")
+                    movememt.addstr(y, x * 2, "#")
                 elif cell == "E":
-                    stdscr.addstr(y, x * 2, "X")
+                    movememt.addstr(y, x * 2, "X")
                 else:
-                    stdscr.addstr(y, x * 2, ".")
+                    movememt.addstr(y, x * 2, ".")
 
-        stdscr.refresh()
-        
-        key = stdscr.getch()
+        movememt.refresh()
+
+        key = movememt.getch()
         new_x, new_y = player_x, player_y
-        
+
         if key == ord('w'):
             new_y -= 1
         elif key == ord('s'):
@@ -56,18 +76,34 @@ def play(stdscr):
         elif key == ord('d'):
             new_x += 1
 
-        # Ensure new position is within the maze boundaries
-        if 0 <= new_x < len(maze[0]) and 0 <= new_y < len(maze):
-            if maze[new_y][new_x] != "M":
-                player_x, player_y = new_x, new_y
+        if maze[new_y][new_x] != "M":
+            player_x, player_y = new_x, new_y
+            move_sound.play()
 
         if maze[player_y][player_x] == "E":
-            stdscr.clear()
-            stdscr.addstr(5, 5, "YOU WIN!!🎉", curses.A_BOLD)
-            end_sound.play()
-            stdscr.refresh()
-            curses.napms(2000)
+            win_sound.play()
+            end_time = time.time()
+            elapsed_time = round(end_time - start_time, 2)
+
+            scores[username] = elapsed_time
+            save_scores(scores)
+
+            movememt.clear()
+            movememt.addstr(5, 5, f"🎉 congra\n{elapsed_time} sec.", curses.A_BOLD)
+            movememt.refresh()
+            pygame.time.delay(2000)
             break
 
-# Start the game
 curses.wrapper(play)
+console = Console()
+table = Table(title="\nGAME BEST SCORE!!🏆", title_justify="center")
+table.add_column("RANK", justify="right")
+table.add_column("NAME")
+table.add_column("TIME", justify="right")
+
+sorted_scores = sorted(scores.items(), key=lambda x: x[1])  
+
+for rank, (user, time_taken) in enumerate(sorted_scores, 1):
+    table.add_row(str(rank), user, str(time_taken))
+
+console.print(table)

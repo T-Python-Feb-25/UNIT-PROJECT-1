@@ -4,7 +4,6 @@ import json
 import subprocess
 from games import Game 
 import os 
-import curses
 
 custom_theme = Theme({"success": "green", "error": "bold red"})
 console = Console(theme=custom_theme)
@@ -23,7 +22,6 @@ class Store:
         self.games.append(game)  
 
     def browse_games(self):
-        console.print("Available Games:")
         for game in self.games:
             console.print(game.display())  
 
@@ -34,7 +32,7 @@ class Store:
     def checkout(self):
         if not self.cart:
             console.print("Your cart is empty!!", style="error")
-            console.print("Why haven't you bought anything yet? 🤨")
+            console.print("Why haven't you bought the game yet? 🤨", style= "error")
             return
         
         total_price = sum(game.price for game in self.cart)
@@ -44,8 +42,8 @@ class Store:
         if confirm == "y":
             self.purchase_history.extend(self.cart)  
             self.cart.clear()  
-            console.print("\nCheckout complete! Thank you for your purchase 🥳✨")
-            console.print("You can now play your game!")
+            console.print("\nCheckout complete! Thank you for your purchase 🥳✨", style="success")
+            console.print("You can now play your game!", style="success")
         else:
             console.print("Checkout cancelled.", style="error")
 
@@ -64,7 +62,7 @@ class Store:
         else:
             console.print("Your Purchase History:")
             for game in self.purchase_history:
-                console.print(game.display())  # Assuming Game has a display method
+                console.print(game.display()) 
 
     def play_game(self, game: Game):
         game_file_path = os.path.join(os.getcwd(), game.file)   
@@ -74,3 +72,5 @@ class Store:
             console.print(f"Error: Game file '{game_file_path}' not found.", style="error")
         except Exception as e:
             console.print(f"Error running the game: {e}", style="error")
+
+    
