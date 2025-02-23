@@ -9,34 +9,68 @@
 - Organize Your Code into modules & (or packages)
 - Use git & Github to track changes in your code.
 
-## Example Project :  An online Grocery Store :
+### Library Management System
 
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
+### Overview 
 
-### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
+ The Library Management System is project designed to manage books and members in a library. The system allows admin to add, remove, search, borrow, and return books. It also facilitates member management and tracks borrowing history. The application is divided into several functionalities for both book and member management, ensuring smooth operations for library admin.
 
+### Features 
+
+Book Management: Admin can add, remove, list, search, and update the quantity of books.
+Member Management: Admin can add, remove, and list members. It ensures members return books before they are removed.
+Borrowing & Returning: Members can borrow books (if available) and return them when done. The system tracks borrowed books and maintains a history.
+Borrowing History: Admin can view a member’s borrowing history, including details about borrowed books.
+
+### User Stories
+
+#### As an Admin, I should be able to:
+Add a new book to the library.
+Remove a book from the library.
+List all available books.
+Search for a book by title, author, or category.
+Update the quantity of a book.
+Add a new member to the library system.
+Remove a member from the library system.
+List all registered members.
+Borrow a book to a member.
+Return a borrowed book.
 
 
 #### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
+
+option 1 to add a new book:
+Enter the book's title, author, category, and quantity.
+
+option 2 to remove a book:
+Enter the book's ID to remove.
+
+option 3 to list all available books:
+Shows a table of all books in the library.
+
+option 4 to search for a book:
+Choose whether to search by title, author, or category, and enter the search term.
+
+option 5 to update book quantity:
+Enter the book's ID and the new quantity.
+
+option 6 to add a new member:
+Enter the member’s name.
+
+option 7 to remove a member:
+Enter the member’s name.
+
+option 8 to list all registered members:
+Shows a table of all members.
+
+option 9 to borrow a book:
+Enter the member's name and the book's ID.
+
+option 10 to return a borrowed book:
+Enter the member's name and the book's ID.
+
+option 11 to view a member's borrowing history:
+Enter the member’s name to see the list of borrowed books and their details.
 
 
 ### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 

@@ -1,0 +1,31 @@
+{
+    "books": [
+        {
+            "id": 1,
+            "title": "The Alchemist",
+            "author": "Paulo Coelho",
+            "category": "Fiction",
+            "quantity": 6
+        },
+        {
+            "id": 2,
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "category": "coding",
+            "quantity": 5
+        },
+        {
+            "id": 3,
+            "title": "Life 3.0",
+            "author": "Max Tegmark",
+            "category": "Culture",
+            "quantity": 4
+        }
+    ],
+    "members": [
+        {
+            "name": "ali mohamed",
+            "borrowed_books": []
+        }
+    ]
+}
