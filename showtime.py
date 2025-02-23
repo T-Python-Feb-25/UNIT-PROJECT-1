@@ -397,10 +397,16 @@ class ShowTime:
                 id=input(f"{Fore.CYAN}enter the id or press enter to continue:{Fore.YELLOW}")
                 if not id=="":
                     movies=self.movie.get_movie_by_genre(id)
-                    print()
-                    for i,movie in enumerate(movies):
-                        print(f"{Fore.MAGENTA}{i+1}.id:{movie["id"]} title:{movie["title"]} release_date:{movie["release_date"]}")
-                        print("-"*80)
+                    if movies:
+                        print()
+                        for i,movie in enumerate(movies):
+                            print(f"{Fore.MAGENTA}{i+1}.id:{movie["id"]} title:{movie["title"]} release_date:{movie["release_date"]}")
+                            print("-"*80)
+                    else:
+                        print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
+                        time.sleep(1)
+
+                        return False
                 else:
                     return False
             else:
@@ -408,11 +414,17 @@ class ShowTime:
                 id=input(f"{Fore.CYAN}enter the id or press enter to continue:{Fore.YELLOW}")
                 if not id=="":
                     tv_shows=self.tvshow.get_tv_by_genre(id)
-                    print()
+                    if tv_shows:
+                        print()
 
-                    for i,tvshow in enumerate(tv_shows):
-                        print(f"{Fore.MAGENTA}{i+1}.id:{tvshow["id"]} title:{tvshow["title"]} release_date:{tvshow["release_date"]}")
-                        print("-"*80)
+                        for i,tvshow in enumerate(tv_shows):
+                            print(f"{Fore.MAGENTA}{i+1}.id:{tvshow["id"]} title:{tvshow["title"]} release_date:{tvshow["release_date"]}")
+                            print("-"*80)
+                    else:
+                        print(f"{Fore.RED}{f"Error: {category} not found. The ID may be invalid."}{Style.RESET_ALL}")
+                        time.sleep(1)
+
+                        return False
                 else:
                     return False
         except Exception as e:

@@ -116,10 +116,12 @@ Your choice:{Fore.YELLOW} ''').strip()
                         time.sleep(1)
                 elif user_input == '3':
                     get_more_info=app.get_movie_or_tvshow_by_genre("movie")
-                    More_info("movie")
+                    if get_more_info==None:
+                        More_info("movie")
                 elif user_input == '4':
                     get_more_info=app.get_movie_or_tvshow_by_genre("tvshow")
-                    More_info("tvshow")
+                    if get_more_info==None:
+                        More_info("tvshow")
                 elif user_input == '5':
                     user_choice: str = input(
                         f"Would you like a recommendation for a movie or a TV show? Enter 'm' for movie or 't' for TV show: {Fore.YELLOW}").strip()
