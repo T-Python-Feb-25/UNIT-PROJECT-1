@@ -59,9 +59,8 @@ elif answer=="yes":
     log_in_and_ctreate_an_acconunt.users_login(email, password)
 
 
-    
-print("\nWhat would you like to do today :thinking_face: \n ")
-while True:
+while True:  
+    print("\nWhat would you like to do today :thinking_face: \n ")
     print("1.See my previous Plans   2.Create a new plan\n3.Exit the program")
     userChoice=input("\nEnter a number ")
     if userChoice=="1":

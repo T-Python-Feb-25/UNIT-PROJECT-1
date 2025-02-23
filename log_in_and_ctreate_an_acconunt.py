@@ -9,7 +9,7 @@ add_users Created to add new user
 information to Json's file 
 
 '''
-from colorama import Fore, Back, Style
+from colorama import Fore
 import json
 import emoji
 #مكتبة ضمنية في البايثون للتحقق من صحة طريقه متابة الايميل المدخل من المستخدم 
