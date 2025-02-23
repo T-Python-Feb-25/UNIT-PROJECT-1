@@ -2,6 +2,8 @@ from workout import *
 from art import tprint
 from colorama import Fore, Style, init
 
+import workout
+
 def menu():
     random_workout_challenge()
     

@@ -1,45 +1,77 @@
 # UNIT-PROJECT-1
 
-
-
-## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
-
-- Must be interactive on CLI.
-- Use your coding skills in Python accurately.
-- Organize Your Code into modules & (or packages)
-- Use git & Github to track changes in your code.
-
-## Example Project :  An online Grocery Store :
-
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
-
-### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
-
-
-
-#### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
-
-
 ### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
 
 ### NOTE: before submitting the final project, please do the following command:
 `pip freeze > requirements.txt` to enable use to know & use the packages used in your project.
+
+
+# Workout Tracker 
+
+## Overview
+The Workout Tracker is a Command-Line Interface (CLI) application designed to help users log, track, and analyze their workouts. It provides a structured way to record exercises, monitor progress, and stay motivated with features like workout history, best records, calorie tracking, and a random workout challenge.
+
+## Features & User Stories
+
+1. **Log Workout**
+   - Users can log their workout details, including exercise name, sets, reps, weight, and calories burned.
+   - *User Story:* As a fitness enthusiast, I want to record my workouts so that I can track my progress over time.
+
+2. **View Workout History**
+   - Displays all logged workouts with date, exercise details, and calories burned.
+   - *User Story:* As a user, I want to see my past workouts so that I can analyze my training consistency.
+
+3. **Random Workout Challenge**
+   - Suggests a random workout challenge to keep users engaged.
+   - *User Story:* As a user, I want to get a random workout challenge so that I can add variety to my training.
+
+4. **Workout Categories with Timer**
+   - Allows users to select workout categories, start a timer, and calculate calories burned.
+   - *User Story:* As a user, I want to track my workout duration and calories burned for different workout types.
+
+5. **Search Workout**
+   - Enables users to search for a specific workout or exercise from their logs.
+   - *User Story:* As a user, I want to quickly find a specific workout I did in the past.
+
+6. **Delete Workout Entry**
+   - Users can delete a specific workout entry if needed.
+   - *User Story:* As a user, I want to remove incorrect or duplicate workout entries.
+
+7. **Track Best Workout Records**
+   - Stores and displays the highest weight lifted for each exercise.
+   - *User Story:* As a user, I want to track my personal best records for motivation.
+
+8. **Weekly Workout Statistics**
+   - Shows an overview of workouts performed in the past week.
+   - *User Story:* As a user, I want to see my workout consistency over the last week.
+
+## Usage
+
+1. **Run the Application**
+   - Open a terminal or command prompt.
+   - Navigate to the project directory.
+   - Run the script using `python main.py`.
+
+2. **Choose an Option from the Menu**
+   - Log a new workout.
+   - View workout history.
+   - Take a random workout challenge.
+   - Start a workout timer for a selected category.
+   - Search or delete workout records.
+   - View best workout records.
+   - Get weekly workout statistics.
+
+3. **Follow On-Screen Prompts**
+   - Enter the required details for logging workouts.
+   - Select workouts or categories based on numerical input.
+   - Confirm deletions when necessary.
+
+## Requirements
+Ensure you have Python installed and required dependencies.
+
+To install dependencies, run:
+```sh
+pip install -r requirements.txt
+```
+
+

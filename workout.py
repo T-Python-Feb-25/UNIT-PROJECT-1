@@ -1,4 +1,3 @@
-import json
 import random
 import time
 from DataStorage import load_data, save_data
@@ -23,7 +22,10 @@ def integer_input(msg, error_msg):
             print(error_msg)
 
 def random_workout_challenge():
-    """ Suggests a random workout challenge """
+    """
+    The function randomly selects a workout challenge from a list of various exercises
+
+    """
     challenges = [
         "💥 Do 20 push-ups!",
         "🏃 Run for 10 minutes!",
@@ -47,6 +49,9 @@ def random_workout_challenge():
 
 
 def workout_categories():
+    """
+    Displays a list of workout categories and allows the user to select one to start a workout timer.
+    """
     workouts = {
         "1": {"name": "Strength Training", "calories_burned": (250, 400)},
         "2": {"name": "Running", "calories_burned": (400, 800)},
@@ -106,6 +111,18 @@ def workout_categories():
             print("\n❌ Invalid choice. Please select a number from the list.")
 
 def start_workout_timer(workout_name, calorie_range):
+    """
+    Starts a workout timer for the specified workout, calculates the time spent and calories burned, 
+    and saves the workout data.
+    Args:
+        workout_name (str): The name of the workout.
+        calorie_range (tuple): A tuple containing the minimum and maximum calories burned per hour for the workout.
+    Prints:
+        A message indicating the start of the workout timer and prompts the user to press Enter to stop the timer.
+        A message indicating the completion of the workout, the time spent, and the calories burned.
+    Saves:
+        The workout data including the date, workout type, workout name, time spent, and calories burned.
+    """
     print(f"\n⏳ Starting {workout_name} workout timer... Press Enter to stop when you're done.")
 
     start_time = time.time()
@@ -132,6 +149,11 @@ def start_workout_timer(workout_name, calorie_range):
 
 
 def log_workout():
+    """
+    Logs a workout session by prompting the user for exercise details, calculating calories burned,
+    updating the best weight record, and saving the workout entry.
+ 
+    """
     exercise = string_input("\nEnter exercise name:\n ", 
                             "\nExercise name should only contain letters, hyphens, underscores, or spaces. Please try again.\n")
 
@@ -168,6 +190,13 @@ def log_workout():
     print("\nWorkout has been logged successfully")
 
 def view_workout():
+    """
+    Displays the workout history by loading data from a data source.
+    The function checks if there is any workout data available. If no data is found,
+    it prints a message indicating that no workouts have been logged yet. If data is found,
+    it prints the workout history in a formatted manner.
+    
+    """
     data = load_data()
     if not data:
         print("\n📂 No workouts logged yet!")
@@ -191,14 +220,19 @@ def view_workout():
 
 
 def search_workout():
-    """ Search for a workout by exercise or workout category name """
+    """
+    Search for a workout by exercise or workout category name,
+    Prompts the user to enter a workout or exercise name to search for. 
+    The search term is then compared against the 'exercise' and 'workout' keys 
+    in the data loaded from the data source. 
+    """
     
     search_term = input("Enter workout/exercise name to search: ").strip().lower()
     data = load_data()
     results = []
 
     for w in data:
-        workout_name = w.get("exercise", w.get("workout", "")).strip().lower()  # Check both keys
+        workout_name = w.get("exercise", w.get("workout", "")).strip().lower()  
         if workout_name == search_term:
             results.append(w)
 
@@ -217,7 +251,11 @@ def search_workout():
         print("\n❌ No matching workouts found.\n")
 
 def delete_workout():
-    """Deletes a workout entry based on user selection."""
+    """
+    This function loads the workout data, displays the list of logged workouts,
+    and prompts the user to select a workout to delete. The user can cancel the
+    deletion process at any time. 
+    """
     data = load_data()
 
     if not data:
@@ -229,10 +267,10 @@ def delete_workout():
     
     for index, workout in enumerate(data, start=1):
         date = workout.get("date", "N/A")
-        if "exercise" in workout:  # Logged workout
+        if "exercise" in workout:  
             print(f"{index}. 📅 {date} | 🏋️ {workout['exercise']} | 🔢 {workout['sets']} sets x {workout['reps']} reps | ⚖ {workout['weight']} kg/lbs")
-        else:  # Workout category
-            print(f"{index}. 📅 {date} | 🏋️ {workout.get('workout', 'N/A')} | ⏳ {workout.get('time_spent', 'N/A')} | 🔥 {workout.get('calories_burned', 'N/A')} kcal")
+        else:  
+            print(f"{index}. 📅 {date} | 🏋️ {workout.get('workout', 'N/A')} | ⏳ {workout.get('time_spent', 'N/A')} | 🔥 {workout.get('calories_burned')}")
 
     while True:
         try:
@@ -257,26 +295,52 @@ def delete_workout():
 
 
 def calculate_calories(exercise, sets, reps, weight):
+    """
+    Calculate the number of calories burned during a workout.
+    - The MET (Metabolic Equivalent of Task) values are used to estimate the energy expenditure for different exercises.
+    - If the exercise is not found in the predefined MET values, a default MET value of 5.0 is used.
+    """
     
-    MET_values = {} 
+    MET_values = {
+        "push-ups": 8.0,
+        "running": 11.5,
+        "plank": 3.8,
+        "squats": 5.0,
+        "bicep curls": 3.0,
+        "cycling": 7.5,
+        "lifting": 6.0,
+        "jumping jacks": 8.0,
+        "stretching": 2.5,
+        "rest": 1.0
+    }
 
     MET = MET_values.get(exercise.lower(), 5.0)  
-    duration = (sets * reps) / 30  
-    calories_burned = MET * 3.5 * weight / 200 * duration  
+    duration = (sets * reps) / 60  
+    calories_burned = MET * 3.5 * weight / 200 * duration
 
     return round(calories_burned, 2)
 
     
 def update_best_record(exercise, weight):
+    """
+    Updates the best record for a given exercise if the provided weight is higher than the current record.
+    
+    """
     data = load_data()
     
     best_records = {w["exercise"]: w["weight"] for w in data if "exercise" in w and "weight" in w}
     if exercise not in best_records or weight > best_records.get(exercise, 0):
+        best_records[exercise] = weight
         print(f"\n🎯 New record for {exercise}! Highest weight lifted: {weight} kg/lbs\n")
         return weight
     return best_records[exercise]
 
 def view_best_records():
+    """
+    Displays the best workout records from the logged data.
+    This function loads workout data, processes it to find the best records
+    for each exercise.
+    """
     data = load_data()
     
     if not data:
@@ -302,6 +366,17 @@ def view_best_records():
 
 
 def weekly_statistics():
+    """
+    Calculate and display weekly workout statistics based on logged workout data.
+    This function loads workout data, filters it to include only the workouts
+    from the last 7 days, and then calculates various statistics including:
+    - Total number of workouts logged in the last week.
+    - Total calories burned in the last week.
+    - Most frequent exercise performed in the last week.
+    - Most frequent workout category in the last week.
+    - Best record based on weight and calories burned.
+    """
+    
     data = load_data()
     
     if not data:
@@ -318,10 +393,43 @@ def weekly_statistics():
         return
 
     total_workouts = len(weekly_data)
-
     
 
+    def extract_calories(value):
+        if isinstance(value, str):  
+            return float(value.split()[0])  
+        return float(value)  
 
+    total_calories = sum(extract_calories(w["calories_burned"]) for w in weekly_data if "calories_burned" in w)
 
+    exercise_counts = {}
+    category_counts = {}
+
+    for w in weekly_data:
+        if "exercise" in w:
+            exercise_counts[w["exercise"]] = exercise_counts.get(w["exercise"], 0) + 1
+        
+        if "workout" in w:
+            category_counts[w["workout"]] = category_counts.get(w["workout"], 0) + 1
+
+    most_frequent_exercise = max(exercise_counts, key=exercise_counts.get, default="N/A")
+    most_frequent_category = max(category_counts, key=category_counts.get, default="N/A")
+
+    best_record = max(weekly_data, key=lambda w: (float(w.get("weight", 0)), extract_calories(w.get("calories_burned", 0))), default=None)
+
+    print("\n📊 Weekly Workout Statistics 📊")
+    print("--------------------------------")
+    print(f"📅 Workouts Logged: {total_workouts}")
+    print(f"🔥 Total Calories Burned: {total_calories:.2f} kcal")
+    print(f"🏋️ Most Frequent Exercise: {most_frequent_exercise}")
+    print(f"🏆 Most Frequent Workout Category: {most_frequent_category}")
+    
+    if best_record:
+        weight = best_record.get("weight", "N/A")
+        calories_burned = extract_calories(best_record.get("calories_burned", 0))
+        print(f"💪 Best Record: Exercise - {best_record['exercise']} | Weight: {weight} | Calories Burned: {calories_burned}")
+    else:
+        print("❌ No best record found.")
+    print("--------------------------------")
 
 

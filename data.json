@@ -1,0 +1,179 @@
+[
+    {
+        "date": "2025-02-16",
+        "type": "logged",
+        "exercise": "Push-ups",
+        "sets": 4,
+        "reps": 15,
+        "weight": 0,
+        "calories_burned": 50,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-16",
+        "type": "logged",
+        "exercise": "Running",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 400,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-16",
+        "type": "logged",
+        "exercise": "Bicep Curls",
+        "sets": 4,
+        "reps": 12,
+        "weight": 15,
+        "calories_burned": 60,
+        "best_weight": 20
+    },
+    {
+        "date": "2025-02-17",
+        "type": "logged",
+        "exercise": "Deadlift",
+        "sets": 3,
+        "reps": 6,
+        "weight": 120,
+        "calories_burned": 300,
+        "best_weight": 130
+    },
+    {
+        "date": "2025-02-17",
+        "type": "logged",
+        "exercise": "Cycling",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 300,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-18",
+        "type": "logged",
+        "exercise": "Squats",
+        "sets": 4,
+        "reps": 12,
+        "weight": 100,
+        "calories_burned": 250,
+        "best_weight": 110
+    },
+    {
+        "date": "2025-02-18",
+        "type": "logged",
+        "exercise": "Jump Rope",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 300,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-19",
+        "type": "logged",
+        "exercise": "Chest Press",
+        "sets": 3,
+        "reps": 10,
+        "weight": 75,
+        "calories_burned": 180,
+        "best_weight": 80
+    },
+    {
+        "date": "2025-02-19",
+        "type": "logged",
+        "exercise": "Swimming",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 350,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-20",
+        "type": "logged",
+        "exercise": "Tricep Dips",
+        "sets": 4,
+        "reps": 12,
+        "weight": 0,
+        "calories_burned": 70,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-20",
+        "type": "logged",
+        "exercise": "Rowing Machine",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 250,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-21",
+        "type": "logged",
+        "exercise": "Leg Press",
+        "sets": 3,
+        "reps": 10,
+        "weight": 150,
+        "calories_burned": 180,
+        "best_weight": 160
+    },
+    {
+        "date": "2025-02-21",
+        "type": "logged",
+        "exercise": "Cycling",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 300,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-22",
+        "type": "logged",
+        "exercise": "Bench Press",
+        "sets": 3,
+        "reps": 8,
+        "weight": 80,
+        "calories_burned": 200,
+        "best_weight": 85
+    },
+    {
+        "date": "2025-02-22",
+        "type": "logged",
+        "exercise": "Running",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 400,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-23",
+        "type": "logged",
+        "exercise": "Push-ups",
+        "sets": 4,
+        "reps": 15,
+        "weight": 0,
+        "calories_burned": 50,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-23",
+        "type": "logged",
+        "exercise": "Jump Rope",
+        "sets": 1,
+        "reps": 1,
+        "weight": 0,
+        "calories_burned": 300,
+        "best_weight": 0
+    },
+    {
+        "date": "2025-02-23",
+        "type": "category",
+        "workout": "Strength Training",
+        "time_spent": "0.06 min",
+        "calories_burned": "0.32 kcal"
+    }
+]
