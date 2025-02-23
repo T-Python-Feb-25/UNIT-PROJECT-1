@@ -2,12 +2,11 @@ from showtime import ShowTime
 from colorama import Fore,Style
 import time
 app=ShowTime()
-
 def More_info(category):
     id: str = input(f"{Fore.CYAN}If you want more info, enter the {category} ID or press Enter to continue:{Fore.YELLOW} ").strip()
     if id.isdigit():
         valid_id:bool=app.get_more_info(id, category)
-        input("press enter to continue")
+        input(f"{Fore.CYAN}press enter to continue")
     
 def handle_watchlist_and_rating(category: str) -> None:
     id: str = input(f"{Fore.CYAN}If you want more info, enter the {category} ID or press Enter to continue:{Fore.YELLOW} ").strip()
@@ -19,13 +18,12 @@ def handle_watchlist_and_rating(category: str) -> None:
 def handle_rating_watchlist_after_deleate_it_from_watchlist(category,id):
     user_choice: str = input(
                 f"{Fore.CYAN}Choose an option for this {category}:\n"
-                "r  - Rate it\n"
+                "r  - Rate it and Mark as Already Watched\n"
                 "w  - Add to Watchlist\n"
                 "aw - Mark as Already Watched\n"
                 f"Press Enter to continue:{Fore.YELLOW} "
             ).strip()
     print(f"{Fore.CYAN}=" * 50)
-
     if user_choice.lower() == 'w':
         app.add_watchlist(id, category)
         time.sleep(1)
@@ -38,11 +36,9 @@ def handle_rating_watchlist_after_deleate_it_from_watchlist(category,id):
                 else:
                     print(Fore.RED, "Invalid input. Rating must be between 0 and 10.")
                     print(Style.RESET_ALL, end="")
-
             except ValueError:
                 print(Fore.RED, "Invalid input. Please enter a number between 0 and 10.")
                 print(Style.RESET_ALL, end="")
-
         reviews: str = input(f"{Fore.CYAN}please enter your reaview:{Fore.YELLOW}")
         already_added=app.add_rating_and_reviews(id, category, rating, reviews)
         if already_added==None:
@@ -56,15 +52,11 @@ def handle_rating_watchlist_after_deleate_it_from_watchlist(category,id):
         if already_added==None:
             print(f"{Fore.GREEN}Successfully marked as Already Watched!{Style.RESET_ALL}")
             time.sleep(1)
-
     elif user_choice.lower()=="":
         pass
-
     else:
         input(f"{Fore.RED}Invaild option press enter to continue:")
         print(Style.RESET_ALL, end="")
-    
-
 logo='''
  ███████╗██╗  ██╗ ██████╗ ██╗    ██╗████████╗██╗███╗   ███╗███████╗
  ██╔════╝██║  ██║██╔═══██╗██║    ██║╚══██╔══╝██║████╗ ████║██╔════╝
@@ -87,7 +79,6 @@ while True:
         elif user_input=='3':
             while True:
                 print("\n"*20)
-
                 print(Fore.CYAN,logo)
                 print("=" * 50)
                 user_input: str = input(f'''
@@ -111,7 +102,6 @@ Your choice:{Fore.YELLOW} ''').strip()
                         empty=app.search_by_qurey(title, "movie")
                         if empty==None:
                             More_info("movie")
-
                     else:
                         print(f"{Fore.RED}Please enter a valid movie title.{Style.RESET_ALL}")
                         time.sleep(1)
@@ -121,17 +111,15 @@ Your choice:{Fore.YELLOW} ''').strip()
                         empty=app.search_by_qurey(title, "tvshow")
                         if empty==None:
                             More_info("tvshow")
-
                     else:
                         print(f"{Fore.RED}Please enter a valid Tvshow title.{Style.RESET_ALL}")
                         time.sleep(1)
                 elif user_input == '3':
-                    get_more_info=app.get_movie_by_genre("movie")
+                    get_more_info=app.get_movie_or_tvshow_by_genre("movie")
                     More_info("movie")
                 elif user_input == '4':
-                    get_more_info=app.get_movie_by_genre("tvshow")
+                    get_more_info=app.get_movie_or_tvshow_by_genre("tvshow")
                     More_info("tvshow")
-
                 elif user_input == '5':
                     user_choice: str = input(
                         f"Would you like a recommendation for a movie or a TV show? Enter 'm' for movie or 't' for TV show: {Fore.YELLOW}").strip()
@@ -139,22 +127,19 @@ Your choice:{Fore.YELLOW} ''').strip()
                         app.ai_recomdation("movie")
                         title: str = input(f"{Fore.CYAN}Enter the title of the movie if you want more detailed:{Fore.YELLOW}").strip()
                         if not title == "":
-                            app.search_by_qurey(title, "movie")
-                            More_info("movie")
-
+                            empty=app.search_by_qurey(title, "movie")
+                            if empty==None:
+                                More_info("movie")
                         else:
                             print(f"{Fore.RED}Please enter a valid movie title.")
                             print(Style.RESET_ALL, end="")
                             time.sleep(1)
-
-
                     elif user_choice.lower() == 't':
                         app.ai_recomdation("tvshow")
                         title: str = input(f"{Fore.CYAN}Enter the title of the movie if you want more detailed:{Fore.YELLOW}").strip()
                         if not title == "":
                             app.search_by_qurey(title, "tvshow")
                             More_info("tvshow")
-
                         else:
                             print(f"{Fore.RED}Please enter a valid movie title.")
                             print(Style.RESET_ALL, end="")
@@ -181,15 +166,10 @@ Your choice:{Fore.YELLOW} ''').strip()
                     print("Thank you good bye")
                     time.sleep(1)
                     exit()
-
                 else:
                     print(Fore.RED, "Invalid option.")
                     print(Style.RESET_ALL, end="")
                     time.sleep(1)
-
-
-            
-
         elif user_input == '4':
             print("Thank you good bye")
             exit()
@@ -198,7 +178,6 @@ Your choice:{Fore.YELLOW} ''').strip()
             time.sleep(1)
     else:
         print("\n"*20)
-
         print(Fore.CYAN,logo)
         print("=" * 50)
         user_input: str = input(f'''
@@ -239,11 +218,11 @@ Your choice:{Fore.YELLOW} ''').strip()
                 print(f"{Fore.RED}Please enter a valid Tvshow title.{Style.RESET_ALL}")
                 time.sleep(1)
         elif user_input == '3':
-            get_more_info=app.get_movie_by_genre("movie")
+            get_more_info=app.get_movie_or_tvshow_by_genre("movie")
             if not get_more_info==False:
                 handle_watchlist_and_rating("movie")
         elif user_input == '4':
-            get_more_info=app.get_movie_by_genre("tvshow")
+            get_more_info=app.get_movie_or_tvshow_by_genre("tvshow")
             if not get_more_info==False:
                 handle_watchlist_and_rating("tvshow")
         elif user_input == '5':
@@ -253,22 +232,19 @@ Your choice:{Fore.YELLOW} ''').strip()
                 app.ai_recomdation("movie")
                 title: str = input(f"{Fore.CYAN}Enter the title of the movie if you want more detailed:{Fore.YELLOW}").strip()
                 if not title == "":
-                    app.search_by_qurey(title, "movie")
-                    handle_watchlist_and_rating("movie")
-
+                    empty=app.search_by_qurey(title, "movie")
+                    if empty==None:
+                        handle_watchlist_and_rating("movie")
                 else:
                     print(f"{Fore.RED}Please enter a valid movie title.")
                     print(Style.RESET_ALL, end="")
                     time.sleep(1)
-
-
             elif user_choice.lower() == 't':
                 app.ai_recomdation("tvshow")
                 title: str = input(f"{Fore.CYAN}Enter the title of the movie if you want more detailed:{Fore.YELLOW}").strip()
                 if not title == "":
                     app.search_by_qurey(title, "tvshow")
                     handle_watchlist_and_rating("tvshow")
-
                 else:
                     print(f"{Fore.RED}Please enter a valid movie title.")
                     print(Style.RESET_ALL, end="")
@@ -285,7 +261,6 @@ Your choice:{Fore.YELLOW} ''').strip()
         elif user_input == '8':
             app.get_top_rated("tvshow")
             handle_watchlist_and_rating("tvshow")
-
         elif user_input == '9':
             app.get_popular("tvshow")
             handle_watchlist_and_rating("tvshow")
@@ -305,8 +280,6 @@ Your choice:{Fore.YELLOW} ''').strip()
                     print(Fore.RED, "Invaild id")
                     print(Style.RESET_ALL, end="")
                     time.sleep(1)
-
-
             else:
                 print(f"{Fore.RED}There are no movie in your watchlist.")
                 time.sleep(1)
@@ -339,8 +312,6 @@ Your choice:{Fore.YELLOW} ''').strip()
             else:
                 print(f"{Fore.RED}You haven't watched any movies yet. press enter to continue:{Fore.YELLOW}")
                 time.sleep(1)
-
-
         elif user_input == '13':
             found_tv = app.already_watched("tv")
             if not found_tv == False:
@@ -349,7 +320,6 @@ Your choice:{Fore.YELLOW} ''').strip()
                     app.delate_from_already_watched(id, "tv")
                     print(f"{Fore.GREEN}The tvshow has been removed successfully.")
                     time.sleep(1)
-
             else:
                 print(f"{Fore.RED}You haven't watched any TV shows yet. press enter to continue:{Fore.YELLOW}")
                 time.sleep(1)
@@ -359,12 +329,7 @@ Your choice:{Fore.YELLOW} ''').strip()
             print("Thank you good bye")
             time.sleep(1)
             exit()
-
         else:
             print(Fore.RED, "Invalid option.")
             print(Style.RESET_ALL, end="")
             time.sleep(1)
-
-
-
-

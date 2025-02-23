@@ -122,7 +122,7 @@ class Movie:
         genre.raise_for_status()
         genre=genre.json()
         for i,gen in enumerate(genre["genres"]):
-            print(f"{Fore.MAGENTA}{i}.id:{gen["id"]} name:{gen["name"]}")
+            print(f"{Fore.MAGENTA}{i+1}.id:{gen["id"]} name:{gen["name"]}")
             print("-"*50)
 
     def get_movie_by_genre(self,id):
@@ -132,9 +132,7 @@ class Movie:
             list:a list of dictionires contin basic info id,title ,release date    
         reaise:
             raise Exception if the request fails'''
-        self.print_genre()
         response=requests.get(f"{self.__base_url}discover/movie?&api_key={self.__api_key}&sort_by=popularity.desc&with_genres={id}").json()
-        print(response)
         movies=[]
         for movie in response["results"]:
             movie_info={

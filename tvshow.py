@@ -134,7 +134,7 @@ class Tvshow:
         genre.raise_for_status()
         genre=genre.json()
         for i,gen in enumerate(genre["genres"]):
-            print(f"{Fore.MAGENTA}{i}.id:{gen["id"]} name:{gen["name"]}")
+            print(f"{Fore.MAGENTA}{i+1}.id:{gen["id"]} name:{gen["name"]}")
             print("-"*50)
 
     def get_tv_by_genre(self,id):
@@ -144,7 +144,6 @@ class Tvshow:
             list:a list of dictionires contin basic info id,title ,release date    
         reaise:
             raise Exception if the request fails'''
-        self.print_genre()
         response=requests.get(f"{self.__base_url}discover/tv?&api_key={self.__api_key}&sort_by=popularity.desc&with_genres={id}").json()
         tvshows=[]
         for tvshow in response["results"]:

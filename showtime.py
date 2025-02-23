@@ -43,7 +43,7 @@ class ShowTime:
             else:
                 tv_shows=self.tvshow.search_query(query)
                 if tv_shows:
-                    print(F"{Fore.CYAN}="*50)
+                    print(F"{Fore.MAGENTA}="*50)
 
 
                     for i,tvshow in enumerate(tv_shows):
@@ -386,7 +386,7 @@ class ShowTime:
                     break
             else:
                 print(Fore.RED+f"No rating found for id:{id}"+Fore.RESET)
-    def get_movie_by_genre(self,category):
+    def get_movie_or_tvshow_by_genre(self,category):
         '''Shows movies or TV shows by genre.
 
             args:
