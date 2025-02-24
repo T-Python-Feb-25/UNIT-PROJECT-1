@@ -28,10 +28,11 @@
             "start_time": "18:00:00",
             "end_time": "22:00:00"
         },
-        "seats": 148,
+        "seats": 147,
         "regester_users": [
             "saud2",
-            "mohamad2"
+            "mohamad2",
+            "qqq"
         ]
     },
     {
@@ -83,24 +84,7 @@
         },
         "seats": 50,
         "regester_users": [
-            "mohamad"        ]
-    },
-    {
-        "id": 9,
-        "title": "title",
-        "description": "description",
-        "location": "riyadh",
-        "date": {
-            "start_date": "2025-03-03",
-            "end_date": "2025-03-04"
-        },
-        "time": {
-            "start_time": "12:00:00",
-            "end_time": "13:00:00"
-        },
-        "seats": 9,
-        "regester_users": [
-            "mohamad2"
+            "mohamad"
         ]
     }
 ]

@@ -3,7 +3,7 @@ from colorama import Fore, Style,Back,init
 from Event import Event
 from user import User,Admin
 from Exceptions import * 
-import file_handler as file_handler,os,time,re
+import file_handler as file_handler,os,re
 import datetime 
 from prompt_toolkit import prompt
 from rich.console import Console
@@ -18,11 +18,7 @@ def is_username_unique(username):
         if user['username'] == username:
             return False
     return True
-def get_event_by_id():
-    pass
-# def print_first_line(message):
-#     os.system('cls' if os.name == 'nt' else 'clear')  # Clear terminal
-#     print(message)  # First line stays
+
 def display_events(title='null',username='all'):
     events = file_handler.load_file(file_handler.EVENTS_PATH)
     # *** convert JsON to event objects for using to_dict() func 
@@ -112,7 +108,7 @@ def display_events_by_title(title):
     # *** convert JsON to event objects for using to_dict() func 
     list_events = [Event(**event_data).to_dect() for event_data in events]
     console = Console()
-    table = Table(title=f"📅 {title} ")
+    table = Table(title=f"📅 {title}",show_lines=True)
 
     table.add_column("ID", justify="center", style="cyan", no_wrap=True)
     table.add_column("Title", style="bold magenta")
@@ -240,11 +236,11 @@ def user_page(user):
             if choice == '1':
                 print_header(welcoming)
                 display_events()
-                input("press any button to go back to main page... ")
+                input("press Enter to go back to main page... ")
             elif choice == '2':
                 print_header(welcoming)
                 display_events(title="booked events ",username=user['username'])
-                input("press any button to go back to main page... ")
+                input("press Enter to go back to main page... ")
             elif choice == '3':
                 print_header(welcoming)
                 display_events()
@@ -256,7 +252,7 @@ def user_page(user):
                     display_event("Booked event",event_id)
                 else:
                     print("❌  Wrong input, please prive ID from the table")
-                input("press any button to go back to main page... ")
+                input("press Enter to go back to main page... ")
             elif choice =='4':
                 print_header(welcoming)
                 display_events(title="booked events ",username=user['username'])
@@ -268,12 +264,12 @@ def user_page(user):
                     display_event("Cancled event",event_id)
                 else:
                     print("❌  Wrong input, please prive ID from the table")
-                input("press any button to go back to main page... ")
+                input("press Enter to go back to main page... ")
             elif choice == '5':
                 print_header(welcoming)
-                title = input("Provide tite for search: ")
+                title = input("Provide title for search: ")
                 display_events_by_title(title)
-                input("press any button to go back to main page... ")
+                input("press Enter to go back to main page... ")
             elif choice =='6':
                 main()
             elif choice == 'exit':
@@ -281,7 +277,7 @@ def user_page(user):
                 exit()
         except Exception as e:
             print(e)
-            input("press any button to go back to main menu ... ")
+            input("press Enter to go back to main menu ... ")
 def admin_page(user):
     """Display the user menu options
 
@@ -306,7 +302,7 @@ def admin_page(user):
         if choice == '1':
             print_header(welcoming)
             display_events()
-            input("press any button to go back to main page... ")
+            input("press Enter to go back to main page... ")
         elif choice == '2':
             print_header(welcoming + "\n➕  ADD EVENT\n")
             try:
@@ -334,7 +330,7 @@ def admin_page(user):
                 display_event("Added event",event_id)
             except Exception as e:
                 print(e)
-            input("press any button to go back to main page... ")
+            input("press Enter to go back to main page... ")
         
         elif choice == '3':
             print_header(welcoming + "Modify event")
@@ -380,7 +376,7 @@ def admin_page(user):
             file_handler.save_file(list_events,EVENTS_PATH)
             print_header(welcoming + "Modify event")
             display_event("Modified event ",event_id)
-            input("press any button to go back to main page... ")
+            input("press Enter to go back to main page... ")
             
             #######################################################################
         elif choice == '4':
@@ -393,8 +389,8 @@ def admin_page(user):
                 print(f"{Fore.GREEN }{event_id} is deleted successfuly ")
                 display_event("Deleted event",event_id)
             else:
-                print("❌  Wrong input, please prive ID from the table")
-            input("press any button to go back to main page... ")
+                print("❌  Wrong input, please provide ID from the table")
+            input("press Enter to go back to main page... ")
         
         
         elif choice == '5':
