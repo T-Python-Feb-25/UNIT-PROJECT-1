@@ -1,7 +1,8 @@
 import sqlite3
+from colorama import Fore, Style
 
 class TruckDB:
-    
+
     def __init__(self,db_url):
         self.__db_url=db_url
         self.__connection=None
@@ -22,11 +23,8 @@ class TruckDB:
                                 capacity INTEGER, 
                                 availability BOOLEAN 
                                 )''')   
-        
-    def drop_truck_table(self):
-        self.connect()
+    
 
-        self.__cursor.execute('''DROP TABLE IF EXISTS trucks''')  
     def insert_truck(self,truck_data):
         try:
             self.connect()
@@ -34,11 +32,10 @@ class TruckDB:
             self.__cursor.execute("INSERT INTO trucks (model,body_style,capacity,availability) VALUES(?,?,?,?)",truck_data)
             self.__connection.commit()
             self.close_connection()
-            print("The Truck has been added to the system successfully.")
+            print(Fore.GREEN+"The Truck has been added to the system successfully.")
 
         except Exception as error :
-            print(error)
-            print("Something went wrong while trying to add the truck to the system. Please try again later.")
+            print(Fore.RED+"Something went wrong while trying to add the truck to the system. Please try again later.")
 
 
     def is_truck_registered(self,truck_id)->bool:
@@ -50,21 +47,29 @@ class TruckDB:
            return True
         return False
 
+    def is_truck_parked(self,truck_id)->bool:
+        self.connect()
+        self.__create_truck_table()
+        self.__cursor.execute("SELECT availability FROM trucks WHERE truck_id= ?",(truck_id,))
+        availability=self.__cursor.fetchone()
+        return availability[0]==True
+
     def remove_truck(self,truck_id):
         try:
             self.connect()
             self.__create_truck_table()
             if self.is_truck_registered(truck_id):
-                self.__cursor.execute("DELETE FROM trucks WHERE truck_id = ? ",(truck_id,))
-                self.__connection.commit() 
-                print("The truck has been deleted from the system successfully.")
+                if self.is_truck_parked(truck_id):
+                    self.__cursor.execute("DELETE FROM trucks WHERE truck_id = ? ",(truck_id,))
+                    self.__connection.commit() 
+                    print(Fore.GREEN+"The truck has been deleted from the system successfully.")
+                else: 
+                    print(Fore.RED+"connot remove a truck while it is in use.")
             else:
-                print("Faild to remove the truck , Invalid truck number.")
+                print(Fore.RED+"Faild to remove the truck , Invalid truck number.")
 
         except Exception as err:
-            #TODO delete thi print
-            print(err)
-            print("Something went wrong while trying to remove the truck from the system. Please try again later.")
+            print(Fore.RED+"Something went wrong while trying to remove the truck from the system. Please try again later.")
         finally:
             self.close_connection()
 
@@ -90,9 +95,9 @@ class TruckDB:
             self.__create_truck_table()
             self.__cursor.execute(sql, params)
             self.__connection.commit()
-            print(f"Truck {truck_id} status updated successfully.")
+            print(Fore.GREEN+f"Truck {truck_id} status updated successfully.")
         except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
+            print(Fore.RED+f"An error occurred while trying to update the truck")
         finally:
             self.close_connection()   
     
@@ -158,10 +163,8 @@ class TruckDB:
             self.close_connection()
 
         except Exception as error :
-            print(error)
-            print("Something went wrong while trying to assigne the truck to the order . Please try again later.")
+            print(Fore.RED+"Something went wrong while trying to assigne the truck to the order . Please try again later.")
 
    
-    
     def close_connection(self):
         self.__connection.close()

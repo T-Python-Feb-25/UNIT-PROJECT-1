@@ -45,47 +45,71 @@ class OrderDB:
             self.__create_orders_table()
             self.__cursor.execute('''INSERT INTO orders (user_id, car_make, car_model, car_year, price,pickup_location,delivery_location, pickup_date, status) VALUES (?, ?, ?, ?, ?, ?,?,?, ?)''',(user_id,car_make,car_model,car_year,price,pickup_location,delivery_location,pickup_date,status,))
             order_id= self.__cursor.lastrowid
-            truck_db.assigin_truck((order_id,truck_id,))
-            truck_db.update_truck(truck_id,availability=False)
             self.__connection.commit()
             self.close_connection()
+            truck_db.assigin_truck((order_id,truck_id,))
+            truck_db.update_truck(truck_id,availability=False)
+        
 
 
             print("The order has been created successfully.")
 
         except Exception as error :
-            print(error)
             print("Something went wrong while trying to create your order. Please try again later.")
 
 
-    def update_order_status(self):
+    def update_order_status(self,order_id,status):
     
-        updates = []
-        params = []
 
-        # if capacity is not None:
-        #     updates.append("capacity = ?")
-        #     params.append(capacity)
-        # if availability is not None:
-        #     updates.append("availability = ?")
-        #     params.append(availability)
-
-        update_clause = ', '.join(updates)
-        sql = f"UPDATE orders SET {update_clause} WHERE order_id = ?"
-        # params.append(truck_id)
+        sql = f"UPDATE orders SET status = ? WHERE order_id = ?"
 
         try:
             self.connect()
             self.__create_orders_table()
-            self.__cursor.execute(sql, params)
+            self.__cursor.execute(sql, [status,order_id])
             self.__connection.commit()
-            # print(f"Truck {order_id}data updated successfully.")
+             # Get the user email associated with the updated order
+            self.__cursor.execute("""
+            SELECT u.email
+            FROM orders o
+            JOIN users u ON o.user_id = u.id
+            WHERE o.order_id = ?;
+            """, (order_id,))
+                 # Fetch the result
+            result = self.__cursor.fetchone()
+            print(result)
+
+            if result:
+                user_email = result[0]
+                print(f"Order updated. ")
+                
+            else:
+                print("No user found for this order.")
+    
+            # Get the truck ID assigned to the order
+            self.__cursor.execute("""
+            SELECT ta.truck_id
+            FROM truck_assignments ta
+            WHERE ta.order_id = ?;
+            """, (order_id,))
+    
+            # Fetch the result
+            result = self.__cursor.fetchone()
+            print(result)
+            if result:
+                truck_id = result[0]
+            else:
+                print("No truck assigned to this order.")
+            return user_email,truck_id
+
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
         finally:
             self.close_connection()   
-           
-    def retrive_all_orders(self)->list:
+    
+
+
+    def retrive_active_order(self)->list:
 
         self.connect()
         self.__create_orders_table()
@@ -94,16 +118,15 @@ class OrderDB:
         # Set the row factory to return dictionaries
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM orders")
-
+        cursor.execute("SELECT order_id, status FROM orders WHERE status != 'completed'")
         # Convert to list of dictionaries
-        trucs=cursor.fetchall() 
+        orders=cursor.fetchall() 
         conn.close()
 
-        trucks_list = [dict(truck) for truck in trucs] if trucs!=None else []
-        if len(trucks_list)==0:
-            print("No orders available in the system")
-        return trucks_list
+        orders_list = [dict(order) for order in orders] if orders!=None else []
+        if len(orders_list)==0:
+            print("No active orders available in the system")
+        return orders_list
     
     def retrive_user_orders(self,user_id)->list:
 
@@ -122,7 +145,8 @@ class OrderDB:
 
         trucks_list = [dict(truck) for truck in trucs] if trucs!=None else []
         if len(trucks_list)==0:
-            print("No orders available in the system")
+            print("No orders available for you")
+
         return trucks_list
         
           

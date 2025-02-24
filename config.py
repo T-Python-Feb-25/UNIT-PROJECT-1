@@ -15,6 +15,7 @@ DATA=os.getenv("DATA")
 user_db = UserDB(DATABASE) 
 truck_db = TruckDB(DATABASE)
 order_db = OrderDB(DATABASE) 
+SCOPES = os.getenv("DATABASE_PATH")
 
 API_CLIENT = OpenAI(
     api_key=os.getenv("AI_API_KEY")

@@ -6,8 +6,9 @@ import re
 from openai import OpenAI
 from config import API_CLIENT
 import json
-from province_mangement import get_all_governorates, get_all_provinces, load_data
+from data_config import get_all_governorates, get_all_provinces, load_data
 from datetime import datetime, timedelta
+from colorama import Fore, Style
 
 pass_requirments='''Please create a strong password that meets the following requirements:
         1. At least 8 characters long.
@@ -40,12 +41,6 @@ def order_info_validation(from_city,to_city):
     '''
     response = llm_response(prompt)
         
-    # Clean the string
-    # cleaned_response = response.strip()
-
-    # cleaned_response = cleaned_response.replace(' km', ",").replace(' hours', '')
-
-    # cleaned_response = '{' + cleaned_response + '}'
     try:
         response_data:dict = json.loads(response)
         print(response_data)
@@ -58,29 +53,29 @@ def get_number_input_with_limit(prompt:str, limit)->int:
         try:
             user_input=input(prompt)
             if not (user_input.isnumeric()):
-                raise Exception("Invalid input , Please enter a valid integer number.")
+                raise Exception(Fore.RED+"Invalid input , Please enter a valid integer number.")
             elif int(user_input)>int(limit) or int(user_input)<=0:
-                raise Exception("Invalid Choice.")
+                raise Exception(Fore.RED+"Invalid Choice.")
 
         except Exception as error:
             print(error)
         else:
             return int(user_input)
         
-def get_number_input(prompt: str) -> float:
+def get_number_input(prompt: str) :
     while True:
         user_input = input(prompt)
         try:
             number = float(user_input)
             return number  
         except ValueError:
-            print("Invalid input. Please enter a valid number (integer or float).")
+            print(Fore.RED+"Invalid input. Please enter a valid number.")
 
 def get_alphabetic_input(prompt: str) -> str:
     while True:
         user_input = input(prompt)
         if not user_input.strip() or not all(char.isalpha() or char.isspace() for char in user_input):
-            print("Invalid input, please enter alphabetic characters only (spaces allowed).")
+            print(Fore.RED+"Invalid input,"," please enter alphabetic characters only (spaces allowed).")
         else:
             return user_input
 
@@ -91,7 +86,7 @@ def get_email_input(prompt:str)->str:
             user_input=input(prompt)
             emailinfo = validate_email(user_input, check_deliverability=True)           
         except EmailNotValidError as error:
-            print(str(error))
+            print(Fore.RED+str(error))
         else:
             return emailinfo.normalized
 
@@ -100,7 +95,7 @@ def get_phone_input(prompt:str)->str:
         try:
             user_input=input(prompt)
             if not(len(user_input)==10 and user_input.isdigit() and user_input.startswith("05")):    
-                raise Exception("This is invalid number.. try again")
+                raise Exception(Fore.RED+"This is invalid number.. try again")
         except Exception as error:
             print(error)
         else:
@@ -117,7 +112,7 @@ def get_password_input(prompt:str):
                 not re.search(r'[a-z]', pwd) or 
                 not re.search(r'[0-9]', pwd) or 
                 not re.search(r'[\W_]', pwd)):
-                raise Exception("Invalid password. Please adhere to the requirements and try again.")
+                raise Exception(Fore.RED+"Invalid password.","Please adhere to the requirements and try again.")
 
             # encoding the entered password
             encpwd = base64.b64encode(pwd.encode("utf-8"))
@@ -128,20 +123,14 @@ def get_password_input(prompt:str):
         
 
 def password_input_masking(prompt:str):
-    try:
-        # Password masking
-        #TODO Uncomment this and return the variable
-        #pwd = maskpass.advpass(prompt)  
-        # encoding the entered password
-        encpwd = base64.b64encode("Aa142536*".encode("utf-8"))
-    except Exception as error:
-        print(error)
-    else:
-        return encpwd
     
+    # Password masking
+    pwd = maskpass.advpass(prompt)  
+    # encoding the entered password
+    encpwd = base64.b64encode(pwd.encode("utf-8"))
 
-
-
+    return encpwd
+    
 def collect_order_info():
     from config import truck_db
     # Load provinces and pricing data

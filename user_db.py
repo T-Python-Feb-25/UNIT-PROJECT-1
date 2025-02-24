@@ -1,4 +1,5 @@
 import sqlite3
+from colorama import Fore
 
 
 class UserDB:
@@ -56,35 +57,38 @@ class UserDB:
 
         except sqlite3.IntegrityError as message:
             if message.sqlite_errorname=='SQLITE_CONSTRAINT_UNIQUE':
-                print("This email already have an account, Try to login")
+                print(Fore.RED+"This email already have an account, Try to login")
             else:
-                print("Regestration faild please try again.")
+                print(Fore.RED+"Regestration faild please try again.")
         except Exception as err :
-            print("Regestration faild please try again.")
+            print(Fore.RED+"Regestration faild please try again.")
           
     def retrive_user(self,email,encoded_pass):
+        try:
+            self.connect()
+            self.__create_user_table()
+            # Connect to the SQLite database
+            conn = self.__connection
+            # Set the row factory to return dictionaries
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users WHERE email = ? ",(email,))
+            # Convert to list of dictionaries
+            value=cursor.fetchone() 
+            current_user = dict(value) if value!=None else {}
 
-        self.connect()
-        self.__create_user_table()
-        # Connect to the SQLite database
-        conn = self.__connection
-        # Set the row factory to return dictionaries
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = ? ",(email,))
+            if len(current_user)==0:
+                print(Fore.RED+"This email is not registered try to sign up.")
+                return None
+            elif current_user['encoded_pass']==encoded_pass:
+                return current_user
+            else:
+                print(Fore.RED+"Wrong passward please try to login again")
+        except Exception as err:
+            print(Fore.RED+"Something went wrong while trying to retrive the user from the system. Please try again.")
+        finally:
+            conn.close()
 
-        # Convert to list of dictionaries
-        value=cursor.fetchone() 
-        conn.close()
-        current_user = dict(value) if value!=None else {}
-
-        if len(current_user)==0:
-            print("This email is not registered try to sign up.")
-            return None
-        elif current_user['encoded_pass']==encoded_pass:
-            return current_user
-        else:
-            print("wrong passward please try again")
     def remove_user(self,email):
         try:
             self.connect()
@@ -92,17 +96,14 @@ class UserDB:
             if self.is_user_registered(email):
                 self.__cursor.execute("DELETE FROM users WHERE email = ? ",(email,))
                 self.__connection.commit() 
-                print("The Employee has been deleted from the system successfully.")
+                print(Fore.GREEN+"The Employee has been deleted from the system successfully.")
             else:
-                print("This user does not have an accoount")
+                print(Fore.BLUE+"This user does not have an accoount")
 
         except Exception as err:
-            print("Something went wrong while trying to remove the user from the system. Please try again.")
+            print(Fore.RED+"Something went wrong while trying to remove the user from the system. Please try again.")
         finally:
-            self.close_connection()
-
-
-        
+            self.close_connection()        
         
     def close_connection(self):
         self.__connection.close()
