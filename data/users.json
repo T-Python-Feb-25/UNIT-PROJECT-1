@@ -26,5 +26,12 @@
         "email": "saud2@gmail.com",
         "username": "saud2",
         "password": "1122"
+    },
+    {
+        "id": 4,
+        "role": "user",
+        "email": "mohamad2@gmai.com",
+        "username": "mohamad2",
+        "password": "1122"
     }
 ]

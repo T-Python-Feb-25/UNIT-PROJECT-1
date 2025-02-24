@@ -34,7 +34,7 @@ def display_events(title='null',username='all'):
     
     table.add_column("ID", justify="center", style="black", no_wrap=True)
     table.add_column("Title", style="blue")
-    table.add_column("presentor", justify="center", style="blue")
+    table.add_column("Description", justify="center", style="blue")
     table.add_column("Date", justify="center",style='bright_magenta')
     table.add_column("Time", justify="center", style='magenta')
     table.add_column("Location", style="blue")
@@ -83,7 +83,7 @@ def display_event(massage,id):
 
     table.add_column("ID", justify="center", style="cyan", no_wrap=True)
     table.add_column("Title", style="bold magenta")
-    table.add_column("presentor", justify="center", style="green")
+    table.add_column("Description", justify="center", style="green")
     table.add_column("Start Date", justify="center", style="yellow")
     table.add_column("End Date", justify="center", style="yellow")
     table.add_column("Location", style="blue")
@@ -107,35 +107,34 @@ def display_event(massage,id):
             )
     console.print(table)
 
-def display_events_by_title(massage,title):
+def display_events_by_title(title):
     events = file_handler.load_file(file_handler.EVENTS_PATH)
     # *** convert JsON to event objects for using to_dict() func 
     list_events = [Event(**event_data).to_dect() for event_data in events]
     console = Console()
-    table = Table(title=f"📅 {massage} ")
+    table = Table(title=f"📅 {title} ")
 
     table.add_column("ID", justify="center", style="cyan", no_wrap=True)
     table.add_column("Title", style="bold magenta")
-    table.add_column("presentor", justify="center", style="green")
+    table.add_column("Description", justify="center", style="green")
     table.add_column("Start Date", justify="center", style="yellow")
     table.add_column("End Date", justify="center", style="yellow")
     table.add_column("Location", style="blue")
     table.add_column("Seats", justify="center", style="red")
-    table.add_column("registered users",justify="center",style="green")
-
     for event in events:
-        if title in event['title']:
+        if title.lower() in event['title'].lower():
+            date = f"Start date:{event['date']['start_date']}\nEnd date:{event['date']['end_date']}"
+            time = f"Start time:{event['time']['start_time']}\nEnd date:{event['time']['end_time']}"
             table.add_row(
                 str(event["id"]),
                 event["title"],
                 event["description"],
-                event["start"],
-                event["end"],
+                date,
+                time,
                 event["location"],
                 str(event["seats"]),
                 str(event['regester_users'])
             )
-            break
     console.print(table)
 
 
@@ -228,7 +227,8 @@ def user_page(user):
     2️⃣  list booked events
     3️⃣  book an event 
     4️⃣  cancel event
-    5️⃣  main page
+    5️⃣  search by title
+    6️⃣  main page
     (exit) to end the program.
         
      choice: '''
@@ -269,7 +269,12 @@ def user_page(user):
                 else:
                     print("❌  Wrong input, please prive ID from the table")
                 input("press any button to go back to main page... ")
-            elif choice =='5':
+            elif choice == '5':
+                print_header(welcoming)
+                title = input("Provide tite for search: ")
+                display_events_by_title(title)
+                input("press any button to go back to main page... ")
+            elif choice =='6':
                 main()
             elif choice == 'exit':
                 print("\n👋 Goodbye!")
@@ -381,7 +386,7 @@ def admin_page(user):
         elif choice == '4':
             print_header(welcoming)
             display_events()
-            event_id = input("Privide Event ID for delete: ")
+            event_id = input("Provide Event ID for delete: ")
             is_deleted = admin.delete_event(event_id)
             if is_deleted:
                 print_header(welcoming)
@@ -390,6 +395,8 @@ def admin_page(user):
             else:
                 print("❌  Wrong input, please prive ID from the table")
             input("press any button to go back to main page... ")
+        
+        
         elif choice == '5':
             main()
         elif choice == 'exit':
