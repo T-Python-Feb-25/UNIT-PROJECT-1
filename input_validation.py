@@ -111,7 +111,7 @@ def get_password_input(prompt:str):
                 not re.search(r'[a-z]', pwd) or 
                 not re.search(r'[0-9]', pwd) or 
                 not re.search(r'[\W_]', pwd)):
-                raise Exception(Fore.RED+"Invalid password.","Please adhere to the requirements and try again.")
+                raise Exception(Fore.RED+"Invalid password,Please adhere to the requirements and try again.")
 
             # encoding the entered password
             encpwd = base64.b64encode(pwd.encode("utf-8"))
