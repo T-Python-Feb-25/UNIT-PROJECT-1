@@ -42,7 +42,7 @@ def get_weather(email,city, date):
       elif temperature>32:
          clothingTypeAdvice="Based on the temperature it looks like the weather \nwill bevery hot, wear light cotton clothes, a hat\n and sunglasses, and drink plenty of water."
          
-      print(Fore.LIGHTBLUE_EX+"Regarding the clothes you should wear \n"+clothingTypeAdvice)
+      print(Fore.LIGHTBLUE_EX+"Regarding the clothes you should wear \n"+Fore.LIGHTBLACK_EX+clothingTypeAdvice)
       users_accounts=get_user_info()
          
       if email in users_accounts:

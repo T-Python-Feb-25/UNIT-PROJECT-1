@@ -31,25 +31,23 @@ def get_restaurant(email,city):
    data=response.json()
    if "businesses" in data:
       restaurant=[
-         {"name":restaurant["name"],
-          "rating":restaurant["rarating"]
-         }
+         {"name":restaurant["name"]}
          for restaurant in data["businesses"]
       ]
+
+      users_accounts=get_user_info()
+      
       if "Travel Plans" not in users_accounts[email]:
             users_accounts=[email]["Travel Plans"]=[]
             users_accounts[email]["Travel Plans"].append({"restaurants":restaurant})
 
     #فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
             with open("users_account_file.json", "w") as file:
-                json.dump (users_accounts, file, indent=4)
-                return restaurant
-      else:
-            print("user not found in the system")  
+                json.dump (users_accounts, file, indent=4) 
    else:
        print(Fore.RED+"Error getting restaurant data")
        return 
-        
+   return restaurant      
 
   
 
