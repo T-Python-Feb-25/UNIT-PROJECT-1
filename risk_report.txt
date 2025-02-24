@@ -21,3 +21,4 @@ Risk: Fire, Level: Medium, Location: Macca, Date: 2020-1-15
 Risk: Flood, Level: Low, Location: Jeedah, Date: 2022-9-25
 Risk: Fire, Level: High, Location: Riyadh, Date: 2001-8-26
 Risk: Flood, Level: High, Location: Abha, Date: 2022-5-15
+Risk: Fire, Level: High, Location: Jeddah, Date: 2018-4-2

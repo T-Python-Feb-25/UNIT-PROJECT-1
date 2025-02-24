@@ -5,8 +5,13 @@ __pycache__/
 
 #data
 risk_data.xlsx
-
-
+.env
+.sqlite3
+.db
+risk_report.txt
+.vscode/
+.idea
+.DS_Store
 
 # C extensions
 *.so
