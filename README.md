@@ -6,7 +6,7 @@ Nafzaealuk is a transportation management system that facilitates the booking an
 ## User Stories
 - **As a Client**, I want to:
   - Register for an account to access the services.
-  - Make an order for a truck to transport my goods.
+  - Make an order for a truck to transport my car.
   - Track my order status and view my order history.
   - Receive email notifications regarding my order updates.
 
