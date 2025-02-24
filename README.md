@@ -1,45 +1,15 @@
-# UNIT-PROJECT-1
+#travelmate platform
 
+The idea is a program to guide travelers, the user enters the name of the city and the date of his travel to him and the program will information about the weather for the city that the user wants to travel to and accordingly will suggest activities that suit the weather and restaurants in the same city as well as clothes that suit the weather and the season
 
+Platform Characteristics 
 
-## Based on what you’ve learned until now , create a project of your choosing (impress us with your imagination) . This project must at least satisfy the following minimum requirements :
+1. The platform provides the feature of creating an account and logging in, as the user must have an account in order to be able to use the platform 
 
-- Must be interactive on CLI.
-- Use your coding skills in Python accurately.
-- Organize Your Code into modules & (or packages)
-- Use git & Github to track changes in your code.
+2. The platform verifies the authenticity of the email and password entered by the user, whether in the account creation process or in the login process
 
-## Example Project :  An online Grocery Store :
+3. The platform provides the user with three main options, which are to view the previous plans he created, create a new plan and exit the program 
 
-#### Overview : An online store that sells fruits to customers. This online store has 2 main users. The customer and the manager of the store . Each one of them should be able to do the following tasks for the store to function properly . 
+4. If the user chooses the option to view previous plans, the plans he previously created, if any, will be displayed, and if they do not exist, the platform will alert him that he has not created plans yet 
 
-### Features & User Stories
-#### As a customer I should be able to do the following :
-- Browse  Products . 
-- View the product info (summary, specs, price, quantity , etc.)
-- Search for Products.
-- Get recommendations for my next purchase based on my purchase history.
-- Add Products to the shopping cart .
-- Remove a product from the shopping cart.
-- List the products in my shopping cart. 
-- Continue to checkout . 
-- Fill in my address for delivery.
-- Get receipt of my purchases.
-- Check delivery status . 
-
-
-
-#### Usage :
- Explain to the user how to use your project . 
- for example:
- - type in search product_name to search for a product.
- - type in list_products to show all the products in the grocery.
- - type in show product_name to get information about this product.
- - type in buy product_name to buy the product . 
- - and so on...
-
-
-### For your project. Edit this README.md file to include your own project name,  overview, user stories, and usage. 
-
-### NOTE: before submitting the final project, please do the following command:
-`pip freeze > requirements.txt` to enable use to know & use the packages used in your project.
+5. If the user chooses to create a new plan, the name of the city and the date of arrival will be taken from it, and then given information about the weather in the same city, as well as suggestions for clothes to wear based on temperature, as well as suggestions for colors that suit the season, in addition to suggestions for restaurants in the same city and events and activities based on temperature.
