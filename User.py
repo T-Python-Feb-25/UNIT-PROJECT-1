@@ -15,10 +15,10 @@ class User:
         Initializes a new User object.
 
         Parameters:
-        username (str): The username of the user.
-        password (str): The password of the user.
-        email (str): The email address of the user.
-        age (int): The age of the user.
+        username (str): The username
+        password (str): The password
+        email (str): The email address 
+        age (int): The age 
         """
         self.username = username
         self.password = password
@@ -354,22 +354,27 @@ def main():
 
     if choice == '1':
         user = login(users_info)
-        if user:
-            print("Choose an option:")
-            print("1. Add an appointment")
-            print("2. Change an appointment")
-            print("3. Delete an appointment")
-            choice1 = input("Enter the option number: ")
-            if choice1 == '1':
-                save_doctor_clinics()
-                booking_appointment()
-            elif choice1 == '2':
-                save_doctor_clinics()
-                change_appointment()
-            elif choice1 == '3':
-                delete_appointment()
-            else:
-                print("Invalid choice.")
+        while True:
+            if user:
+                print("Choose an option:")
+                print("1. Add an appointment")
+                print("2. Change an appointment")
+                print("3. Delete an appointment")
+                print("4. Exit")
+                
+                choice1 = input("Enter the option number: ")
+                if choice1 == '1':
+                    save_doctor_clinics()
+                    booking_appointment()
+                elif choice1 == '2':
+                    save_doctor_clinics()
+                    change_appointment()
+                elif choice1 == '3':
+                    delete_appointment()
+                elif choice1 == '4':
+                    break
+                else:
+                    print("Invalid choice.")
         
     elif choice == '2':
         register(users_info)
