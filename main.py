@@ -1,17 +1,18 @@
 #ملف تشغيل الكود و القائمة الرئيسية
 #استداعاء للمكتبات المستخدمة في البرنامج
-
+from art import text2art
 from colorama import Fore
 import emoji
 import Weather
 import restaurants_suggestions
 import log_in_and_ctreate_an_acconunt
+import events_and_activities
+import Previous_Plans
 
-#import Previous_Plans
-
-
-print(emoji.emojize(Fore.LIGHTBLACK_EX+"welcome to travelmate :airplane:"))
-answer=input(Fore.BLUE+"do you have an account yes or no\n")
+print(Fore.LIGHTBLUE_EX)
+print(emoji.emojize(text2art("welcome to travelmate",font="standard")))
+print(Fore.LIGHTBLACK_EX+"------------------------------------------")
+answer=input(Fore.LIGHTBLUE_EX+"\ndo you have an account yes or no\n")
 
 if answer =="no":
      
@@ -42,7 +43,8 @@ if answer =="no":
         passwordConfirmation=input(Fore.BLUE+"Confirm your password please \n")
 
         if password==passwordConfirmation:
-            print(Fore.GREEN+"Account created successfully!! Welcome to travelmate {}".format(firstName))
+            print(Fore.GREEN+"Account created successfully!! Welcome {} :airplane:".format(firstName))
+            print(Fore.LIGHTBLACK_EX+"------------------------------------------")
             log_in_and_ctreate_an_acconunt.add_users(firstName, lastName, email, password)
             break
         else :
@@ -51,7 +53,6 @@ if answer =="no":
 elif answer=="yes":
 
     users_accounts=log_in_and_ctreate_an_acconunt.get_users()
- 
     firstName=input(Fore.LIGHTBLACK_EX+"Enter your first name\n")
     while True:  
         email=input(Fore.LIGHTBLACK_EX+"Enter your email\n") 
@@ -72,27 +73,36 @@ elif answer=="yes":
             print(Fore.RED+"Incorrect password, please check it")
         else:
             print(Fore.GREEN+"Welcome back to travelmat {}".format(firstName))
+            print(Fore.LIGHTBLACK_EX+"------------------------------------------")
             break
     
        
 while True:  
-    print(Fore.BLUE+"\nWhat would you like to do today :thinking_face: \n ")
-    print(Fore.LIGHTBLACK_EX+"1.See my previous Plans   2.Create a new plan\n3.Exit the program")
+    print(Fore.BLUE+"\nWhat would you like to do today  \n ")
+    print(Fore.LIGHTBLACK_EX+"1.See my previous Plans   \n2.Create a new plan\n"+Fore.RED+"3.Exit the program")
     userChoice=input(Fore.LIGHTBLACK_EX+"\nEnter a number ")
     if userChoice=="1":
-        print()
-       #Previous_Plans.view_Previous_Plans(email)
+       Previous_Plans.view_Previous_Plans(email)
+
     elif userChoice=="2":
         city=input(Fore.BLUE+"Please enter the name of the city you would like to go to \n")
         date=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
         Weather.get_weather(email,city,date)
+        print(Fore.LIGHTBLACK_EX+"------------------------------------------")
         restaurants_suggestions=restaurants_suggestions.get_restaurant(email,city)
 
         if restaurants_suggestions:
             print(Fore.LIGHTBLUE_EX+"\nRestaurant recommendations in {} are:".format(city))
             for r in restaurants_suggestions:
                 print(Fore.LIGHTBLACK_EX+"{} Restaurant ".format(r["name"]))
+                print(Fore.LIGHTBLACK_EX+"------------------------------------------")
                 break
+            else:
+                print(Fore.RED + "No restaurant suggestions found.")
+            continue
+        
+        temperature, weather_condition = Weather.get_weather(email, city,date)
+        events_and_activities.add_events(email,city, temperature)
 
     elif userChoice=="3":
         print(Fore.GREEN+"thank you for using travelmate App, Come back again")
@@ -100,5 +110,3 @@ while True:
     else:
         print(Fore.RED+"Wrong choice, please reselect")
             
-   
-        

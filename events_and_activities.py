@@ -40,8 +40,26 @@ def classified_activities(events,temperature):
          indoor_events.append(event)
       return outdoor_events,indoor_events
 
-def add_events(city,temperature):
-   events=get_events(city)
+def add_events(email,city,temperature):
+   events=get_events(email,city,temperature)
    if events:
       outdoor_events,indoor_events= classified_activities(events,temperature)
-      print ()
+
+      print ("proposed Outdoor Events in {} Based on temperature {}c are:\n".format(city,temperature))
+      for event in outdoor_events:
+         print(Fore.LIGHTBLACK_EX+"{} event ".format(["name"]))
+
+      print ("Proposed indoor Events in {} Based on temperature {}c are:\n".format(city,temperature))
+      for event in indoor_events:
+         print(Fore.LIGHTBLACK_EX+"{} event ".format(["name"]))
+
+   users_accounts=get_user_info()
+
+   for email in users_accounts:
+         if "Travel Plans" not in users_accounts[email]:
+            users_accounts["Events"] = {"Outdoor": outdoor_events, "Indoor": indoor_events}
+            break
+
+         #اضافة معلومات لملف الجيسون
+   with open("users_account_file.json", "w") as file:
+         json.dump (users_accounts, file, indent=4) 

@@ -8,7 +8,7 @@ import requests
 import json
 import os
 from dotenv import load_dotenv
-load_dotenv
+load_dotenv()
 
 def get_user_info():
 
@@ -23,31 +23,33 @@ def get_restaurant(email,city):
    url="https://api.yelp.com/v3/businesses/search"
    headers={"Authorization":"bearer %s" % myKey}
 
-   parameters= {"location": city,
+   params= {"location": city,
                "categories":"restaurants",
-               "limit": 4 }
-   
-   response=requests.get(url,headers=headers,params=parameters)
+               "limit": 5 }
+   response = requests.get(url, headers=headers, params=params)
    data=response.json()
+   
    if "businesses" in data:
       restaurant=[
          {"name":restaurant["name"]}
          for restaurant in data["businesses"]
       ]
-
-      users_accounts=get_user_info()
+   else:
+      print(Fore.RED+"Error getting restaurant data")
+      return
+   
+   users_accounts=get_user_info()
+   if email not in users_accounts:
+      users_accounts[email]={}
       
-      if "Travel Plans" not in users_accounts[email]:
+   if "Travel Plans" not in users_accounts[email]:
             users_accounts=[email]["Travel Plans"]=[]
             users_accounts[email]["Travel Plans"].append({"restaurants":restaurant})
-
-    #فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
+#اضافة معلومات لملف الجيسون
             with open("users_account_file.json", "w") as file:
                 json.dump (users_accounts, file, indent=4) 
-   else:
-       print(Fore.RED+"Error getting restaurant data")
-       return 
-   return restaurant      
+        
+   return  restaurant    
 
   
 

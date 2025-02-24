@@ -1,4 +1,5 @@
 import json
+from colorama import Fore
 
 def get_Previous_Plans():
     try :
@@ -12,10 +13,9 @@ def view_Previous_Plans(email):
     
     if email in users_accounts:
         users_accounts= users_accounts[email]
-        if users_accounts.get("Travel Plans") is None:
+        if users_accounts.get("Travel Plans") is []:
             
             print("You don't have any Plans yet")
         else:
-            print(users_accounts.get["Travel Plans"])
-
-view_Previous_Plans("rahaf77553@gmail.com")
+            print("your Previous Plans are\n")
+            print(users_accounts.get("Travel Plans"))
