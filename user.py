@@ -2,6 +2,7 @@
 import sys
 # Third-party imports
 from colorama import Fore
+from prettytable import PrettyTable
 
 # Local application imports
 from input_validation import *
@@ -11,12 +12,12 @@ from config import order_db
 class User:
     """Represents a user in the system."""
     def __init__(self, id, first_name, last_name, phone, email, role):
-        self.__id = id
+        self.id = id
         self.first_name = first_name
         self.last_name = last_name
-        self.__phone = phone
-        self.__email = email
-        self.__role = role
+        self.phone = phone
+        self.email = email
+        self.role = role
         self.menu = ""
         self.functionality = {}
 
@@ -27,7 +28,7 @@ class User:
             tuple: A tuple containing the user's id, first name, last name,
                    email, phone number, and role.
         """
-        return self.__id, self.first_name, self.last_name, self.__email, self.__phone, self.__role
+        return self.id, self.first_name, self.last_name, self.email, self.phone, self.role
 
     def user_role(self):
         """Returns the user's role.
@@ -35,7 +36,7 @@ class User:
         Returns:
             str: The role of the user.
         """
-        return self.__role
+        return self.role
 
     def display_menu(self):
         """Displays the menu based on the user.
@@ -76,11 +77,13 @@ class Client(User):
     def __init__(self, id, first_name, last_name, phone,email):
         super().__init__(id, first_name, last_name, phone,email,role="Client")
         self.menu='''
-1-Make an order
-2-Track an order
-3-View history
-4-Logout
-'''
+========================= Menu ===========================
+        1-Make an order
+        2-Track an order
+        3-View history
+        4-Logout
+=========================================================='''
+
         self.functionality={
             "1":self.make_order,
             "2":self.track_order,
@@ -90,45 +93,69 @@ class Client(User):
 
     def make_order(self):
         from auth import send_email_notification
-        print("Making an order...")
-        order_info=collect_order_info()
-        user_id=self.__id
-        truck_id=order_info['assigined_truck']
-        car_make=order_info['car_make']
-        car_model= order_info['car_model']
-        car_year=order_info['car_year']
-        price=order_info['price']
-        pickup_location=order_info['pickup']
-        delivery_location=order_info['delivery'] 
-        pickup_date=order_info['pickup_date']
-        order_db.insert_order( user_id, truck_id,car_make, car_model, car_year, price,pickup_location,delivery_location ,pickup_date, status='pending')
-        send_email_notification(
-        "Order Confirmation",
-        "Thank you for trusting us! Your order has been created. "
-        "Please track your order status through the system or through the sent email. "
-        "Your order status: pending.\n We will contact you soon to get the detailed address."
-        "Nefzalek Team",
-        self.__email)
+        print(Fore.BLUE+"Making an order")
+        try:
+            order_info=collect_order_info()
+            user_id=self.id
+            truck_id=order_info['assigined_truck']
+            car_make=order_info['car_make']
+            car_model= order_info['car_model']
+            car_year=order_info['car_year']
+            price=order_info['price']
+            pickup_location=order_info['pickup']
+            delivery_location=order_info['delivery'] 
+            pickup_date=order_info['pickup_date']
+            order_db.insert_order( user_id, truck_id,car_make, car_model, car_year, price,pickup_location,delivery_location ,pickup_date, status='pending')
+            send_email_notification(
+            "Order Confirmation",
+            "Thank you for trusting us! Your order has been created. "
+            "Please track your order status through the system or through the sent email. "
+            "Your order status: pending.\n We will contact you soon to get the detailed address."
+            "Nefzalek Team",
+            self.email)
+        except Exception as message:
+            print(message)
 
 
 
     def track_order(self):
-        user_orders=order_db.retrive_user_orders(self.__id)
-        filtered_active_orders = list(filter(lambda order: order["status"] !="completed", user_orders))
-        print(f"You have {len(filtered_active_orders)} active orders")
+        user_orders = order_db.retrive_user_orders(self.id)
+        filtered_active_orders = list(filter(lambda order: order["status"] != "completed", user_orders))
 
-        for order in filtered_active_orders:
-            print(f"order #{order['order_id']} - status :{order['status']}")
+        # Display the number of active orders
+        print(f"You have {len(filtered_active_orders)} active order:\n")
+
+        if filtered_active_orders:
+            print(f"{'Order ID':<15} {'Status':<20}")  
+            print("=" * 58)  
+
+            for order in filtered_active_orders:
+                print(f"{order['order_id']:<15} {order['status']:<20}")  
+        else:
+            print(Fore.BLUE+"No active orders available.")
+
 
 
     def view_history(self):
-        print("Your order history")
-        user_orders=order_db.retrive_user_orders(self.__id)
+        print("Your Order History")
+        
+        user_orders = order_db.retrive_user_orders(self.id)
+        
+        table = PrettyTable()
+        
+        table.field_names = ["Order ID", "Status", "Pickup Location", "Delivery Location", "Total Price"]
+        
+        # Add rows to the table
         for order in user_orders:
-            print(f"order #{order['order_id']} - status :{order['status']}")
-            print(f"From {order['pickup_location']} to {order['delivery_location']}")
-            print(f"Total price :{order['price']}")
-            print()
+            table.add_row([
+                order['order_id'],
+                order['status'],
+                order['pickup_location'],
+                order['delivery_location'],
+                f"${order['price']:.2f}"  
+            ])
+        
+        print(table)
 
 
 
@@ -136,16 +163,22 @@ class Client(User):
 class Employee(User,TruckManagementMixin):
     def __init__(self, id, first_name, last_name, phone,email ):
         super().__init__(id, first_name, last_name, phone,email,role="Employee")
-        self.menu='''1-Register a Truck
-2-Unregister a Truck
-3-Update order status
-4-Logout
-'''
+        self.menu='''
+=========================== Menu ==============================
+        1-Display Trucks
+        2-Register a Truck
+        3-Unregister a Truck
+        4-Update order status
+        5-Logout
+==============================================================='''
+
+
         self.functionality={
-            "1":self.register_truck,
-            "2":self.unregister_truck,
-            "3":self.update_order_status,
-            "4":self.user_logout
+            "1":self.display_trucks,
+            "2":self.register_truck,
+            "3":self.unregister_truck,
+            "4":self.update_order_status,
+            "5":self.user_logout
         }
 class Admin(User,TruckManagementMixin):
 

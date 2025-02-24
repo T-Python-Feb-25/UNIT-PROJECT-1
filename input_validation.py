@@ -30,7 +30,7 @@ def llm_response(prompt):
     return completion.choices[0].message.content
 
 
-def order_info_validation(from_city,to_city):
+def calculate_distance(from_city,to_city):
     prompt = f'''
     calculate the distance kilo by car from {from_city} , Saudi Arabia to {to_city} ,Saudi Arabia and the time taken by hours return max 
     follow the same format of the answer return
@@ -43,7 +43,6 @@ def order_info_validation(from_city,to_city):
         
     try:
         response_data:dict = json.loads(response)
-        print(response_data)
         return response_data.values()
     except json.JSONDecodeError:
         print("the system is out of service try again later.")
@@ -138,11 +137,11 @@ def collect_order_info():
     order_info = {}
     
     # Display pricing information
-    menu = f'''------- Prices ------
-- Kilo cost for closed truck: {pricing_list["cost_kilo_closed"]}
-- Kilo cost for open truck: {pricing_list["cost_kilo_open"]}
-Note: Prices are excluding VAT {pricing_list["vat"] * 100}% and insurance {pricing_list['insurance']}'''
-    print(menu)
+    menu = f'''========================= Prices Menu ===========================
+    - Kilo cost for closed truck: {pricing_list["cost_kilo_closed"]}
+    - Kilo cost for open truck: {pricing_list["cost_kilo_open"]}'''
+    
+    print(menu,Fore.YELLOW+f"\nNote: Prices are excluding VAT {pricing_list["vat"] * 100}% and insurance cost {pricing_list['insurance']}")
 
     # Select service type
     order_info['service_type'] = "open" if get_number_input_with_limit("1 - Open truck\n2 - Closed truck\nEnter service type:", 2) == 1 else "closed"
@@ -152,15 +151,15 @@ Note: Prices are excluding VAT {pricing_list["vat"] * 100}% and insurance {prici
     filtered_trucks = list(filter(lambda truck: truck["body_style"] == order_info['service_type'], trucks))
     
     if len(filtered_trucks) == 0:
-        print(f"Sorry, no available {order_info['service_type']} trucks for the following days.")
-        return 
+        raise Exception(Fore.YELLOW+f"Sorry, no available {order_info['service_type']} trucks for the following three days.")
+
     else:
         order_info['assigined_truck'] = filtered_trucks[0]["truck_id"]
     # print("Available trucks:", filtered_trucks)
     
     # Get today's date
     today = datetime.now()
-    print("Delivery time takes from 1 to 2 days based on your destination.")
+    print(Fore.YELLOW+"Delivery time takes from 1 to 2 days based on your destination.")
     
     # Display the next three days
     for i in range(1, 4):
@@ -168,7 +167,7 @@ Note: Prices are excluding VAT {pricing_list["vat"] * 100}% and insurance {prici
         print(f"{i} - {next_day.strftime('%Y-%m-%d')}")
 
     # Select pickup date
-    selected_date = get_number_input_with_limit("Please select the pickup date within the following three days to check the trucks' availability:", 3)
+    selected_date = get_number_input_with_limit("Please select the pickup date :", 3)
     date = today + timedelta(days=selected_date)
     order_info['pickup_date'] = date.strftime('%Y-%m-%d')
 
@@ -193,8 +192,8 @@ Note: Prices are excluding VAT {pricing_list["vat"] * 100}% and insurance {prici
     order_info['delivery'] = provinces_list[selected_province][govern_num - 1]
     
     # Validate distance and hours
-    order_info['distance'], order_info['hours'] = order_info_validation(order_info['pickup'], order_info['delivery'])
-    total=(order_info['distance']*(pricing_list["cost_kilo_closed"] if order_info['service_type'] else pricing_list["cost_kilo_open"]))+pricing_list['insurance']
+    order_info['distance'], order_info['hours'] = calculate_distance(order_info['pickup'], order_info['delivery'])
+    total=(order_info['distance']*(pricing_list["cost_kilo_closed"] if order_info['service_type']=="closed" else pricing_list["cost_kilo_open"]))+pricing_list['insurance']
     order_info['price']= round((total*pricing_list["vat"])+total,2)
 
     # Collect car information

@@ -13,7 +13,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.errors import HttpError
 
 # Local application imports
-from config import SCOPES, user_db, GOOGLE_CREDENTIALS, TOKEN
+from config import  user_db, GOOGLE_CREDENTIALS, TOKEN
 
 def code_validation(generated_code):
     """Validate the user input code against a generated code.
@@ -94,6 +94,8 @@ def login(email,encoded_pass):
 def send_email_notification(subject, body, to):
     
     """Send an email using the Gmail API."""
+    SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+
     creds = None
     if os.path.exists(TOKEN):
         creds = Credentials.from_authorized_user_file(TOKEN, SCOPES)

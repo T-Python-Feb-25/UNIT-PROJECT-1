@@ -1,4 +1,5 @@
 import sqlite3
+from colorama import Fore
 
 class OrderDB:
     
@@ -31,10 +32,6 @@ class OrderDB:
             FOREIGN KEY (user_id) REFERENCES users(user_id)
             )''')
 
-        
-    def drop_orders_table(self):
-        self.connect()
-        self.__cursor.execute('''DROP TABLE IF EXISTS orders''')  
 
     def insert_order(self, user_id,truck_id ,car_make, car_model, car_year, price,pickup_location,delivery_location ,pickup_date,status='pending'):
         from config import truck_db
@@ -52,10 +49,10 @@ class OrderDB:
         
 
 
-            print("The order has been created successfully.")
+            print(Fore.GREEN+"The order has been created successfully.")
 
         except Exception as error :
-            print("Something went wrong while trying to create your order. Please try again later.")
+            print(Fore.RED+"Something went wrong while trying to create your order. Please try again later.")
 
 
     def update_order_status(self,order_id,status):
@@ -77,12 +74,8 @@ class OrderDB:
             """, (order_id,))
                  # Fetch the result
             result = self.__cursor.fetchone()
-            print(result)
-
             if result:
-                user_email = result[0]
-                print(f"Order updated. ")
-                
+                user_email = result[0]                
             else:
                 print("No user found for this order.")
     
@@ -95,7 +88,6 @@ class OrderDB:
     
             # Fetch the result
             result = self.__cursor.fetchone()
-            print(result)
             if result:
                 truck_id = result[0]
             else:
@@ -103,7 +95,7 @@ class OrderDB:
             return user_email,truck_id
 
         except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
+            print(Fore.RED+f"An error occurred while trying to update the order status")
         finally:
             self.close_connection()   
     
@@ -125,7 +117,7 @@ class OrderDB:
 
         orders_list = [dict(order) for order in orders] if orders!=None else []
         if len(orders_list)==0:
-            print("No active orders available in the system")
+            print(Fore.BLUE+"No active orders available in the system")
         return orders_list
     
     def retrive_user_orders(self,user_id)->list:

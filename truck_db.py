@@ -95,7 +95,7 @@ class TruckDB:
             self.__create_truck_table()
             self.__cursor.execute(sql, params)
             self.__connection.commit()
-            print(Fore.GREEN+f"Truck {truck_id} status updated successfully.")
+            # print(Fore.GREEN+f"Truck {truck_id} status updated successfully.")
         except sqlite3.Error as e:
             print(Fore.RED+f"An error occurred while trying to update the truck")
         finally:

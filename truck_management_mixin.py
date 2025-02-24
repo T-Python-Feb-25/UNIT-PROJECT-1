@@ -58,27 +58,21 @@ class TruckManagementMixin:
             status= filtered_orders[0]['status']
             if status=='pending':
                 new_status='in transit'
-                message = (
-                "Order Updates",
-                f"Thank you for trusting us! Your order is currently {new_status}. "
-                "You can track your order status through the system or the email we sent. "
-                "We appreciate your patience and look forward to delivering your car soon!"
-                "Nefzalek Team"
-            )
+                message = f'''Thank you for trusting us! Your order is currently {new_status}. 
+You can track your order status through the system or the email we sent. 
+We appreciate your patience and look forward to delivering your car soon!
+\nNafzaealuk Team'''
+            
             else:
                 new_status='completed'
-                message = (
-                    "Order Updates",
-                    f"Thank you for trusting us! Your order has been successfully {new_status}. "
-                    "We appreciate your business and look forward to serving you again!"
-                    "Nefzalek Team"
-                )
+                message = f'''Thank you for trusting us! Your order has been successfully {new_status}.\n
+We appreciate your business and look forward to serving you again!
+\nNafzaealuk Team'''
             
             user_email,truck_id= order_db.update_order_status(order_id,new_status)
             if new_status=='completed':
                 truck_db.update_truck(truck_id,availability=True)
-            send_email_notification(message,to=user_email)            
+            send_email_notification("Order Updates",message,to=user_email)            
                 
         else:
-
             print("invalid order number")

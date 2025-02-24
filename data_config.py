@@ -62,5 +62,6 @@ def get_all_prices(pricing_list: dict):
     Args:
         pricing_list (dict): A dictionary of prices associated with titles.
     """
+    print("========================= Prices ===========================")
     for index, (title, cost) in enumerate(pricing_list.items(), start=1):
         print(f"{index} - {title} current price: {cost}")
