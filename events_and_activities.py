@@ -35,9 +35,9 @@ def classified_activities(events,temperature):
    indoor_events=[]
    for event in events:
       if temperature>25:
-         outdoor_events.append(event)
+         outdoor_events.append(events)
       else:
-         indoor_events.append(event)
+         indoor_events.append(events)
       return outdoor_events,indoor_events
 
 def add_events(email,city,temperature):
@@ -63,3 +63,5 @@ def add_events(email,city,temperature):
          #اضافة معلومات لملف الجيسون
    with open("users_account_file.json", "w") as file:
          json.dump (users_accounts, file, indent=4) 
+
+   return print(events)

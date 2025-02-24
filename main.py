@@ -100,7 +100,7 @@ while True:
             else:
                 print(Fore.RED + "No restaurant suggestions found.")
             continue
-        
+
         temperature, weather_condition = Weather.get_weather(email, city,date)
         events_and_activities.add_events(email,city, temperature)
 
