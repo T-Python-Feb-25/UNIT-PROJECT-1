@@ -49,7 +49,7 @@ def display_events(title='null',username='all'):
                 table.add_row(
                     str(event["id"]),
                     event["title"],
-                    event["presenter"],
+                    event["description"],
                     date,
                     time,
                     event["location"],
@@ -64,7 +64,7 @@ def display_events(title='null',username='all'):
                     table.add_row(
                         str(event["id"]),
                         event["title"],
-                        event["presenter"],
+                        event["description"],
                         date,
                         time,
                         event["location"],
@@ -98,7 +98,7 @@ def display_event(massage,id):
             table.add_row(
                 str(event["id"]),
                 event["title"],
-                event["presenter"],
+                event["description"],
                 date,
                 time,
                 event["location"],
@@ -128,7 +128,7 @@ def display_events_by_title(massage,title):
             table.add_row(
                 str(event["id"]),
                 event["title"],
-                event["presenter"],
+                event["description"],
                 event["start"],
                 event["end"],
                 event["location"],
@@ -192,14 +192,14 @@ def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
 
 def print_header(title):
-    """Prints a styled header with a border."""
+    """prints a header with a border."""
     clear_screen()
     print("-" * 30)
     print(f"{title.center(30)}")
     print("-" * 30 + "\n")
 
 def main():
-    """welcome to event management program ."""
+    """main function to run the program ."""
     print_header("🏠 Main page")
     print("1️⃣  Login")
     print("2️⃣  Register")
@@ -218,6 +218,11 @@ def main():
   
         
 def user_page(user):
+    """Display the user menu options
+
+    Args:
+        user (dict): user dict in the json file
+    """
     user_menu = '''
     1️⃣  list availbe events
     2️⃣  list booked events
@@ -273,6 +278,12 @@ def user_page(user):
             print(e)
             input("press any button to go back to main menu ... ")
 def admin_page(user):
+    """Display the user menu options
+
+    Args:
+        user (dict): admin dict in the json file
+
+    """
     admin_menu = '''
     1️⃣  list availbe events
     2️⃣  add event
@@ -295,7 +306,7 @@ def admin_page(user):
             print_header(welcoming + "\n➕  ADD EVENT\n")
             try:
                 title = input("🗂️  Enter title: ")
-                presenter = input("🧑‍💼  Enter presenter: ")
+                description = input("🗂️  Enter description: ")
                 location = input("📍  Enter Location: ")
                 start_date = is_valid_date("🔹 Enter start date (YYYY-M-D): ")
                 end_date = is_valid_date("🔹 Enter end date (YYYY-M-D): ")
@@ -312,7 +323,7 @@ def admin_page(user):
                     }
                 if end_date < start_date or end_time < start_time:
                     raise DateError("❌  End date & time must be after the start date & time!")
-                event_id = file_handler.add_event(title,presenter,location,date,time,seats)
+                event_id = file_handler.add_event(title,description,location,date,time,seats)
                 print_header(welcoming)
                 print(f"{Fore.GREEN }{event_id}:{title} is added successfuly ")
                 display_event("Added event",event_id)
@@ -323,7 +334,7 @@ def admin_page(user):
         elif choice == '3':
             print_header(welcoming + "Modify event")
             display_events()
-            ############################################################
+
             event_id = input("Provide Event ID you want to modify: ")
             events = list(file_handler.load_file(file_handler.EVENTS_PATH))
             list_events = [Event(**event_data).to_dect() for event_data in events]
@@ -335,7 +346,7 @@ def admin_page(user):
             display_event("Modify event",event_id)
             p = f'''
             provide what you want to modify 
-            from: (title,presenter,loation,date,time,seats) seperated by space 
+            from: (title,description,loation,date,time,seats) seperated by space 
             for example: {Fore.BLUE} title time
             {Fore.RESET} --> '''
             list_to_modify = input(p).split(' ')
@@ -354,11 +365,13 @@ def admin_page(user):
                         list_events[event_index]['time'] = {
                             'start_time':str(start_time),
                             'end_time':str(end_time)
-                            }                      
+                            }
+                    elif modify == 'seats':
+                        list_events[event_index][modify] = int(input(f"{Fore.RED}{list_events[event_index][modify]}{Fore.RESET} to : "))
                     else:
                         list_events[event_index][modify] = input(f"{Fore.RED}{list_events[event_index][modify]}{Fore.RESET} to : ")
                 else:
-                    print(f"⚠️  {modify} is not in [title,presenter,location,date,time,seats] ")
+                    print(f"⚠️  {modify} is not in [title,description,location,date,time,seats] ")
             file_handler.save_file(list_events,EVENTS_PATH)
             print_header(welcoming + "Modify event")
             display_event("Modified event ",event_id)
@@ -385,10 +398,10 @@ def admin_page(user):
 
 
 
-def is_valid_date(prompt):
-    """Prompt the admin for a valid future date (YYYY-M-D)."""
+def is_valid_date(date):
+    """make sure the admin give a valid future date (YYYY-M-D)."""
     while True:
-        date_str = input(prompt).strip()
+        date_str = input(date).strip()
         try:
             event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
             if event_date >= datetime.datetime.today().date():
@@ -398,18 +411,18 @@ def is_valid_date(prompt):
         except ValueError:
             print("❌ Invalid format! Use YYYY-M-D.")
 
-def is_valid_time(prompt):
-    """Prompt the admin for a valid time (HH:MM, 24-hour format)."""
+def is_valid_time(time):
+    """maake sure the admin give for a valid time (HH:MM, 24-hour format)."""
     while True:
-        time_str = input(prompt).strip()
+        time_str = input(time).strip()
         try:
             event_time = datetime.datetime.strptime(time_str, "%H:%M").time()
-            return event_time  # ✅ Valid time
+            return event_time
         except ValueError:
             print("❌ Invalid format! Use HH:MM (24-hour format).")
 
 def get_event_datetime():
-    """Prompt admin to enter event start & end datetime with validation."""
+    """require admin to enter event start & end datetime with validation."""
     try:
         start_date = is_valid_date("🔹 Enter start date (YYYY-M-D): ")
         end_date = is_valid_date("🔹 Enter end date (YYYY-M-D): ")

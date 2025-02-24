@@ -2,12 +2,12 @@ from datetime import datetime
 from utils import generate_unique_id,USERS_FILEPATH,EVENTS_PATH,METADATA_PATH
 from Exceptions import *
 class Event:
-    def __init__(self, title, presenter, location,date,time, 
+    def __init__(self, title, description, location,date,time, 
                  id="new",  seats=0,regester_users=[]):
         # generate ID if id = "new"
         self.__id = generate_unique_id("event_id") if id == "new" else id
         self.__title = title
-        self.__presenter = presenter 
+        self.__description = description 
         self.__location = location
         self.__date = date
         self.__time = time
@@ -26,7 +26,7 @@ class Event:
     def get_seats(self):
         return self.__seats
     def get_presentor(self):
-        return self.__presenter
+        return self.__description
     
     #setters
     def set_seats(self,seats):
@@ -58,7 +58,7 @@ class Event:
         return   {
                 'id':self.__id,
                 "title" : self.__title,
-                "presenter" : self.__presenter,
+                "description" : self.__description,
                 "location" : self.__location,
                 "date": {
                     "start_date": self.__date['start_date'],
@@ -72,6 +72,6 @@ class Event:
                 "regester_users" : self.__regester_users
             }
     def display_event(self):
-        print(f"---\nID: {self.__id}\ntitle: {self.__title}\npresentor: {self.__presenter}\ndate start: {self.__start}\nuntil:{self.__end}\n location: {self.__location}\n seats: {self.__seats}\n---\n")
+        print(f"---\nID: {self.__id}\ntitle: {self.__title}\npresentor: {self.__description}\ndate start: {self.__start}\nuntil:{self.__end}\n location: {self.__location}\n seats: {self.__seats}\n---\n")
         
         

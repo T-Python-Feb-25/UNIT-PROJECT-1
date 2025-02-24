@@ -67,13 +67,13 @@ def add_user(email,username,password):
     except Exception as e:
         print(f'In add_user : {e}') 
  
-def add_event(title,presenter,location,date,time,seats=0):
+def add_event(title,description,location,date,time,seats=0):
     try:
         events = load_file(EVENTS_PATH)
         # *** convert JDON to event objects 
         list_events = [Event(**event_data) for event_data in events]
         admin =  Admin()
-        event = Event(title,presenter,location,date,time,seats=seats)
+        event = Event(title,description,location,date,time,seats=seats)
         admin.add_event(event.to_dect())
         return event.get_id()
     except Exception as e:

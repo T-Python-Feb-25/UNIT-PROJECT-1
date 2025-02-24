@@ -42,13 +42,13 @@ class Admin(User):
         events.append(event)
         file_handler.save_file(events,file_handler.EVENTS_PATH)
         # testing
-    def add_event2(title,presenter,location,date,time,seats=0):
+    def add_event2(title,description,location,date,time,seats=0):
         import file_handler as f
         import Event
         try:
             events = list(f.load_file(EVENTS_PATH)) 
             list_events = [Event(**event_data).to_dect() for event_data in events]
-            event = Event(title,presenter,location,date,time,seats=seats)
+            event = Event(title,description,location,date,time,seats=seats)
             list_events.append(event.to_dect())
             f.save_file(events,EVENTS_PATH)
         except Exception as e:

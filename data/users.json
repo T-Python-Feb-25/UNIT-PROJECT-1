@@ -1,177 +1,30 @@
 [
     {
-        "id": 2,
+        "id": 1,
         "role": "admin",
         "email": "admin@admin.com",
         "username": "admin",
         "password": "admin"
+    },
+    {
+        "id": 1,
+        "role": "user",
+        "email": "mohamad@gmail.com",
+        "username": "mohamad",
+        "password": "1122"
+    },
+    {
+        "id": 2,
+        "role": "user",
+        "email": "saud@gmail.com",
+        "username": "saud",
+        "password": "1122"
     },
     {
         "id": 3,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "admin",
-        "password": "admin"
-    },
-    {
-        "id": 4,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "admin",
-        "password": "dadmin"
-    },
-    {
-        "id": 5,
         "role": "user",
-        "email": "mohammed@hotmail.com",
-        "username": "mohamad077",
-        "password": "1122"
-    },
-    {
-        "id": 45,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "admin2",
-        "password": "dadmin"
-    },
-    {
-        "id": 47,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "admin3",
-        "password": "dadmin"
-    },
-    {
-        "id": 48,
-        "role": "user",
-        "email": "sami@gmail.com",
-        "username": "sami",
-        "password": "123123"
-    },
-    {
-        "id": 49,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "admin3",
-        "password": "dadmin"
-    },
-    {
-        "id": 29,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "admin3",
-        "password": "dadmin"
-    },
-    {
-        "id": 50,
-        "role": "user",
-        "email": "khalid@gmail.com",
-        "username": "khalid",
-        "password": "123123"
-    },
-    {
-        "id": 31,
-        "role": "admin",
-        "email": "admin@admin.com",
-        "username": "a",
-        "password": "a"
-    },
-    {
-        "id": 51,
-        "role": "user",
-        "email": "mohamad@gmail.com",
-        "username": "mohamad077",
-        "password": "1122"
-    },
-    {
-        "id": 52,
-        "role": "user",
-        "email": "m",
-        "username": "mohamad",
-        "password": "1"
-    },
-    {
-        "id": 53,
-        "role": "user",
-        "email": "ahmed@ahmed.com",
-        "username": "ahmed",
-        "password": "2"
-    },
-    {
-        "id": 54,
-        "role": "user",
-        "email": "d",
-        "username": "moahad2",
-        "password": "d"
-    },
-    {
-        "id": 55,
-        "role": "user",
-        "email": "d",
-        "username": "mohamad",
-        "password": "d"
-    },
-    {
-        "id": 56,
-        "role": "user",
-        "email": "d",
-        "username": "ahmed",
-        "password": "d"
-    },
-    {
-        "id": 57,
-        "role": "user",
-        "email": "mohamad8@m.com",
-        "username": "moahad7",
-        "password": "1"
-    },
-    {
-        "id": 58,
-        "role": "user",
-        "email": "q@q.com",
-        "username": "qqq",
-        "password": "1122"
-    },
-    {
-        "id": 59,
-        "role": "user",
-        "email": "w@w.com",
-        "username": "www",
-        "password": "1122"
-    },
-    {
-        "id": 60,
-        "role": "user",
-        "email": "a@a.com",
-        "username": "aaa",
-        "password": "1"
-    },
-    {
-        "id": 61,
-        "role": "user",
-        "email": "g@g.com",
-        "username": "ggg",
-        "password": "1"
-    },
-    {
-        "id": 62,
-        "role": "user",
-        "email": "c@c.com",
-        "username": "ccc",
-        "password": "1"
-    },
-    {
-        "id": 63,
-        "role": "user",
-        "email": "d@d.com",
-        "username": "ddd",
-        "password": "1"
-    },
-    {
-        "id": 64,
-        "role": "user",
-        "email": "nawaf@gmail.com",
-        "username": "nawaf",
+        "email": "saud2@gmail.com",
+        "username": "saud2",
         "password": "1122"
     }
 ]
