@@ -27,7 +27,7 @@ def get_restaurant(email,city):
                "categories":"restaurants",
                "limit": 4 }
    
-   response=requests.get(url,headers=headers,parameters=parameters)
+   response=requests.get(url,headers=headers,params=parameters)
    data=response.json()
    if "businesses" in data:
       restaurant=[
