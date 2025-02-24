@@ -1,6 +1,7 @@
-import json
-import os
-from typing import List, Dict, Any
+from FileHandeler import FileHandler
+from Courses import Course
+from Professors import Employee
+from Students import Student
 from datetime import datetime
 from tabulate import tabulate
 from colorama import Fore, Style, init
@@ -18,202 +19,22 @@ TABLE_CONTENT_COLOR = Fore.GREEN
 crn_counter = 1000
 mem_id_counter = 1000
 
+
+#Function to generate the Course Registration Number
 def generate_crn() -> int:
     """Generate a unique CRN for courses."""
     global crn_counter
     crn_counter += 1
     return crn_counter
 
+
+#Function to generate the Member ID for the Students and Professors
 def generate_mem_id() -> str:
     """Generate a unique member ID for employees and students."""
     global mem_id_counter
     mem_id_counter += 1
     return f"MEM{mem_id_counter}"
 
-class FileHandler:
-    """Handles reading and writing records to/from JSON files."""
-
-    def __init__(self, file_name: str) -> None:
-        self.__file_name = file_name
-
-    def read_records_file(self) -> List[Dict[str, Any]]:
-        """Read records from the JSON file."""
-        if not os.path.isfile(self.__file_name):
-            return []
-        try:
-            with open(self.__file_name, "r", encoding="UTF-8") as file:
-                return [json.loads(line) for line in file]
-        except (json.JSONDecodeError, FileNotFoundError) as e:
-            print(f"{Fore.RED}Error reading file: {e}{Style.RESET_ALL}")
-            return []
-
-    def write_record(self, records: List[Dict[str, Any]]) -> None:
-        """Write records to the JSON file."""
-        try:
-            with open(self.__file_name, "w", encoding="UTF-8") as file:
-                for record in records:
-                    file.write(json.dumps(record) + "\n")
-        except IOError as e:
-            print(f"{Fore.RED}Error writing to file: {e}{Style.RESET_ALL}")
-
-class Course:
-    """Represents a course with its details."""
-
-    def __init__(self, subject: str, crn: int, start_date: datetime, end_date: datetime, start_time: str,
-                 end_time: str, cost: float) -> None:
-        self.__subject = subject
-        self.__crn = crn
-        self.__start_date = start_date
-        self.__end_date = end_date
-        self.__start_time = start_time
-        self.__end_time = end_time
-        self.__cost = cost
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert the course object to a dictionary."""
-        return {
-            "Subject": self.__subject,
-            "CRN": self.__crn,
-            "Start Date": self.__start_date.isoformat(),
-            "End Date": self.__end_date.isoformat(),
-            "Start Time": self.__start_time,
-            "End Time": self.__end_time,
-            "Cost": self.__cost
-        }
-
-    @property
-    def subject(self) -> str:
-        return self.__subject
-
-    @property
-    def crn(self) -> int:
-        return self.__crn
-
-    @property
-    def start_date(self) -> datetime:
-        return self.__start_date
-
-    @property
-    def end_date(self) -> datetime:
-        return self.__end_date
-
-    @property
-    def start_time(self) -> str:
-        return self.__start_time
-
-    @property
-    def end_time(self) -> str:
-        return self.__end_time
-
-    @property
-    def cost(self) -> float:
-        return self.__cost
-
-class Person(FileHandler):
-    """Represents a person with basic details."""
-
-    def __init__(self, name: str, mem_id: str, dob: datetime, address: Dict[str, str]) -> None:
-        super().__init__("persons.json")
-        self.__name = name
-        self.__mem_id = mem_id
-        self.__dob = dob
-        self.__address = address
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert the person object to a dictionary."""
-        return {
-            "Name": self.__name,
-            "ID": self.__mem_id,
-            "DOB": self.__dob.isoformat(),
-            "Address": self.__address
-        }
-
-    @property
-    def name(self) -> str:
-        return self.__name
-
-    @property
-    def mem_id(self) -> str:
-        return self.__mem_id
-
-    @property
-    def dob(self) -> datetime:
-        return self.__dob
-
-    @property
-    def address(self) -> Dict[str, str]:
-        return self.__address
-
-class Employee(Person):
-    """Represents an employee with additional details like department and salary."""
-
-    BASE_SALARY = 30000  # Base salary for all employees
-    PER_COURSE_BONUS = 5000  # Bonus per course assigned
-
-    def __init__(self, name: str, mem_id: str, dob: datetime, address: Dict[str, str], department: str) -> None:
-        super().__init__(name, mem_id, dob, address)
-        self.__department = department
-        self.__courses: List[Course] = []
-        self.__salary = self.BASE_SALARY
-
-    def assign_course(self, course: Course) -> None:
-        """Assign a course to the employee and update their salary."""
-        self.__courses.append(course)
-        self.__salary = self.BASE_SALARY + (len(self.__courses) * self.PER_COURSE_BONUS)
-
-    def remove_course(self, course: Course) -> None:
-        """Remove a course from the employee and update their salary."""
-        if course in self.__courses:
-            self.__courses.remove(course)
-            self.__salary = self.BASE_SALARY + (len(self.__courses) * self.PER_COURSE_BONUS)
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert the employee object to a dictionary."""
-        person_dict = super().to_dict()
-        person_dict.update({
-            "Department": self.__department,
-            "Courses": [course.to_dict() for course in self.__courses],
-            "Salary": self.__salary
-        })
-        return person_dict
-
-    @property
-    def department(self) -> str:
-        return self.__department
-
-    @property
-    def courses(self) -> List[Course]:
-        return self.__courses
-
-    @property
-    def salary(self) -> float:
-        return self.__salary
-
-class Student(Person):
-    """Represents a student with additional details like courses and balance."""
-
-    def __init__(self, name: str, mem_id: str, dob: datetime, address: Dict[str, str], courses: List[str],
-                 balance: float) -> None:
-        super().__init__(name, mem_id, dob, address)
-        self.__courses = courses
-        self.__balance = balance
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert the student object to a dictionary."""
-        person_dict = super().to_dict()
-        person_dict.update({
-            "Courses": self.__courses,
-            "Balance": self.__balance
-        })
-        return person_dict
-
-    @property
-    def courses(self) -> List[str]:
-        return self.__courses
-
-    @property
-    def balance(self) -> float:
-        return self.__balance
 
 def main_menu() -> str:
     """Display the main menu and return the user's choice."""
@@ -223,6 +44,7 @@ def main_menu() -> str:
     print(f"{MAIN_MENU_COLOR}3. Student{Style.RESET_ALL}")
     print(f"{MAIN_MENU_COLOR}4. Exit{Style.RESET_ALL}")
     return input(f"{MAIN_MENU_COLOR}Enter your choice: {Style.RESET_ALL}")
+
 
 def admin_menu() -> str:
     """Display the admin menu and return the user's choice."""
@@ -237,6 +59,7 @@ def admin_menu() -> str:
     print(f"{SUB_MENU_COLOR}8. Back to Main Menu{Style.RESET_ALL}")
     return input(f"{SUB_MENU_COLOR}Enter your choice: {Style.RESET_ALL}")
 
+
 def professor_menu() -> str:
     """Display the professor menu and return the user's choice."""
     print(f"\n{SUB_MENU_COLOR}--- Professor Menu ---{Style.RESET_ALL}")
@@ -245,6 +68,7 @@ def professor_menu() -> str:
     print(f"{SUB_MENU_COLOR}3. View Monthly Salary{Style.RESET_ALL}")
     print(f"{SUB_MENU_COLOR}4. Back to Main Menu{Style.RESET_ALL}")
     return input(f"{SUB_MENU_COLOR}Enter your choice: {Style.RESET_ALL}")
+
 
 def student_menu() -> str:
     """Display the student menu and return the user's choice."""
@@ -255,6 +79,7 @@ def student_menu() -> str:
     print(f"{SUB_MENU_COLOR}4. Unregister from Course{Style.RESET_ALL}")
     print(f"{SUB_MENU_COLOR}5. Back to Main Menu{Style.RESET_ALL}")
     return input(f"{SUB_MENU_COLOR}Enter your choice: {Style.RESET_ALL}")
+
 
 def add_employee() -> None:
     """Add a new employee to the system."""
@@ -274,6 +99,7 @@ def add_employee() -> None:
     records.append(employee.to_dict())
     file_handler.write_record(records)
     print(f"{Fore.GREEN}Employee added successfully!{Style.RESET_ALL}")
+
 
 def add_student() -> None:
     """Add a new student to the system."""
@@ -295,6 +121,7 @@ def add_student() -> None:
     file_handler.write_record(records)
     print(f"{Fore.GREEN}Student added successfully!{Style.RESET_ALL}")
 
+
 def add_course() -> None:
     """Add a new course to the system."""
     print(f"\n{SUB_MENU_COLOR}--- Add Course ---{Style.RESET_ALL}")
@@ -311,6 +138,7 @@ def add_course() -> None:
     records.append(course.to_dict())
     file_handler.write_record(records)
     print(f"{Fore.GREEN}Course added successfully!{Style.RESET_ALL}")
+
 
 def view_employees() -> None:
     """Display all employees in a table."""
@@ -347,6 +175,7 @@ def view_employees() -> None:
     ]
     print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
+
 def view_students() -> None:
     """Display all students in a table."""
     print(f"\n{SUB_MENU_COLOR}--- View Students ---{Style.RESET_ALL}")
@@ -380,6 +209,7 @@ def view_students() -> None:
     ]
     print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
+
 def view_courses() -> None:
     """Display all courses in a table."""
     print(f"\n{SUB_MENU_COLOR}--- View Courses ---{Style.RESET_ALL}")
@@ -410,6 +240,7 @@ def view_courses() -> None:
         f"{TABLE_HEADER_COLOR}Cost{Style.RESET_ALL}"
     ]
     print(tabulate(table_data, headers=headers, tablefmt="grid"))
+
 
 def assign_course_to_employee() -> None:
     """Assign a course to an employee."""
@@ -450,6 +281,7 @@ def assign_course_to_employee() -> None:
     if not employee_found:
         print(f"{Fore.RED}Employee not found.{Style.RESET_ALL}")
 
+
 def view_professor_schedule(mem_id: str) -> None:
     """Display the schedule of a professor."""
     print(f"\n{SUB_MENU_COLOR}--- Professor Schedule ---{Style.RESET_ALL}")
@@ -482,6 +314,7 @@ def view_professor_schedule(mem_id: str) -> None:
                 print(f"{TABLE_CONTENT_COLOR}You have no assigned courses.{Style.RESET_ALL}")
             return
     print(f"{Fore.RED}Professor not found.{Style.RESET_ALL}")
+
 
 def unassign_course(mem_id: str) -> None:
     """Unassign a course from a professor."""
@@ -531,6 +364,7 @@ def unassign_course(mem_id: str) -> None:
             return
     print(f"{Fore.RED}Professor not found.{Style.RESET_ALL}")
 
+
 def view_monthly_salary(mem_id: str) -> None:
     """Display the monthly salary of a professor."""
     print(f"\n{SUB_MENU_COLOR}--- Monthly Salary ---{Style.RESET_ALL}")
@@ -541,6 +375,7 @@ def view_monthly_salary(mem_id: str) -> None:
             print(f"{TABLE_CONTENT_COLOR}Your Monthly Salary: ${record['Salary']}{Style.RESET_ALL}")
             return
     print(f"{Fore.RED}Professor not found.{Style.RESET_ALL}")
+
 
 def view_student_courses(mem_id: str) -> None:
     """Display the courses of a student."""
@@ -561,6 +396,7 @@ def view_student_courses(mem_id: str) -> None:
             return
     print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
 
+
 def check_student_balance(mem_id: str) -> None:
     """Display the balance of a student."""
     print(f"\n{SUB_MENU_COLOR}--- Student Balance ---{Style.RESET_ALL}")
@@ -571,6 +407,7 @@ def check_student_balance(mem_id: str) -> None:
             print(f"{TABLE_CONTENT_COLOR}Your Balance: ${record['Balance']}{Style.RESET_ALL}")
             return
     print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
+
 
 def register_for_course(mem_id: str) -> None:
     """Register a student for a course."""
@@ -603,6 +440,7 @@ def register_for_course(mem_id: str) -> None:
                 print(f"{Fore.RED}Invalid input. Please enter a valid CRN.{Style.RESET_ALL}")
             return
     print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
+
 
 def unregister_from_course(mem_id: str) -> None:
     """Unregister a student from a course."""
@@ -640,6 +478,7 @@ def unregister_from_course(mem_id: str) -> None:
                 print(f"{TABLE_CONTENT_COLOR}You have no courses to unregister.{Style.RESET_ALL}")
             return
     print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
+
 
 def main() -> None:
     """Main function to run the program."""
@@ -701,6 +540,13 @@ def main() -> None:
         else:
             print(f"{Fore.RED}Invalid choice. Please try again.{Style.RESET_ALL}")
 
+
 if __name__ == "__main__":
     main()
     print(f"{Fore.CYAN}Thank you for using this program!{Style.RESET_ALL}")
+
+'''
+This is the Main function to run University Application
+By Mohammed Albushaier
+Feb 24,2025
+'''

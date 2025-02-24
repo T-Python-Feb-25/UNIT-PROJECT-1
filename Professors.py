@@ -49,3 +49,9 @@ class Employee(Person):
     def salary(self) -> float:
         return self.__salary
 
+
+'''
+This is the employees class for University Application
+By Mohammed Albushaier
+Feb 24,2025
+'''
