@@ -89,7 +89,7 @@ while True:
         restaurants_suggestions=restaurants_suggestions.get_restaurant(email,city)
 
         if restaurants_suggestions:
-            print("\nRestaurant recommendations in {} are".format(city))
+            print(Fore.LIGHTBLUE_EX+"\nRestaurant recommendations in {} are:".format(city))
             for r in restaurants_suggestions:
                 print(Fore.LIGHTBLACK_EX+"{} Restaurant ".format(r["name"]))
 

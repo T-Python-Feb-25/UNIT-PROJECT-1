@@ -28,7 +28,7 @@ def get_weather(email,city, date):
    if "forecast" in weatherData:
       temperature=weatherData["forecast"]["forecastday"][0]["day"]["avgtemp_c"]
       weatherCondition=weatherData["forecast"]["forecastday"][0]["day"]["condition"]["text"]
-      print(Fore.LIGHTBLUE_EX+"The temperature in {} will be at {}, and the weather will be {}".format(city,temperature,weatherCondition))
+      print(Fore.LIGHTBLUE_EX+"\nThe temperature in {} will be at {}, and the weather will be {}\n".format(city,temperature,weatherCondition))
 #لاعطاء نصائح للملابس حسب درجة الحرارة
      
       if temperature<10:
