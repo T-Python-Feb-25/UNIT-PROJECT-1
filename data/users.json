@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "role": "admin",
+        "email": "admin@admin.com",
+        "username": "admin",
+        "password": "admin"
+    },
+    {
+        "id": 1,
+        "role": "user",
+        "email": "mohamad@gmail.com",
+        "username": "mohamad",
+        "password": "1122"
+    },
+    {
+        "id": 2,
+        "role": "user",
+        "email": "saud@gmail.com",
+        "username": "saud",
+        "password": "1122"
+    },
+    {
+        "id": 3,
+        "role": "user",
+        "email": "saud2@gmail.com",
+        "username": "saud2",
+        "password": "1122"
+    },
+    {
+        "id": 4,
+        "role": "user",
+        "email": "mohamad2@gmai.com",
+        "username": "mohamad2",
+        "password": "1122"
+    },
+    {
+        "id": 5,
+        "role": "user",
+        "email": "q@a.com",
+        "username": "qqq",
+        "password": "1"
+    },
+    {
+        "id": 6,
+        "role": "user",
+        "email": "g@gmail.com",
+        "username": "ggg",
+        "password": "1122"
+    }
+]

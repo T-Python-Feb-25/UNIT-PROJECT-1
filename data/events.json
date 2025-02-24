@@ -1,0 +1,90 @@
+[
+    {
+        "id": 1,
+        "title": "Saudi Founding Day Celebration",
+        "description": "A national event commemorating the founding of the first Saudi state in 1727, featuring cultural performances, historical exhibitions, and fireworks.",
+        "location": "Diriyah",
+        "date": {
+            "start_date": "2025-2-22",
+            "end_date": "2025-2-22"
+        },
+        "time": {
+            "start_time": "20:00",
+            "end_time": "22:00"
+        },
+        "seats": 101,
+        "regester_users": []
+    },
+    {
+        "id": 2,
+        "title": "E-Sports Tournament",
+        "description": "A competitive gaming tournament with top players and cash prizes.",
+        "location": "riyadh boulevard",
+        "date": {
+            "start_date": "2025-05-10",
+            "end_date": "2025-06-10"
+        },
+        "time": {
+            "start_time": "18:00:00",
+            "end_time": "22:00:00"
+        },
+        "seats": 147,
+        "regester_users": [
+            "saud2",
+            "mohamad2",
+            "qqq"
+        ]
+    },
+    {
+        "id": 3,
+        "title": "AlUla Cultural Heritage Festival",
+        "description": "A celebration of Saudi culture and history",
+        "location": "AlUla",
+        "date": {
+            "start_date": "2025-03-01",
+            "end_date": "2026-03-05"
+        },
+        "time": {
+            "start_time": "20:00:00",
+            "end_time": "22:00:00"
+        },
+        "seats": 89,
+        "regester_users": [
+            "mohamad"
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Dakar Rally Saudi Arabia",
+        "description": "One of the most challenging off-road races in the world.",
+        "location": "Across Saudi Arabia",
+        "date": {
+            "start_date": "2025-04-1",
+            "end_date": "2030-04-20"
+        },
+        "time": {
+            "start_time": "12:00:00",
+            "end_time": "12:00:00"
+        },
+        "seats": 17,
+        "regester_users": []
+    },
+    {
+        "id": 6,
+        "title": "Riyadh Tech",
+        "description": "A leading technology exhibition showcasing AI, blockchain, and future innovations.",
+        "location": "Riyadh International Convention Cente",
+        "date": {
+            "start_date": "2025-1-1",
+            "end_date": "2025-1-4"
+        },
+        "time": {
+            "start_time": "13:00",
+            "end_time": "16:00"
+        },
+        "seats": 50,
+        "regester_users": [
+            "mohamad"
+        ]
+    }
+]
