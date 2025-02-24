@@ -54,6 +54,7 @@ def get_weather(email,city, date):
                          "clothing Type Advice":clothingTypeAdvice
 
           }
+         users_accounts=get_user_info()
          if "Travel Plans" not in users_accounts[email]:
            users_accounts=[email]["Travel Plans"]=[]
          users_accounts[email]["Travel Plans"].append(Travel_Plans)

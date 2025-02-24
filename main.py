@@ -4,7 +4,7 @@
 from colorama import Fore
 import emoji
 import Weather
-
+import restaurants
 import log_in_and_ctreate_an_acconunt
 
 #import Previous_Plans
@@ -86,6 +86,13 @@ while True:
         city=input(Fore.BLUE+"Please enter the name of the city you would like to go to \n")
         date=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
         Weather.get_weather(email,city,date)
+        restaurants.get_restaurant(email,city)
+        
+        if restaurants:
+            print("Restaurant recommendations in {} are".format(city))
+            for r in restaurants:
+                print("Restaurant Name: {} Rating:{}".format(r["name"],["rating"]))
+
     elif userChoice=="3":
         print(Fore.GREEN+"thank you for using travelmate App, Come back again")
         break

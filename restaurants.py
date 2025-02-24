@@ -3,27 +3,56 @@ This file was created to provide the user with the restaurants that
 are famous in the city he has chosen as his travel destination.
 
 '''
+from colorama import Fore
 import requests
 import json
 import os
 from dotenv import load_dotenv
 load_dotenv
 
-def restaurant(city):
+def get_user_info():
+
+   try :
+      with open("users_account_file.json","r",encoding="utf-8") as file:
+       return json.load(file)
+   except FileNotFoundError :
+       return {}
+
+def get_restaurant(email,city):
    myKey=os.getenv("YELP_KEY")
    url="https://api.yelp.com/v3/businesses/search"
    headers={"Authorization":"bearer %s" % myKey}
 
    parameters= {"location": city,
                "categories":"restaurants",
-               "limit": 6 }
+               "limit": 4 }
+   
    response=requests.get(url,headers=headers,parameters=parameters)
-   if response.status_code==200:
-      restaurants=response.json().get("businesses",[])
+   data=response.json()
+   if "businesses" in data:
+      restaurant=[
+         {"name":restaurant["name"],
+          "rating":restaurant["rarating"]
+         }
+         for restaurant in data["businesses"]
+      ]
+      if "Travel Plans" not in users_accounts[email]:
+            users_accounts=[email]["Travel Plans"]=[]
+            users_accounts[email]["Travel Plans"].append({"restaurants":restaurant})
 
-   return(response)
+    #فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
+            with open("users_account_file.json", "w") as file:
+                json.dump (users_accounts, file, indent=4)
+                return restaurant
+      else:
+            print("user not found in the system")  
+   else:
+       print(Fore.RED+"Error getting restaurant data")
+       return 
+        
 
-print(restaurant())
+  
+
 
                 
 
