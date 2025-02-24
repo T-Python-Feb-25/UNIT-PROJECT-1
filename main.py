@@ -92,6 +92,7 @@ while True:
             print(Fore.LIGHTBLUE_EX+"\nRestaurant recommendations in {} are:".format(city))
             for r in restaurants_suggestions:
                 print(Fore.LIGHTBLACK_EX+"{} Restaurant ".format(r["name"]))
+                break
 
     elif userChoice=="3":
         print(Fore.GREEN+"thank you for using travelmate App, Come back again")
