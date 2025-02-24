@@ -349,7 +349,7 @@ def choice(username):
     
     while True:
         print(Style.RESET_ALL)
-        print("1️⃣  START GAME.. \n2️⃣  CONTINUE.. \n3️⃣  SCORE BOARD.. \n4️⃣  EXIT..")
+        print("1️⃣  START GAME.. \n2️⃣  CATEGORY.. \n3️⃣  SCORE BOARD.. \n4️⃣  EXIT..")
         choice1 = input("CHOOSE AN OPTION: ")
     
         if choice1 == "1":
