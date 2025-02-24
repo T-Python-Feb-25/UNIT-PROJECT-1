@@ -4,12 +4,27 @@ information in the city selected by the user and
 
 from colorama import Fore
 import requests
+import json
 import os
 from dotenv import load_dotenv
 load_dotenv()
- 
+
+def get_user_info():
+
+   try :
+      with open("users_account_file.json","r",encoding="utf-8") as file:
+       return json.load(file)
+   except FileNotFoundError :
+       return {}
+   
+def save_weather_data("users_account_file.json", data):
+    
+    with open("users_account_file.json", "w",encoding="utf-8") as file:
+        json.dump (data, file, indent=4)
+
 #دالة لجلب معلومات الطقس بناءا على اسم المدينة و تاريخ الوصول اللذان تم ادخالهما من المستخدم 
-def get_weather(city, date):
+def get_weather(email,city, date):
+
    myKey=os.getenv("API_KEY")
    url= "http://api.weatherapi.com/v1/forecast.json?key={}&q={}&dt={}".format(myKey,city,date)
    response=requests.get(url)
@@ -21,18 +36,38 @@ def get_weather(city, date):
 #لاعطاء نصائح للملابس حسب درجة الحرارة
      
       if temperature<10:
-         print(Fore.LIGHTBLACK_EX+"Based on the temperature it looks like the weather\nwill be very cold, so be sure to wear very heavy\nclothes such as woolen coats,gloves, scarves and hats.")
+         clothingTypeAdvice="Based on the temperature it looks like the weather\nwill be very cold, so be sure to wear very heavy\nclothes such as woolen coats,gloves, scarves and hats."
       elif 10<= temperature <=19:
-         print(Fore.LIGHTBLACK_EX+"Based on the temperature it looks like the\nweather will be cold, so wear a light jacket\nor coat and add extra layers as needed")
+         clothingTypeAdvice="Based on the temperature it looks like the\nweather will be cold, so wear a light jacket\nor coat and add extra layers as needed"
       elif 20<= temperature <=25:
-          print(Fore.LIGHTBLACK_EX+"Based on the temperature it looks like the weather will be\nmoderate,you can wear light clothes such as cotton shirts and\nregular pants and you can add a light jacket ")
+          clothingTypeAdvice="Based on the temperature it looks like the weather will be\nmoderate,you can wear light clothes such as cotton shirts and\nregular pants and you can add a light jacket "
       elif 26<= temperature <=32:
-         print(Fore.LIGHTBLACK_EX+"Based on the temperature it looks like the weather\nwill be warm, wear very light clothing such as T-shirts\nand shorts and avoid heavy fabrics")
+          clothingTypeAdvice="Based on the temperature it looks like the weather\nwill be warm, wear very light clothing such as T-shirts\nand shorts and avoid heavy fabrics"
       elif temperature>32:
-         print(Fore.LIGHTBLACK_EX+"Based on the temperature it looks like the weather \nwill bevery hot, wear light cotton clothes, a hat\n and sunglasses, and drink plenty of water.") 
+         clothingTypeAdvice="Based on the temperature it looks like the weather \nwill bevery hot, wear light cotton clothes, a hat\n and sunglasses, and drink plenty of water."
+         
+      print(Fore.LIGHTBLUE_EX+"Regarding the clothes you should wear \n"+clothingTypeAdvice)
+      users_accounts=get_user_info()
+         
+      if email in users_accounts:
+
+         Travel_Plans={"city": city,
+                         "date": date,
+                         "temperatur":temperature,
+                         "weather Condition":weatherCondition,
+                         "clothing Type Advice":clothingTypeAdvice
+
+          }
+         saveData=[email]["Travel Plans"].append(Travel_Plans)
+         save_weather_data("users_account_file.json",saveData)
+      else:
+         print("user not found in the system")   
          
       return temperature, weatherCondition
    else :
      print(Fore.RED+"Error getting weather data")
      return 
 
+#فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
+   with open("users_account_file.json", "w") as file:
+        json.dump (users_accounts, file, indent=4)

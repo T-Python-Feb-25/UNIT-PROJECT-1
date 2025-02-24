@@ -4,16 +4,13 @@ are famous in the city he has chosen as his travel destination.
 
 '''
 import requests
-import Weather
 import json
 import os
 from dotenv import load_dotenv
 load_dotenv
 
-def restaurant():
+def restaurant(city):
    myKey=os.getenv("YELP_KEY")
-
-   city=Weather.get_trip_info()
    url="https://api.yelp.com/v3/businesses/search"
    headers={"Authorization":"bearer %s" % myKey}
 
@@ -21,6 +18,8 @@ def restaurant():
                "categories":"restaurants",
                "limit": 6 }
    response=requests.get(url,headers=headers,parameters=parameters)
+   restaurants=[business["name"]for businessin data.get("businessin", []) ]
+
    return(response)
 
 print(restaurant())
