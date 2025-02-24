@@ -85,7 +85,7 @@ while True:
     elif userChoice=="2":
         city=input(Fore.BLUE+"Please enter the name of the city you would like to go to \n")
         date=input(Fore.BLUE+"What is the arrival date? (YYYY-MM-DD)\n")
-        Weather.get_weather(city,date)
+        Weather.get_weather(email,city,date)
     elif userChoice=="3":
         print(Fore.GREEN+"thank you for using travelmate App, Come back again")
         break

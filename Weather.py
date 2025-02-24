@@ -17,10 +17,6 @@ def get_user_info():
    except FileNotFoundError :
        return {}
    
-def save_weather_data("users_account_file.json", data):
-    
-    with open("users_account_file.json", "w",encoding="utf-8") as file:
-        json.dump (data, file, indent=4)
 
 #دالة لجلب معلومات الطقس بناءا على اسم المدينة و تاريخ الوصول اللذان تم ادخالهما من المستخدم 
 def get_weather(email,city, date):
@@ -58,8 +54,13 @@ def get_weather(email,city, date):
                          "clothing Type Advice":clothingTypeAdvice
 
           }
-         saveData=[email]["Travel Plans"].append(Travel_Plans)
-         save_weather_data("users_account_file.json",saveData)
+         if "Travel Plans" not in users_accounts[email]:
+           users_accounts=[email]["Travel Plans"]=[]
+         users_accounts[email]["Travel Plans"].append(Travel_Plans)
+
+#فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
+         with open("users_account_file.json", "w") as file:
+            json.dump (users_accounts, file, indent=4)
       else:
          print("user not found in the system")   
          
@@ -67,7 +68,3 @@ def get_weather(email,city, date):
    else :
      print(Fore.RED+"Error getting weather data")
      return 
-
-#فتح ملف جيسون لكتابة او اضافة معلومات المستخدم الجديد فيه
-   with open("users_account_file.json", "w") as file:
-        json.dump (users_accounts, file, indent=4)

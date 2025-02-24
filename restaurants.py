@@ -18,7 +18,8 @@ def restaurant(city):
                "categories":"restaurants",
                "limit": 6 }
    response=requests.get(url,headers=headers,parameters=parameters)
-   restaurants=[business["name"]for businessin data.get("businessin", []) ]
+   if response.status_code==200:
+      restaurants=response.json().get("businesses",[])
 
    return(response)
 
